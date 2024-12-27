@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Floating QR Codes -->
+    <div class="qr-floating"></div>
+    <div class="qr-floating"></div>
+    <div class="qr-floating"></div>
+    <div class="qr-floating"></div>
+    <div class="qr-floating"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+      <img src="./CUT LOGO WHITE PNG.png" alt="Cut Studios Logo" class="logo" />
+      <h1>QR Code Generator</h1>
+      <input
+        type="text"
+        id="text-input"
+        placeholder="Enter text or URL"
+        oninput="updateQRCodePreview()"
+      />
+      <button onclick="generateQRCode()">Generate QR Code</button>
+      <div id="loading-bar" style="display: none;">
+        <div class="progress"></div>
+      </div>
+      <div id="qrcode"></div>
+      <button id="download-btn" style="display: none;" onclick="downloadQRCode()">Download QR Code</button>
+    </div>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
