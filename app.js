@@ -54,6 +54,7 @@ function generateQRCode() {
   }, 2000); // Simulate loading time
 }
 
+// Helper function to validate URLs
 function isValidURL(string) {
   try {
     const url = new URL(string);
@@ -62,7 +63,6 @@ function isValidURL(string) {
     return false;
   }
 }
-
 
 function preventCanvasDragging() {
   const qrCanvas = document.querySelector("#qrcode-container canvas");
@@ -88,9 +88,7 @@ function preventCanvasDragging() {
     qrCanvas.style.webkitUserDrag = "none";
   }
 }
-setTimeout(() => {
-  addWatermarkToDisplayedQRCode();
-}, 100);
+
 function addWatermarkToDisplayedQRCode() {
   const qrcodeContainer = document.getElementById("qrcode-container");
   const qrCanvas = qrcodeContainer.querySelector("canvas");
@@ -108,10 +106,6 @@ function addWatermarkToDisplayedQRCode() {
   canvas.width = qrCanvas.width * scaleFactor;
   canvas.height = qrCanvas.height * scaleFactor;
 
-  // Set the display size for the canvas (CSS)
-  canvas.style.width = `${qrCanvas.width}px`;
-  canvas.style.height = `${qrCanvas.height}px`;
-
   // Scale the context for high-resolution rendering
   ctx.scale(scaleFactor, scaleFactor);
 
@@ -120,30 +114,29 @@ function addWatermarkToDisplayedQRCode() {
 
   // Set text properties for watermark
   const text = "QRCodeChameleon.com";
-  const fontSize = qrCanvas.width * 0.1; // Larger font size (10% of QR code width)
+  const fontSize = qrCanvas.width * 0.1; // Font size (10% of QR code width)
   ctx.font = `bold ${fontSize}px Impact`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(0, 0, 0, 0.29)"; // Shadow color (semi-transparent black)
-ctx.shadowBlur = 4;                     // Shadow blur amount
-ctx.shadowOffsetX = 4;                  // Horizontal shadow offset
-ctx.shadowOffsetY = 5;                  // Vertical shadow offset
+  ctx.shadowColor = "rgba(0, 0, 0, 0.2)"; // Shadow color
+  ctx.shadowBlur = 3; // Shadow blur amount
+  ctx.shadowOffsetX = 2; // Horizontal shadow offset
+  ctx.shadowOffsetY = 2; // Vertical shadow offset
 
-
-  // Set text styles (fill and optional outline)
-  ctx.fillStyle = "rgba(255, 255, 255, 0.75)"; // White fill with slight transparency
-  ctx.strokeStyle = "rgba(0, 0, 0, 0.32)"; // Slight outline (reduce or remove if needed)
-  ctx.lineWidth = fontSize * 0.05; // Minimal outline thickness (5% of font size)
+  // Set text styles
+  ctx.fillStyle = "rgba(255, 255, 255, 0.86)"; // White fill with transparency
+  ctx.strokeStyle = "rgba(0, 0, 0, 0.4)"; // Black outline
+  ctx.lineWidth = fontSize * 0.05; // Outline thickness (5% of font size)
 
   // Draw the watermark text repeatedly in a diagonal pattern
-  const gap = fontSize * 5; // Adjust spacing between text (space between repetitions)
+  const gap = fontSize * 5; // Adjust spacing between text
   for (let y = -gap; y < canvas.height / scaleFactor + gap; y += gap) {
     for (let x = -gap; x < canvas.width / scaleFactor + gap; x += gap) {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(-Math.PI / 6); // Rotate text diagonally
 
-      // Draw the text
+      // Draw the text with both fill and outline
       ctx.fillText(text, 0, 0); // Fill text
       ctx.strokeText(text, 0, 0); // Outline text
 
@@ -158,15 +151,6 @@ ctx.shadowOffsetY = 5;                  // Vertical shadow offset
   // Prevent dragging
   preventCanvasDragging();
 }
-
-function purchaseQRCode() {
-  alert("Redirecting to the purchase page...");
-  // You can redirect the user to a payment page or display a modal.
-  window.location.href = "https://buy.stripe.com/14k2bw68BcND1JC7sw"; // Replace with your actual payment URL.
-}
-
-
-
 
 function downloadQRCode() {
   const inputText = document.getElementById("text-input").value.trim();
@@ -214,75 +198,25 @@ function downloadQRCode() {
   link.click(); // Trigger the download
 }
 
-
 function resetQRCodeGenerator() {
   const qrcodeContainer = document.getElementById("qrcode-container");
   const generateBtn = document.getElementById("generate-btn");
   const qrSection = document.querySelector(".qr-section");
   const textInput = document.getElementById("text-input");
+  const loadingBar = document.getElementById("loading-bar");
 
-  // Clear the QR code
+  // Clear the QR code container
   qrcodeContainer.innerHTML = "";
 
   // Hide QR section
   qrSection.style.display = "none";
 
+  // Clear the text input field
+  textInput.value = "";
+
   // Show the Generate QR Code button
   generateBtn.style.display = "block";
 
-  // Clear the text input
-  textInput.value = ""; // Reset the input field to an empty string
+  // Ensure the loading bar is hidden
+  loadingBar.style.display = "none";
 }
-
-function enableDownloadWithoutWatermark() {
-  const button = document.getElementById("download-no-watermark-btn");
-  button.classList.add("enabled");
-  button.disabled = false; // Enable the button
-}
-
-
-function downloadQRCodeWithoutWatermark() {
-  const inputText = document.getElementById("text-input").value.trim();
-
-  if (!inputText) {
-    alert("Please generate a QR code first.");
-    return;
-  }
-
-  // Create a high-resolution canvas
-  const resolution = 2000; // High-resolution size of the QR code
-  const margin = 100; // Margin around the QR code  
-  const canvasSize = resolution + 2 * margin; // Total canvas size with margins
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = canvasSize;
-  canvas.height = canvasSize;
-
-  // Fill the background with white
-  ctx.fillStyle = "#ffffff"; // White background
-  ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill entire canvas with white background
-
-  // Get the existing QR code from the container
-  const qrCodeCanvas = document.querySelector("#qrcode-container canvas");
-  if (!qrCodeCanvas) {
-    alert("No QR code found. Please generate one first.");
-    return;
-  }
-
-  // Draw the QR code onto the main canvas, centered with margin
-  ctx.drawImage(
-    qrCodeCanvas,
-    margin, // Start x position
-    margin, // Start y position
-    resolution, // Width of QR code
-    resolution // Height of QR code
-  );
-
-  // Download the canvas as an image
-  const link = document.createElement("a");
-  link.href = canvas.toDataURL("image/png");
-  link.download = "qrcode_no_watermark_hd.png";
-  link.click();
-}
-
