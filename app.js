@@ -14,6 +14,7 @@ function generateQRCode() {
   const loadingBar = document.getElementById("loading-bar");
   const qrSection = document.querySelector(".qr-section");
   const qrcodeContainer = document.getElementById("qrcode-container");
+  const container = document.querySelector(".container");
 
   // Check if the input is a valid URL
   if (!isValidURL(inputText)) {
@@ -30,6 +31,7 @@ function generateQRCode() {
   setTimeout(() => {
     loadingBar.style.display = "none"; // Hide loading bar
     qrSection.style.display = "flex"; // Show QR Code section
+    container.classList.add("qr-generated"); // Enable scrolling on mobile
 
     // Clear the QR code container
     qrcodeContainer.innerHTML = "";
@@ -43,12 +45,6 @@ function generateQRCode() {
       colorLight: "#ffffff", // White background for display
       correctLevel: QRCode.CorrectLevel.L, // Error correction level
     });
-
-    // Add watermark overlay to the displayed QR code and prevent dragging
-    setTimeout(() => {
-      addWatermarkToDisplayedQRCode();
-      preventCanvasDragging(); // Ensure drag prevention
-    }, 100); // Add a delay to allow QR code rendering
 
     isGenerating = false;
   }, 2000); // Simulate loading time
@@ -211,21 +207,27 @@ function downloadQRCode() {
 
 function resetQRCodeGenerator() {
   const qrcodeContainer = document.getElementById("qrcode-container");
-  const textInput = document.getElementById("text-input");
   const generateBtn = document.getElementById("generate-btn");
   const qrSection = document.querySelector(".qr-section");
+  const textInput = document.getElementById("text-input");
   const loadingBar = document.getElementById("loading-bar");
+  const container = document.querySelector(".container");
 
-  // Clear the QR Code container
+  // Clear the QR code container
   qrcodeContainer.innerHTML = "";
 
-  // Clear the input field for new text/URL
-  textInput.value = "";
-
-  // Hide the QR section
+  // Hide QR section
   qrSection.style.display = "none";
 
-  // Show the "Generate" button and hide the loading bar
+  // Clear the text input field
+  textInput.value = "";
+
+  // Show the Generate QR Code button
   generateBtn.style.display = "block";
+
+  // Ensure the loading bar is hidden
   loadingBar.style.display = "none";
+
+  // Remove scrolling on mobile
+  container.classList.remove("qr-generated");
 }

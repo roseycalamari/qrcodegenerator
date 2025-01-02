@@ -228,21 +228,26 @@ input[type="text"] {
 @media only screen and (max-width: 768px) {
   /* Fullscreen container for mobile */
   .container {
-    width: 100vw; /* Full viewport width */
-    height: 100vh; /* Full viewport height */
-    padding: 15px; /* Add padding for better appearance */
+    width: 100vw;
+    height: 100vh;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-    box-sizing: border-box; /* Ensure padding doesn't affect size */
-    overflow: hidden; /* Prevent scrolling */
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden; /* Prevent scrolling initially */
+  }
+
+  /* Enable scrolling after QR code is generated */
+  .container.qr-generated {
+    overflow-y: auto; /* Allow vertical scrolling when QR code is generated */
   }
 
   /* QR Code Container */
   #qrcode-container {
-    width: 220px; /* Adjust QR code size */
-    height: 220px;
+    width: 240px; /* Larger QR code size */
+    height: 240px;
     margin-bottom: 15px; /* Space below the QR code */
   }
 
@@ -250,31 +255,30 @@ input[type="text"] {
   .button-row {
     display: flex;
     flex-direction: row; /* Horizontal layout */
-    gap: 15px; /* Space between buttons */
+    gap: 20px; /* Space between buttons */
     margin-top: 20px; /* Space above the buttons */
-    justify-content: center; /* Center buttons horizontally */
+    justify-content: center;
   }
 
   /* Buttons */
   .button-row button {
     flex: 1; /* Equal width for buttons */
-    max-width: 150px; /* Max width */
-    padding: 10px 20px;
-    border-radius: 10px; /* Consistent with other buttons */
-    font-size: 14px; /* Adjust font size */
+    max-width: 180px; /* Increase button size */
+    padding: 15px 25px; /* Larger padding for bigger buttons */
+    font-size: 16px; /* Increase font size */
+    border-radius: 12px; /* Maintain rounded corners */
   }
 
   /* Prevent zooming on input fields */
   input[type="text"] {
-    font-size: 16px; /* Prevent zooming */
-    margin-bottom: 20px; /* Add spacing below input field */
+    font-size: 16px;
+    margin-bottom: 20px;
     border-radius: 8px;
-    width: calc(100% - 20px); /* Make input take full width with padding */
+    width: calc(100% - 20px); /* Full width with padding */
   }
 
-  /* Prevent scrolling on body */
+  /* Adjust body overflow for mobile */
   body {
-    overflow: hidden; /* No scrolling */
-    height: 100vh; /* Ensure it doesn't exceed the viewport height */
+    height: 100vh;
   }
 }
