@@ -234,76 +234,29 @@ button:hover {
   margin-top: 15px;
 }
 
-/* Mobile styles */
+/* General Mobile Styles */
 @media only screen and (max-width: 768px) {
-  /* Make container fit the screen */
+  /* Fullscreen container for mobile */
   .container {
     width: 100vw; /* Full viewport width */
     height: 100vh; /* Full viewport height */
     border-radius: 0; /* Remove rounded corners */
-    padding: 20px; /* Reduce padding */
+    padding: 20px;
   }
 
-  /* Buttons in the same row */
-  .button-row {
-    flex-direction: row; /* Make buttons align horizontally */
-    gap: 10px; /* Space between buttons */
-  }
-
-  /* Style buttons as icons */
-  .button-row button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px; /* Smaller button size for mobile */
-    height: 50px;
-    border-radius: 50%; /* Make them circular */
-    font-size: 0; /* Hide button text */
-    padding: 0;
-    background: #2e9962;
-    color: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  }
-
-  .button-row button:hover {
-    transform: translateY(-2px);
-    background: #207f4b;
-  }
-
-  /* Reduce space between elements */
-  .qr-section {
-    gap: 10px; /* Less spacing between QR code and buttons */
-  }
-
-  /* Reduce QR code size */
+  /* QR Code container size */
   #qrcode-container {
-    width: 200px; /* Smaller QR code size */
+    width: 200px; /* Adjust QR code size for mobile */
     height: 200px;
   }
-}
 
-
-
-/* Prevent zooming on input fields on mobile */
-input[type="text"] {
-  font-size: 16px; /* Ensures no zooming */
-}
-
-/* Default: Hide mobile buttons, show desktop buttons */
-.desktop-btn {
-  display: inline-block;
-}
-
-.mobile-btn {
-  display: none;
-}
-
-/* For Mobile Screens: Show mobile buttons, hide desktop buttons */
-@media only screen and (max-width: 768px) {
-  .desktop-btn {
-    display: none; /* Hide desktop buttons */
+  /* Button row alignment */
+  .button-row {
+    flex-direction: row; /* Align buttons horizontally */
+    gap: 10px; /* Add spacing between buttons */
   }
 
+  /* Mobile-specific buttons */
   .mobile-btn {
     display: flex; /* Show mobile buttons */
     justify-content: center;
@@ -327,5 +280,25 @@ input[type="text"] {
   .mobile-btn:hover {
     background: #207f4b;
   }
+
+  /* Hide desktop buttons */
+  .desktop-btn {
+    display: none;
+  }
 }
+
+/* Desktop Defaults */
+.desktop-btn {
+  display: inline-block;
+}
+
+.mobile-btn {
+  display: none; /* Hide mobile buttons on desktop */
+}
+
+/* Prevent zooming on mobile input */
+input[type="text"] {
+  font-size: 16px; /* Ensure no zooming */
+}
+
 

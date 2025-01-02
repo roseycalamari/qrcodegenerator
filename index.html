@@ -39,17 +39,20 @@
       </div>
 <!-- Button Row -->
 <div class="button-row">
-  <!-- Desktop Buttons (text-based) -->
-  <button id="download-btn" onclick="downloadQRCode()" class="desktop-btn">Download QR Code</button>
-  <button id="another-qrcode-btn" onclick="resetQRCodeGenerator()" class="desktop-btn">Generate Another QR Code</button>
-
-  <!-- Mobile Buttons (icon-based) -->
-  <button id="download-btn-mobile" onclick="downloadQRCode()" class="mobile-btn">
-    <img src="download button.png" alt="Download" width="24" height="24">
-  </button>
-  <button id="another-qrcode-btn-mobile" onclick="resetQRCodeGenerator()" class="mobile-btn">
-    <img src="newqrcodebutton.png" alt="New QR Code" width="24" height="24">
-  </button>
+  <div class="button-row">
+    <!-- Desktop Buttons -->
+    <button id="download-btn" class="desktop-btn" onclick="downloadQRCode()">Download QR Code</button>
+    <button id="another-qrcode-btn" class="desktop-btn" onclick="resetQRCodeGenerator()">Generate Another QR Code</button>
+  
+    <!-- Mobile Buttons -->
+    <button id="download-btn-mobile" class="mobile-btn" onclick="downloadQRCode()">
+      <img src="download button.png" alt="Download">
+    </button>
+    <button id="another-qrcode-btn-mobile" class="mobile-btn" onclick="resetQRCodeGenerator()">
+      <img src="newqrcodebutton.png" alt="Generate New">
+    </button>
+  </div>
+  
 </div>
 
 </button>
