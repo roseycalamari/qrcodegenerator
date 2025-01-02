@@ -234,37 +234,98 @@ button:hover {
   margin-top: 15px;
 }
 
-/* Mobile Optimization */
-@media (max-width: 768px) {
+/* Mobile styles */
+@media only screen and (max-width: 768px) {
+  /* Make container fit the screen */
   .container {
-    height: 100vh; /* Take up the entire screen */
-    width: 100vw; /* Full width */
-    margin: 0;
-    border-radius: 0; /* Remove rounded corners for mobile */
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    border-radius: 0; /* Remove rounded corners */
+    padding: 20px; /* Reduce padding */
   }
 
-  input[type="text"] {
-    font-size: 16px; /* Prevent zooming */
-    padding: 12px;
-    width: 95%; /* Make input bar fit the screen width */
-    margin-bottom: 20px; /* Add space below the input */
-  }
-
-  button {
-    width: 90%; /* Full-width buttons */
-    padding: 15px;
-    font-size: 18px;
-  }
-
+  /* Buttons in the same row */
   .button-row {
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 15px; /* Add spacing between buttons */
+    flex-direction: row; /* Make buttons align horizontally */
+    gap: 10px; /* Space between buttons */
+  }
+
+  /* Style buttons as icons */
+  .button-row button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px; /* Smaller button size for mobile */
+    height: 50px;
+    border-radius: 50%; /* Make them circular */
+    font-size: 0; /* Hide button text */
+    padding: 0;
+    background: #2e9962;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .button-row button:hover {
+    transform: translateY(-2px);
+    background: #207f4b;
+  }
+
+  /* Reduce space between elements */
+  .qr-section {
+    gap: 10px; /* Less spacing between QR code and buttons */
+  }
+
+  /* Reduce QR code size */
+  #qrcode-container {
+    width: 200px; /* Smaller QR code size */
+    height: 200px;
   }
 }
+
 
 
 /* Prevent zooming on input fields on mobile */
 input[type="text"] {
   font-size: 16px; /* Ensures no zooming */
+}
+
+/* Default: Hide mobile buttons, show desktop buttons */
+.desktop-btn {
+  display: inline-block;
+}
+
+.mobile-btn {
+  display: none;
+}
+
+/* For Mobile Screens: Show mobile buttons, hide desktop buttons */
+@media only screen and (max-width: 768px) {
+  .desktop-btn {
+    display: none; /* Hide desktop buttons */
+  }
+
+  .mobile-btn {
+    display: flex; /* Show mobile buttons */
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Circular buttons */
+    background: #2e9962;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .mobile-btn img {
+    width: 24px; /* Icon size */
+    height: 24px;
+  }
+
+  .mobile-btn:hover {
+    background: #207f4b;
+  }
 }
 

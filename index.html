@@ -37,11 +37,22 @@
           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; pointer-events: none;">
         </div>
       </div>
-      
-      <!-- Buttons -->
-      <div class="button-row">
-        <button id="download-btn" onclick="downloadQRCode()">Download QR Code</button>
-        <button id="another-qrcode-btn" onclick="resetQRCodeGenerator()">Generate New QR Code</button>
+<!-- Button Row -->
+<div class="button-row">
+  <!-- Desktop Buttons (text-based) -->
+  <button id="download-btn" onclick="downloadQRCode()" class="desktop-btn">Download QR Code</button>
+  <button id="another-qrcode-btn" onclick="resetQRCodeGenerator()" class="desktop-btn">Generate Another QR Code</button>
+
+  <!-- Mobile Buttons (icon-based) -->
+  <button id="download-btn-mobile" onclick="downloadQRCode()" class="mobile-btn">
+    <img src="download button.png" alt="Download" width="24" height="24">
+  </button>
+  <button id="another-qrcode-btn-mobile" onclick="resetQRCodeGenerator()" class="mobile-btn">
+    <img src="newqrcodebutton.png" alt="New QR Code" width="24" height="24">
+  </button>
+</div>
+
+</button>
       </div>
     </div>
   </div>
