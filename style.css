@@ -90,7 +90,6 @@ button {
   transform: translateY(-3px);
 }
 
-
 button:hover {
   background: #ffffff;
   color: #2e9962;
@@ -118,7 +117,6 @@ button:hover {
 #download-no-watermark-btn.enabled:hover {
   background: #207f4b;
 }
-
 
 /* QR Section */
 .qr-section {
@@ -154,9 +152,6 @@ button:hover {
   -moz-user-select: none;
 }
 
-
-
-
 /* Loading Bar */
 #loading-bar {
   width: 90%;
@@ -189,84 +184,42 @@ button:hover {
   }
 }
 
-/* Color Picker */
-.color-picker-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.color-picker-area p {
-  font-size: 14px;
-  margin: 0;
-  color: #2e9962;
-}
-
-#color-picker {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 50px;
-  height: 50px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  outline: none;
-  border-radius: 50%; /* Circle shape */
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-}
-
-#color-picker::-webkit-color-swatch {
-  border: none; /* Remove white border */
-}
-
-#color-picker::-webkit-color-swatch-wrapper {
-  border: none; /* Remove border wrapper */
-}
-
-/* Button Row */
+/* General button-row styles (applies to both mobile and desktop) */
 .button-row {
-  display: flex;
-  justify-content: center; /* Align buttons horizontally in the center */
-  align-items: center; /* Align buttons vertically in the center */
-  gap: 10px; /* Space between the buttons */
-  margin-top: 15px;
+  display: flex; /* Arrange buttons horizontally */
+  justify-content: center; /* Center-align buttons */
+  align-items: center; /* Vertically align buttons */
+  gap: 15px; /* Add spacing between buttons */
+  margin-top: 20px; /* Space above the button row */
 }
 
-/* Mobile view: Hide desktop buttons, show mobile buttons */
-@media only screen and (max-width: 768px) {
-  .desktop-btn {
-    display: none; /* Hide desktop buttons */
-  }
+.button-row button {
+  display: block;
+  padding: 10px 20px; /* Match padding with Generate QR Code button */
+  background: #2e9962; /* Green background */
+  color: #ffffff; /* White text */
+  border: none; /* No border */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 16px; /* Same font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Add shadow */
+  transition: all 0.3s ease-in-out; /* Smooth hover transition */
+}
 
-  .mobile-btn {
-    display: flex; /* Show mobile buttons */
-    justify-content: center;
-    align-items: center;
-    width: 50px; /* Circular button size */
-    height: 50px;
-    border-radius: 50%; /* Make buttons circular */
-    background: none; /* Remove background for clarity */
-    border: none; /* Remove border */
-    padding: 0; /* Remove extra padding */
-  }
+.button-row button:hover {
+  background: #ffffff; /* Hover: white background */
+  color: #2e9962; /* Hover: green text */
+  transform: translateY(-3px); /* Slight hover animation */
+}
 
-  .mobile-btn img {
-    width: 32px; /* Adjust image/icon size */
-    height: 32px;
-  }
-
-  /* No hover effect for mobile buttons */
-  .mobile-btn:hover {
-    background: none; /* Disable hover background change */
-    transform: none; /* Disable hover transform effect */
-  }
+/* Stretch the Generate New button slightly more */
+#generate-new-btn {
+  padding: 10px 25px; /* Adjust padding */
 }
 
 
-  /* Prevent zooming on mobile input */
-  input[type="text"] {
-    font-size: 16px; /* Ensure no zooming */
-  }
-
+/* Prevent zooming on mobile input */
+input[type="text"] {
+  font-size: 16px; /* Ensure no zooming */
+}

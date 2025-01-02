@@ -119,15 +119,15 @@ function addWatermarkToDisplayedQRCode() {
   ctx.font = `bold ${fontSize}px Impact`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(0, 0, 0, 0.2)"; // Shadow color
+  ctx.shadowColor = "rgba(0, 0, 0, 0.03)"; // Shadow color
   ctx.shadowBlur = 3; // Shadow blur amount
   ctx.shadowOffsetX = 2; // Horizontal shadow offset
   ctx.shadowOffsetY = 2; // Vertical shadow offset
 
   // Set text styles
-  ctx.fillStyle = "rgba(255, 255, 255, 0.86)"; // White fill with transparency
-  ctx.strokeStyle = "rgba(0, 0, 0, 0.4)"; // Black outline
-  ctx.lineWidth = fontSize * 0.05; // Outline thickness (5% of font size)
+  ctx.fillStyle = "rgba(255, 255, 255, 0.35)"; // White fill with transparency
+  ctx.strokeStyle = "rgba(0, 0, 0, 0.24)"; // Black outline
+  ctx.lineWidth = fontSize * 0.02; // Outline thickness (5% of font size)
 
   // Draw the watermark text repeatedly in a diagonal pattern
   const gap = fontSize * 5; // Adjust spacing between text
@@ -154,70 +154,62 @@ function addWatermarkToDisplayedQRCode() {
 }
 
 function downloadQRCode() {
-  const inputText = document.getElementById("text-input").value.trim();
-
-  if (!inputText) {
-    alert("Please generate a QR code first.");
-    return;
-  }
-
-  // Get the QR code canvas
-  const qrCodeCanvas = document.querySelector("#qrcode-container canvas");
-  if (!qrCodeCanvas) {
+  const qrCanvas = document.querySelector("#qrcode-container canvas");
+  if (!qrCanvas) {
     alert("No QR code found. Please generate one first.");
     return;
   }
 
   // Create a high-resolution canvas for download
-  const qrResolution = 800; // Resolution of the QR code itself (e.g., 800x800)
-  const margin = 100; // Margin size around the QR code
-  const canvasSize = qrResolution + 2 * margin; // Total canvas size including margins
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
 
-  // Set the canvas size
+  const qrResolution = 800; // High resolution for the QR Code
+  const margin = 50; // Margin around the QR Code
+  const canvasSize = qrResolution + 2 * margin; // Total canvas size including margins
+
+  // Set up the canvas size
   canvas.width = canvasSize;
   canvas.height = canvasSize;
 
   // Fill the background with white
   ctx.fillStyle = "#ffffff"; // White background
-  ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill entire canvas
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Draw the QR code in the center with margins
+  // Draw the QR Code in the center
   ctx.drawImage(
-    qrCodeCanvas,
-    margin, // Start X (leave margin)
-    margin, // Start Y (leave margin)
-    qrResolution, // Width of the QR code
-    qrResolution // Height of the QR code
+    qrCanvas,
+    margin, // Start X
+    margin, // Start Y
+    qrResolution, // Width
+    qrResolution // Height
   );
 
   // Create a download link
   const link = document.createElement("a");
   link.href = canvas.toDataURL("image/png"); // Convert the canvas to a PNG
-  link.download = "qrcode_with_margin.png"; // Set the file name
-  link.click(); // Trigger the download
+  link.download = "qrcode.png"; // Set the download filename
+  link.click();
 }
+
 
 function resetQRCodeGenerator() {
   const qrcodeContainer = document.getElementById("qrcode-container");
+  const textInput = document.getElementById("text-input");
   const generateBtn = document.getElementById("generate-btn");
   const qrSection = document.querySelector(".qr-section");
-  const textInput = document.getElementById("text-input");
   const loadingBar = document.getElementById("loading-bar");
 
-  // Clear the QR code container
+  // Clear the QR Code container
   qrcodeContainer.innerHTML = "";
 
-  // Hide QR section
-  qrSection.style.display = "none";
-
-  // Clear the text input field
+  // Clear the input field for new text/URL
   textInput.value = "";
 
-  // Show the Generate QR Code button
-  generateBtn.style.display = "block";
+  // Hide the QR section
+  qrSection.style.display = "none";
 
-  // Ensure the loading bar is hidden
+  // Show the "Generate" button and hide the loading bar
+  generateBtn.style.display = "block";
   loadingBar.style.display = "none";
 }
