@@ -223,3 +223,14 @@ button:hover {
 input[type="text"] {
   font-size: 16px; /* Ensure no zooming */
 }
+
+@media only screen and (max-width: 768px) {
+  .container {
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    border-radius: 0; /* Remove any rounded corners */
+    padding: 20px; /* Adjust padding for mobile */
+    margin: 0; /* Ensure no margin around the container */
+  }
+}
+

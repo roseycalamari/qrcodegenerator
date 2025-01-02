@@ -125,8 +125,8 @@ function addWatermarkToDisplayedQRCode() {
   ctx.shadowOffsetY = 2; // Vertical shadow offset
 
   // Set text styles
-  ctx.fillStyle = "rgba(255, 255, 255, 0.35)"; // White fill with transparency
-  ctx.strokeStyle = "rgba(0, 0, 0, 0.24)"; // Black outline
+  ctx.fillStyle = "rgba(255, 255, 255, 0.57)"; // White fill with transparency
+  ctx.strokeStyle = "rgba(0, 0, 0, 0.35)"; // Black outline
   ctx.lineWidth = fontSize * 0.02; // Outline thickness (5% of font size)
 
   // Draw the watermark text repeatedly in a diagonal pattern
@@ -154,42 +154,58 @@ function addWatermarkToDisplayedQRCode() {
 }
 
 function downloadQRCode() {
-  const qrCanvas = document.querySelector("#qrcode-container canvas");
-  if (!qrCanvas) {
+  const inputText = document.getElementById("text-input").value.trim();
+
+  if (!inputText) {
+    alert("Please generate a QR code first.");
+    return;
+  }
+
+  // Get the QR code canvas
+  const qrCodeCanvas = document.querySelector("#qrcode-container canvas");
+  if (!qrCodeCanvas) {
     alert("No QR code found. Please generate one first.");
     return;
   }
 
   // Create a high-resolution canvas for download
+  const qrResolution = 800; // Resolution of the QR code itself (e.g., 800x800)
+  const margin = 100; // Margin size around the QR code
+  const canvasSize = qrResolution + 2 * margin; // Total canvas size including margins
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
 
-  const qrResolution = 800; // High resolution for the QR Code
-  const margin = 50; // Margin around the QR Code
-  const canvasSize = qrResolution + 2 * margin; // Total canvas size including margins
-
-  // Set up the canvas size
+  // Set the canvas size
   canvas.width = canvasSize;
   canvas.height = canvasSize;
 
   // Fill the background with white
   ctx.fillStyle = "#ffffff"; // White background
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill entire canvas
 
-  // Draw the QR Code in the center
+  // Draw the QR code in the center with margins
   ctx.drawImage(
-    qrCanvas,
-    margin, // Start X
-    margin, // Start Y
-    qrResolution, // Width
-    qrResolution // Height
+    qrCodeCanvas,
+    margin, // Start X (leave margin)
+    margin, // Start Y (leave margin)
+    qrResolution, // Width of the QR code
+    qrResolution // Height of the QR code
   );
+
+  // Extract the domain name or a sanitized version of the URL for the file name
+  let filename = "qrcode"; // Default name
+  try {
+    const url = new URL(inputText.includes('http') ? inputText : `https://${inputText}`);
+    filename = url.hostname.replace(/[^a-zA-Z0-9]/g, "_"); // Replace special characters with "_"
+  } catch (e) {
+    console.warn("Invalid URL, using default filename.");
+  }
 
   // Create a download link
   const link = document.createElement("a");
   link.href = canvas.toDataURL("image/png"); // Convert the canvas to a PNG
-  link.download = "qrcode.png"; // Set the download filename
-  link.click();
+  link.download = `${filename}_qrcode.png`; // Use the dynamic filename
+  link.click(); // Trigger the download
 }
 
 
