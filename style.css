@@ -257,11 +257,15 @@ button:hover {
   }
 
   /* Mobile-specific buttons */
+  .desktop-btn {
+    display: none; /* Hide desktop buttons */
+  }
+
   .mobile-btn {
     display: flex; /* Show mobile buttons */
     justify-content: center;
     align-items: center;
-    width: 50px;
+    width: 50px; /* Button size */
     height: 50px;
     border-radius: 50%; /* Circular buttons */
     background: #2e9962;
@@ -281,24 +285,8 @@ button:hover {
     background: #207f4b;
   }
 
-  /* Hide desktop buttons */
-  .desktop-btn {
-    display: none;
+  /* Prevent zooming on mobile input */
+  input[type="text"] {
+    font-size: 16px; /* Ensure no zooming */
   }
 }
-
-/* Desktop Defaults */
-.desktop-btn {
-  display: inline-block;
-}
-
-.mobile-btn {
-  display: none; /* Hide mobile buttons on desktop */
-}
-
-/* Prevent zooming on mobile input */
-input[type="text"] {
-  font-size: 16px; /* Ensure no zooming */
-}
-
-
