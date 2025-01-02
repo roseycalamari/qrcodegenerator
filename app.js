@@ -57,7 +57,8 @@ function generateQRCode() {
 // Helper function to validate URLs
 function isValidURL(string) {
   try {
-    const url = new URL(string);
+    // Check if the URL has a protocol; if not, prepend "https://"
+    const url = new URL(string.includes('http') ? string : `https://${string}`);
     return url.protocol === "http:" || url.protocol === "https:";
   } catch (_) {
     return false;
