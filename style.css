@@ -224,13 +224,57 @@ input[type="text"] {
   font-size: 16px; /* Ensure no zooming */
 }
 
+/* Mobile Styles */
 @media only screen and (max-width: 768px) {
+  /* Fullscreen container for mobile */
   .container {
-    width: 100vw; /* Full width of the viewport */
-    height: 100vh; /* Full height of the viewport */
-    border-radius: 0; /* Remove any rounded corners */
-    padding: 20px; /* Adjust padding for mobile */
-    margin: 0; /* Ensure no margin around the container */
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    padding: 15px; /* Add padding for better appearance */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    box-sizing: border-box; /* Ensure padding doesn't affect size */
+    overflow: hidden; /* Prevent scrolling */
+  }
+
+  /* QR Code Container */
+  #qrcode-container {
+    width: 220px; /* Adjust QR code size */
+    height: 220px;
+    margin-bottom: 15px; /* Space below the QR code */
+  }
+
+  /* Buttons in the same row */
+  .button-row {
+    display: flex;
+    flex-direction: row; /* Horizontal layout */
+    gap: 15px; /* Space between buttons */
+    margin-top: 20px; /* Space above the buttons */
+    justify-content: center; /* Center buttons horizontally */
+  }
+
+  /* Buttons */
+  .button-row button {
+    flex: 1; /* Equal width for buttons */
+    max-width: 150px; /* Max width */
+    padding: 10px 20px;
+    border-radius: 10px; /* Consistent with other buttons */
+    font-size: 14px; /* Adjust font size */
+  }
+
+  /* Prevent zooming on input fields */
+  input[type="text"] {
+    font-size: 16px; /* Prevent zooming */
+    margin-bottom: 20px; /* Add spacing below input field */
+    border-radius: 8px;
+    width: calc(100% - 20px); /* Make input take full width with padding */
+  }
+
+  /* Prevent scrolling on body */
+  body {
+    overflow: hidden; /* No scrolling */
+    height: 100vh; /* Ensure it doesn't exceed the viewport height */
   }
 }
-
