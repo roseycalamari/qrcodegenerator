@@ -233,3 +233,49 @@ button:hover {
   gap: 10px; /* Space between the buttons */
   margin-top: 15px;
 }
+/* General Mobile-Friendly Styles */
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .container {
+    width: 90%; /* Adjust width to fit mobile screens */
+    padding: 20px;
+    box-shadow: none;
+  }
+
+  .logo {
+    height: 120px; /* Reduce logo size on mobile */
+  }
+
+  h1 {
+    font-size: 20px; /* Smaller font for headings */
+  }
+
+  input[type="text"] {
+    width: 100%; /* Full width for text input */
+    font-size: 12px;
+  }
+
+  button {
+    padding: 10px 15px;
+    font-size: 14px; /* Adjust button size */
+  }
+
+  .qr-section {
+    gap: 10px; /* Reduce space between QR code and buttons */
+  }
+
+  #qrcode-container {
+    width: 200px;
+    height: 200px; /* Smaller QR code container */
+  }
+
+  .button-row {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px; /* Add space between buttons */
+  }
+}
