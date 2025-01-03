@@ -217,6 +217,24 @@ function redirectToStripe() {
   window.location.href = paymentLinkWithQR;
 }
 
+// Extract the QR code text from the URL
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const qrText = urlParams.get('qr');
+
+if (qrText) {
+  new QRCode(document.getElementById("qrcode-container"), {
+    text: qrText,
+    width: 200,
+    height: 200,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.L,
+  });
+} else {
+  document.getElementById("qrcode-container").innerText = "No QR Code data provided!";
+}
+
 
 
 
