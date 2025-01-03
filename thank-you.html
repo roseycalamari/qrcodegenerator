@@ -5,14 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unlocked QR Code</title>
   <link href="style.css" rel="stylesheet">
+  <style>
+/* Overall container for the thank-you page */
+.container {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally */
+  height: 100vh; /* Full height of the viewport */
+  text-align: center; /* Center-align text inside the container */
+  background: #55996f; /* Green background to match the main page */
+  padding: 20px; /* Add padding around the content */
+  box-sizing: border-box; /* Ensure padding doesn't affect overall width/height */
+}
+
+/* QR code container styling */
+#qrcode-container {
+  margin: 20px 0; /* Space above and below the QR code */
+  background: #ffffff; /* White background for the QR code */
+  padding: 20px; /* Padding inside the QR code container */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Soft shadow for a clean look */
+}
+
+/* Button styling (same as "Generate QR Code" button on the main page) */
+button {
+  display: block; /* Ensure button is block-level */
+  margin: 20px auto; /* Center the button horizontally and add spacing */
+  padding: 10px 20px; /* Adjust button size */
+  background: #2e9962; /* Green button background */
+  color: #ffffff; /* White text color */
+  border: none; /* Remove border */
+  border-radius: 10px; /* Rounded corners for the button */
+  font-size: 16px; /* Standard font size for readability */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+}
+
+/* Hover effect for the button */
+button:hover {
+  background: #ffffff; /* Change background to white on hover */
+  color: #2e9962; /* Change text color to green */
+  transform: translateY(-3px); /* Slight lift effect */
+}
+
+  </style>
 </head>
-<body class="unlocked-page">
+<body>
   <div class="container">
     <h1>Unlocked QR Code</h1>
     <p>Thank you for your payment! Below is your unlocked QR Code:</p>
     <div id="qrcode-container"></div>
     <button id="download-btn" onclick="downloadQRCode()">Download QR Code</button>
   </div>
+
   <script src="qrcode.min.js"></script>
   <script>
     // Extract the QR code text from the URL
@@ -20,7 +68,10 @@
     const urlParams = new URLSearchParams(queryString);
     const qrText = urlParams.get('qr');
 
+    console.log("QR Text from URL:", qrText); // Log the QR text for debugging
+
     if (qrText) {
+      // Generate the QR code
       new QRCode(document.getElementById("qrcode-container"), {
         text: qrText,
         width: 200,
@@ -30,7 +81,9 @@
         correctLevel: QRCode.CorrectLevel.L
       });
     } else {
+      // Display a message if no QR code is provided
       document.getElementById("qrcode-container").innerText = "No QR Code data provided!";
+      document.getElementById("qrcode-container").style.color = "red";
     }
 
     // Download the QR Code
