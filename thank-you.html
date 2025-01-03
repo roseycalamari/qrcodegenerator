@@ -62,28 +62,26 @@
 
   <script src="qrcode.min.js"></script>
   <script>
-    // Extract the QR code text from the URL
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const qrText = urlParams.get('qr');
+// Extract the QR code text from the URL
+const queryString = window.location.search; // Get query parameters
+const urlParams = new URLSearchParams(queryString); // Parse query parameters
+const qrText = urlParams.get('qr'); // Get 'qr' parameter value
 
-    console.log("QR Text from URL:", qrText); // Log the QR text for debugging
-
-    if (qrText) {
-      // Generate the QR code
-      new QRCode(document.getElementById("qrcode-container"), {
-        text: qrText,
-        width: 200,
-        height: 200,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.L
-      });
-    } else {
-      // Display a message if no QR code is provided
-      document.getElementById("qrcode-container").innerText = "No QR Code data provided!";
-      document.getElementById("qrcode-container").style.color = "red";
-    }
+if (qrText) {
+  // Generate the QR code
+  new QRCode(document.getElementById("qrcode-container"), {
+    text: qrText,
+    width: 200,
+    height: 200,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.L
+  });
+} else {
+  // Display a message if no QR code is provided
+  document.getElementById("qrcode-container").innerText = "No QR Code data provided!";
+  document.getElementById("qrcode-container").style.color = "red";
+}
 
     // Download the QR Code
     function downloadQRCode() {
