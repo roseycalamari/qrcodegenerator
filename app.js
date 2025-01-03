@@ -200,17 +200,24 @@ function resetQRCodeGenerator() {
 }
 
 function redirectToStripe() {
-  const qrText = document.getElementById("text-input").value.trim();
+  const qrText = document.getElementById("text-input").value.trim(); // Get the QR code input
   if (!qrText) {
     alert("Please generate a QR code before proceeding!");
     return;
   }
 
-  // Replace with your actual Stripe Payment Link
+  // Stripe Payment Link
   const stripePaymentLink = "https://buy.stripe.com/14k2bw68BcND1JC7sw";
 
-  // Append the QR code text to the Stripe Payment Link
-  window.location.href = `${stripePaymentLink}?qr=${encodeURIComponent(qrText)}`;
+  // Append the QR code data to the payment link
+  const finalStripeLink = `${stripePaymentLink}?qr=${encodeURIComponent(qrText)}`;
+
+  console.log("Redirecting to:", finalStripeLink); // Log the full link to the console
+
+  window.location.href = finalStripeLink;
 }
+
+
+
 
 

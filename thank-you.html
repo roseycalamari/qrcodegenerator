@@ -3,34 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thank You</title>
+  <title>Unlocked QR Code</title>
   <link href="style.css" rel="stylesheet">
-  <style>
-    .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center; /* Center vertically */
-      align-items: center; /* Center horizontally */
-      height: 100vh; /* Full viewport height */
-      text-align: center; /* Center text inside container */
-    }
-
-    #qrcode-container {
-      margin: 20px 0; /* Add spacing above and below */
-    }
-  </style>
 </head>
-<body>
-    <body class="thank-you-page">
-        <div class="container">
-          <h1>Thank You for Your Payment!</h1>
-          <p>Your unlocked QR code is ready to download:</p>
-          <div id="qrcode-container"></div>
-          <button id="download-btn" onclick="downloadQRCode()">Download QR Code</button>
-        </div>
-
+<body class="unlocked-page">
+  <div class="container">
+    <h1>Unlocked QR Code</h1>
+    <p>Thank you for your payment! Below is your unlocked QR Code:</p>
+    <div id="qrcode-container"></div>
+    <button id="download-btn" onclick="downloadQRCode()">Download QR Code</button>
+  </div>
   <script src="qrcode.min.js"></script>
   <script>
+    // Extract the QR code text from the URL
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const qrText = urlParams.get('qr');
@@ -48,6 +33,7 @@
       document.getElementById("qrcode-container").innerText = "No QR Code data provided!";
     }
 
+    // Download the QR Code
     function downloadQRCode() {
       const qrCodeCanvas = document.querySelector("#qrcode-container canvas");
       if (!qrCodeCanvas) {
