@@ -15,46 +15,38 @@ function generateQRCode() {
   const loadingBar = document.getElementById("loading-bar");
   const qrSection = document.querySelector(".qr-section");
   const qrcodeContainer = document.getElementById("qrcode-container");
-  const container = document.querySelector(".container");
 
-  // Check if the input is a valid URL
   if (!isValidURL(inputText)) {
     alert("Please enter a valid URL to generate a QR code.");
     return;
   }
 
-  if (isGenerating) return; // Prevent multiple clicks
+  if (isGenerating) return;
   isGenerating = true;
 
-  generateBtn.style.display = "none"; // Hide Generate button
-  loadingBar.style.display = "flex"; // Show loading bar
+  generateBtn.style.display = "none";
+  loadingBar.style.display = "flex";
 
   setTimeout(() => {
-    loadingBar.style.display = "none"; // Hide loading bar
-    qrSection.style.display = "flex"; // Show QR Code section
-    container.classList.add("qr-generated"); // Enable scrolling on mobile
+    loadingBar.style.display = "none";
+    qrSection.style.display = "flex";
 
-    // Clear the QR code container
-    qrcodeContainer.innerHTML = "";
+    qrcodeContainer.innerHTML = ""; // Clear existing QR codes
 
-    // Generate a new QR code
-    const qrCode = new QRCode(qrcodeContainer, {
+    new QRCode(qrcodeContainer, {
       text: inputText,
       width: 200,
       height: 200,
-      colorDark: "#000000", // Black QR code color
-      colorLight: "#ffffff", // White background for display
-      correctLevel: QRCode.CorrectLevel.L, // Error correction level
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.L,
     });
 
-    // Add the watermark
-    setTimeout(() => {
-      addWatermarkToDisplayedQRCode();
-      preventCanvasDragging();
-    }, 100); // Allow QR code to render before adding watermark
+    addWatermarkToDisplayedQRCode(); // Add the watermark
+    preventCanvasDragging(); // Disable dragging
 
     isGenerating = false;
-  }, 2000); // Simulate loading time
+  }, 2000);
 }
 
 // Function to validate URLs
@@ -67,21 +59,7 @@ function isValidURL(string) {
   }
 }
 
-// Prevent dragging of the QR code canvas
-function preventCanvasDragging() {
-  const qrCanvas = document.querySelector("#qrcode-container canvas");
-  if (qrCanvas) {
-    qrCanvas.addEventListener("dragstart", (event) => event.preventDefault());
-    qrCanvas.addEventListener("mousedown", (event) => event.preventDefault());
-    qrCanvas.addEventListener("touchstart", (event) => event.preventDefault());
-
-    qrCanvas.style.pointerEvents = "none";
-    qrCanvas.style.userSelect = "none";
-    qrCanvas.style.webkitUserDrag = "none";
-  }
-}
-
-// Add a watermark to the QR code
+// Add watermark to the displayed QR code
 function addWatermarkToDisplayedQRCode() {
   const qrcodeContainer = document.getElementById("qrcode-container");
   const qrCanvas = qrcodeContainer.querySelector("canvas");
@@ -91,7 +69,7 @@ function addWatermarkToDisplayedQRCode() {
     return;
   }
 
-  const scaleFactor = 4; // Scale for high resolution
+  const scaleFactor = 4;
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
 
@@ -106,14 +84,9 @@ function addWatermarkToDisplayedQRCode() {
   ctx.font = `bold ${fontSize}px Impact`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(0, 0, 0, 0.02)";
-  ctx.shadowBlur = 3;
-  ctx.shadowOffsetX = 2;
-  ctx.shadowOffsetY = 2;
-
   ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-  ctx.strokeStyle = "rgba(0, 0, 0, 0.32)";
-  ctx.lineWidth = fontSize * 0.02;
+  ctx.strokeStyle = "rgba(0, 0, 0, 0.3)";
+  ctx.lineWidth = fontSize * 0.05;
 
   const gap = fontSize * 5;
   for (let y = -gap; y < canvas.height / scaleFactor + gap; y += gap) {
@@ -129,76 +102,43 @@ function addWatermarkToDisplayedQRCode() {
 
   qrcodeContainer.innerHTML = "";
   qrcodeContainer.appendChild(canvas);
-
   preventCanvasDragging();
 }
 
-// Download QR code function
-function downloadQRCode() {
-  const inputText = document.getElementById("text-input").value.trim();
-
-  if (!inputText) {
-    alert("Please generate a QR code first.");
-    return;
+// Prevent dragging of the QR code
+function preventCanvasDragging() {
+  const qrCanvas = document.querySelector("#qrcode-container canvas");
+  if (qrCanvas) {
+    qrCanvas.addEventListener("dragstart", (event) => event.preventDefault());
+    qrCanvas.addEventListener("mousedown", (event) => event.preventDefault());
+    qrCanvas.addEventListener("touchstart", (event) => event.preventDefault());
+    qrCanvas.style.pointerEvents = "none";
   }
+}
 
+// Download QR code
+function downloadQRCode() {
   const qrCodeCanvas = document.querySelector("#qrcode-container canvas");
   if (!qrCodeCanvas) {
-    alert("No QR code found. Please generate one first.");
+    alert("No QR code found!");
     return;
-  }
-
-  const qrResolution = 800;
-  const margin = 100;
-  const canvasSize = qrResolution + 2 * margin;
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = canvasSize;
-  canvas.height = canvasSize;
-
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.drawImage(
-    qrCodeCanvas,
-    margin,
-    margin,
-    qrResolution,
-    qrResolution
-  );
-
-  let filename = "qrcode";
-  try {
-    const url = new URL(inputText.includes("http") ? inputText : `https://${inputText}`);
-    filename = url.hostname.replace(/[^a-zA-Z0-9]/g, "_");
-  } catch (e) {
-    console.warn("Invalid URL, using default filename.");
   }
 
   const link = document.createElement("a");
-  link.href = canvas.toDataURL("image/png");
-  link.download = `${filename}_qrcode.png`;
+  link.href = qrCodeCanvas.toDataURL("image/png");
+  link.download = "qrcode_with_watermark.png";
   link.click();
 }
 
-// Reset QR code generator
+// Reset the QR code generator
 function resetQRCodeGenerator() {
-  const qrcodeContainer = document.getElementById("qrcode-container");
-  const generateBtn = document.getElementById("generate-btn");
-  const qrSection = document.querySelector(".qr-section");
-  const textInput = document.getElementById("text-input");
-  const loadingBar = document.getElementById("loading-bar");
-  const container = document.querySelector(".container");
-
-  qrcodeContainer.innerHTML = "";
-  qrSection.style.display = "none";
-  textInput.value = "";
-  generateBtn.style.display = "block";
-  loadingBar.style.display = "none";
-  container.classList.remove("qr-generated");
+  document.getElementById("qrcode-container").innerHTML = "";
+  document.querySelector(".qr-section").style.display = "none";
+  document.getElementById("text-input").value = "";
+  document.getElementById("generate-btn").style.display = "block";
 }
 
+// Redirect to Stripe for payment
 function redirectToStripe() {
   const qrText = document.getElementById("text-input").value.trim();
   if (!qrText) {
@@ -206,37 +146,7 @@ function redirectToStripe() {
     return;
   }
 
-  // Your Stripe Payment Link
   const stripePaymentLink = "https://buy.stripe.com/14k2bw68BcND1JC7sw";
-
-  // Append the QR code text as a query parameter
   const paymentLinkWithQR = `${stripePaymentLink}?qr=${encodeURIComponent(qrText)}`;
-  console.log("Redirecting to Stripe with URL:", paymentLinkWithQR);
-
-  // Redirect to Stripe
   window.location.href = paymentLinkWithQR;
 }
-
-// Extract the QR code text from the URL
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const qrText = urlParams.get('qr');
-
-if (qrText) {
-  new QRCode(document.getElementById("qrcode-container"), {
-    text: qrText,
-    width: 200,
-    height: 200,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.L,
-  });
-} else {
-  document.getElementById("qrcode-container").innerText = "No QR Code data provided!";
-}
-
-
-
-
-
-

@@ -1,7 +1,7 @@
-/* General Styles */
+/* General Styles (Applies to the body and general container styling) */
 body {
   font-family: 'Montserrat', sans-serif;
-  background: #55996f;
+  background: #55996f; /* Green background */
   color: #2e9962;
   display: flex;
   justify-content: center;
@@ -10,9 +10,9 @@ body {
   margin: 0;
 }
 
-/* Container */
+/* Main Container Styling (for both pages) */
 .container {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
   backdrop-filter: blur(10px);
   border-radius: 5px;
   padding: 30px;
@@ -22,13 +22,13 @@ body {
   max-width: 500px;
 }
 
-/* Logo */
+/* Logo Styling */
 .logo {
   height: 200px;
   margin-bottom: 5px;
 }
 
-/* Heading */
+/* Heading Styles */
 h1 {
   font-size: 24px;
   margin: 10px 0;
@@ -37,7 +37,7 @@ h1 {
   color: #2e9962;
 }
 
-/* Input */
+/* Input Field Styling */
 input[type="text"] {
   padding: 12px;
   margin: 15px 0;
@@ -55,7 +55,12 @@ input[type="text"]::placeholder {
   color: #88b588;
 }
 
-/* Buttons */
+/* Prevent zooming on mobile input */
+input[type="text"] {
+  font-size: 16px; /* Prevent zooming */
+}
+
+/* General Button Styles */
 button {
   display: block;
   margin: 20px auto;
@@ -63,96 +68,99 @@ button {
   background: #2e9962;
   color: #ffffff;
   border: none;
-  border-radius: 10px;
+  border-radius: 10px; /* Rounded corners */
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
-}
-
-#purchase-btn {
-  background: #2e9962; /* Example color */
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 5px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
-}
-
-#purchase-btn:hover {
-  background: #ffffff; /* Hover color */
-  color: #2e9962;
-  transform: translateY(-3px);
 }
 
 button:hover {
-  background: #ffffff;
-  color: #2e9962;
-  transform: translateY(-3px);
+  background: #ffffff; /* Hover background color */
+  color: #2e9962; /* Hover text color */
+  transform: translateY(-3px); /* Lift effect */
 }
 
-#download-no-watermark-btn {
-  background: #aaaaaa; /* Default disabled color */
+/* Purchase Button Styles (Remove Watermark Button) */
+#remove-watermark-btn {
+  background: #2e9962; /* Green button background */
   color: #ffffff;
   border: none;
   padding: 10px 20px;
+  border-radius: 5px;
   font-size: 16px;
   font-weight: bold;
-  cursor: not-allowed; /* Disabled cursor */
-  border-radius: 5px;
+  cursor: pointer;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
 }
 
-#download-no-watermark-btn.enabled {
-  background: #2e9962;
+#remove-watermark-btn:hover {
+  background: #ffffff; /* White background on hover */
+  color: #2e9962; /* Green text on hover */
+  transform: translateY(-3px); /* Lift effect */
+}
+
+/* Button Row Styling */
+.button-row {
+  display: flex; /* Arrange buttons in a row */
+  justify-content: center; /* Center-align buttons */
+  align-items: center; /* Vertically align buttons */
+  gap: 15px; /* Space between buttons */
+  margin-top: 20px;
+}
+
+.button-row button {
+  display: block;
+  padding: 10px 20px;
+  background: #2e9962; /* Green button background */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
 }
 
-#download-no-watermark-btn.enabled:hover {
-  background: #207f4b;
+/* Highlighted Styling for "Generate New" Button */
+#generate-new-btn {
+  padding: 10px 25px; /* Slightly larger padding */
 }
 
-/* QR Section */
+/* QR Code Section */
 .qr-section {
   display: flex;
-  flex-direction: column; /* Arrange elements vertically */
-  align-items: center; /* Center align items horizontally */
-  gap: 20px; /* Add spacing between the QR code container and buttons */
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center align horizontally */
+  gap: 20px; /* Space between QR code and buttons */
   margin: 15px auto;
 }
 
-/* QR Code Container */
+/* QR Code Container Styling */
 #qrcode-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 240px;
+  width: 240px; /* Fixed size */
   height: 240px;
   padding: 10px;
-  background: #ffffff;
-  border-radius: 5px;
+  background: #ffffff; /* White background for QR code */
+  border-radius: 5px; /* Rounded corners */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 #qrcode-container canvas {
-  width: 100%; /* Ensure it fits within the container */
+  width: 100%; /* Ensure the canvas fits */
   height: auto;
   display: block;
   pointer-events: none; /* Prevent dragging */
   user-select: none;
-  -webkit-user-drag: none; /* Safari */
-  -moz-user-drag: none; /* Firefox */
-  -ms-user-drag: none; /* IE */
-  -moz-user-select: none;
 }
 
-/* Loading Bar */
+/* Loading Bar Styles */
 #loading-bar {
   width: 90%;
   max-width: 300px;
@@ -184,49 +192,9 @@ button:hover {
   }
 }
 
-/* General button-row styles (applies to both mobile and desktop) */
-.button-row {
-  display: flex; /* Arrange buttons horizontally */
-  justify-content: center; /* Center-align buttons */
-  align-items: center; /* Vertically align buttons */
-  gap: 15px; /* Add spacing between buttons */
-  margin-top: 20px; /* Space above the button row */
-}
-
-.button-row button {
-  display: block;
-  padding: 10px 20px; /* Match padding with Generate QR Code button */
-  background: #2e9962; /* Green background */
-  color: #ffffff; /* White text */
-  border: none; /* No border */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 16px; /* Same font size */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Add shadow */
-  transition: all 0.3s ease-in-out; /* Smooth hover transition */
-}
-
-.button-row button:hover {
-  background: #ffffff; /* Hover: white background */
-  color: #2e9962; /* Hover: green text */
-  transform: translateY(-3px); /* Slight hover animation */
-}
-
-/* Stretch the Generate New button slightly more */
-#generate-new-btn {
-  padding: 10px 25px; /* Adjust padding */
-}
-
-
-/* Prevent zooming on mobile input */
-input[type="text"] {
-  font-size: 16px; /* Ensure no zooming */
-}
-
 /* Mobile Styles */
 @media only screen and (max-width: 768px) {
-  /* Fullscreen container for mobile */
+  /* Fullscreen Container for Mobile */
   .container {
     width: 100vw;
     height: 100vh;
@@ -241,111 +209,47 @@ input[type="text"] {
 
   /* Enable scrolling after QR code is generated */
   .container.qr-generated {
-    overflow-y: auto; /* Allow vertical scrolling when QR code is generated */
+    overflow-y: auto; /* Allow scrolling for QR section */
   }
 
   /* QR Code Container */
   #qrcode-container {
-    width: 240px; /* Larger QR code size */
+    width: 240px;
     height: 240px;
-    margin-bottom: 15px; /* Space below the QR code */
+    margin-bottom: 15px;
   }
 
-  /* Buttons in the same row */
+  /* Mobile Button Row */
   .button-row {
-    display: flex;
-    flex-direction: row; /* Horizontal layout */
-    gap: 20px; /* Space between buttons */
-    margin-top: 20px; /* Space above the buttons */
-    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
   }
 
-  /* Buttons */
   .button-row button {
-    flex: 1; /* Equal width for buttons */
-    max-width: 180px; /* Increase button size */
-    padding: 15px 25px; /* Larger padding for bigger buttons */
-    font-size: 16px; /* Increase font size */
-    border-radius: 5px; /* Maintain rounded corners */
-  }
-
-  /* Prevent zooming on input fields */
-  input[type="text"] {
+    flex: 1;
+    max-width: 180px;
+    padding: 15px 25px;
     font-size: 16px;
-    margin-bottom: 20px;
     border-radius: 5px;
-    width: calc(100% - 20px); /* Full width with padding */
-  }
-
-  /* Adjust body overflow for mobile */
-  body {
-    height: 100vh;
   }
 }
 
-/* Style for the "Remove Watermark" button */
-#remove-watermark-btn {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  background: #2e9962;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
-}
-
-#remove-watermark-btn:hover {
-  background: #ffffff;
-  color: #2e9962;
-  transform: translateY(-3px);
-}
-
-/* Overall container for the thank-you page */
-.container {
+/* Thank-You Page Styling */
+.thank-you-page .container {
+  background: #55996f;
+  height: 100vh;
+  text-align: center;
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  justify-content: center; /* Center items vertically */
-  align-items: center; /* Center items horizontally */
-  height: 100vh; /* Full height of the viewport */
-  text-align: center; /* Center-align text inside the container */
-  background: #55996f; /* Green background to match the main page */
-  padding: 20px; /* Add padding around the content */
-  box-sizing: border-box; /* Ensure padding doesn't affect overall width/height */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-/* QR code container styling */
-#qrcode-container {
-  margin: 20px 0; /* Space above and below the QR code */
-  background: #ffffff; /* White background for the QR code */
-  padding: 20px; /* Padding inside the QR code container */
-  border-radius: 10px; /* Rounded corners for the container */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Soft shadow for a clean look */
-}
-
-/* Button styling (same as "Generate QR Code" button on the main page) */
-button {
-  display: block; /* Ensure button is block-level */
-  margin: 20px auto; /* Center the button horizontally and add spacing */
-  padding: 10px 20px; /* Adjust button size */
-  background: #2e9962; /* Green button background */
-  color: #ffffff; /* White text color */
-  border: none; /* Remove border */
-  border-radius: 10px; /* Rounded corners for the button */
-  font-size: 16px; /* Standard font size for readability */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
-  transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
-}
-
-/* Hover effect for the button */
-button:hover {
-  background: #ffffff; /* Change background to white on hover */
-  color: #2e9962; /* Change text color to green */
-  transform: translateY(-3px); /* Slight lift effect */
+.thank-you-page #qrcode-container {
+  margin: 20px 0;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }

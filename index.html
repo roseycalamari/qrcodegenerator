@@ -2,64 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Chameleon QR Code Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
-
 <body>
   <div class="container">
     <!-- Logo -->
     <img src="chameleon logo.png" alt="Logo" class="logo" draggable="false" ondragstart="return false;">
 
-    
     <!-- Heading -->
     <h1>Chameleon QR Code Generator</h1>
-    
+
     <!-- Text Input -->
     <input type="text" id="text-input" placeholder="Enter a valid URL">
-    
+
     <!-- Generate Button -->
     <button id="generate-btn" onclick="generateQRCode()">Generate QR Code</button>
-    
+
     <!-- Loading Bar -->
     <div id="loading-bar" style="display: none;">
       <div class="progress"></div>
     </div>
-    
+
     <!-- QR Code Section -->
     <div class="qr-section" style="display: none;">
       <div id="qr-overlay" style="position: relative; display: inline-block;">
         <div id="qrcode-container"></div>
-        <div
-          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; pointer-events: none;">
-        </div>
       </div>
-<!-- Button Row -->
-<div class="button-row">
-  <div class="button-row">
-    <button id="download-btn" onclick="downloadQRCode()">Download</button>
-    <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
-    <button id="remove-watermark-btn" onclick="redirectToStripe()">Remove Watermark</button>
-  </div>  
-</div>
-
-
-
-
-
-</button>
+      <!-- Button Row -->
+      <div class="button-row">
+        <button id="download-btn" onclick="downloadQRCode()">Download</button>
+        <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
+        <button id="remove-watermark-btn" onclick="redirectToStripe()">Remove Watermark</button>
       </div>
     </div>
   </div>
+
   <script src="qrcode.min.js"></script>
   <script src="app.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-  <script async
-  src="https://js.stripe.com/v3/buy-button.js">
-</script>
+  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </body>
 </html>
