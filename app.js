@@ -1,10 +1,38 @@
 let isGenerating = false; // Prevent multiple QR code generations
-const watermarkImagePath = "watermark.png"; // Path to the watermark image
 
 // Add "Enter" key functionality to trigger QR code generation
 document.getElementById("text-input").addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     generateQRCode();
+  }
+});
+
+// Check if the user is returning after payment
+window.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isPaid = urlParams.get("paid") === "true";
+
+  if (isPaid) {
+    // Generate the QR code without watermark for paid users
+    const qrText = localStorage.getItem("qrText"); // Retrieve saved QR code data
+    if (qrText) {
+      showThankYouMessage();
+      generateQRCodeWithoutWatermark(qrText);
+
+      // Hide all irrelevant elements
+      document.getElementById("text-input").style.display = "none"; // Hide text input
+      document.getElementById("generate-btn").style.display = "none"; // Hide Generate button
+
+      // Replace button row with just "Download" and "Generate New"
+      const buttonRow = document.querySelector(".button-row");
+      buttonRow.innerHTML = `
+        <button id="download-btn" onclick="downloadQRCode()">Download QR Code</button>
+        <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate Another QR Code</button>
+      `;
+    } else {
+      alert("QR code data not found. Please generate a QR code first.");
+      window.location.href = "index.html"; // Redirect to the main page
+    }
   }
 });
 
@@ -23,6 +51,9 @@ function generateQRCode() {
 
   if (isGenerating) return;
   isGenerating = true;
+
+  // Save QR text for later use (post-payment)
+  localStorage.setItem("qrText", inputText);
 
   generateBtn.style.display = "none";
   loadingBar.style.display = "flex";
@@ -47,6 +78,35 @@ function generateQRCode() {
 
     isGenerating = false;
   }, 2000);
+}
+
+// Function to generate QR code without watermark
+function generateQRCodeWithoutWatermark(text) {
+  const qrcodeContainer = document.getElementById("qrcode-container");
+  qrcodeContainer.innerHTML = ""; // Clear existing QR codes
+
+  new QRCode(qrcodeContainer, {
+    text: text,
+    width: 200,
+    height: 200,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.L,
+  });
+
+  preventCanvasDragging(); // Disable dragging
+}
+
+// Add a thank-you message for paid users
+function showThankYouMessage() {
+  const qrSection = document.querySelector(".qr-section");
+  qrSection.style.display = "flex";
+  qrSection.insertAdjacentHTML(
+    "afterbegin",
+    `
+    <p>Thanks for your payment! Feel free to download your QR Code below.</p>
+    `
+  );
 }
 
 // Function to validate URLs
@@ -126,33 +186,67 @@ function downloadQRCode() {
 
   const link = document.createElement("a");
   link.href = qrCodeCanvas.toDataURL("image/png");
-  link.download = "qrcode_with_watermark.png";
+  link.download = "qrcode.png";
   link.click();
 }
 
-// Reset the QR code generator
-function resetQRCodeGenerator() {
-  document.getElementById("qrcode-container").innerHTML = "";
-  document.querySelector(".qr-section").style.display = "none";
-  document.getElementById("text-input").value = "";
-  document.getElementById("generate-btn").style.display = "block";
-}
 
 // Redirect to Stripe for payment
 function redirectToStripe() {
-  const qrText = document.getElementById("text-input").value.trim(); // Get QR input text
+  const qrText = document.getElementById("text-input").value.trim();
   if (!qrText) {
     alert("Please generate a QR code before proceeding!");
     return;
   }
 
-  // Your Stripe Payment Link
   const stripePaymentLink = "https://buy.stripe.com/14k2bw68BcND1JC7sw";
-
-  // Append the QR code text as a query parameter
   const paymentLinkWithQR = `${stripePaymentLink}?qr=${encodeURIComponent(qrText)}`;
-  console.log("Redirecting to Stripe with URL:", paymentLinkWithQR);
-
-  // Redirect to Stripe
   window.location.href = paymentLinkWithQR;
 }
+
+// Extract the QR code text from the URL
+function getQueryParameter(param) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get(param);
+}
+
+const isPaidPage = getQueryParameter("paid") === "true";
+const qrText = getQueryParameter("qr");
+
+if (isPaidPage) {
+  const container = document.querySelector(".container");
+  const qrcodeContainer = document.getElementById("qrcode-container");
+
+  // Clear the page and show "thank you" message
+  container.innerHTML = `
+    <h1>Thank you for your payment!</h1>
+    <p>Your QR Code is ready for download.</p>
+    <div id="qrcode-container" style="margin: 20px 0;"></div>
+    <div class="button-row">
+      <button id="download-btn" onclick="downloadQRCode()">Download QR Code</button>
+      <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate Another QR Code</button>
+    </div>
+  `;
+
+  // Generate the QR code without watermark
+  if (qrText) {
+    new QRCode(document.getElementById("qrcode-container"), {
+      text: qrText,
+      width: 200,
+      height: 200,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.L,
+    });
+  } else {
+    qrcodeContainer.innerHTML = "<p style='color: red;'>Error: No QR Code data provided!</p>";
+  }
+}
+
+// Reset function to return to the original page
+function resetQRCodeGenerator() {
+  window.location.href = window.location.pathname; // Removes query parameters
+}
+
+
