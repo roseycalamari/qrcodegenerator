@@ -329,42 +329,32 @@ body {
 
 /* Mobile-Friendly Styles */
 @media screen and (max-width: 600px) {
-  /* Body and Overall Layout */
-  body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Disable scrolling */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Full screen height */
-    background-color: #55996f; /* Match your existing background */
-  }
-
+  /* Cream Container */
   .container {
+    margin: 10px; /* Add small margin around the container */
+    padding: 10px; /* Reduce internal spacing */
+    width: 90%; /* Fit within mobile screen width */
+    height: 95vh; /* Full height of the screen */
     display: flex;
     flex-direction: column; /* Stack items vertically */
-    justify-content: space-between; /* Space items within the container */
-    align-items: center; /* Center horizontally */
-    width: 90%; /* Make it fit within mobile screen width */
-    height: 95vh; /* Fit within the screen without scrolling */
+    justify-content: space-between; /* Evenly distribute space between items */
+    align-items: center;
     background: rgba(255, 255, 255, 0.9); /* Cream background */
     border-radius: 10px;
-    padding: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   }
 
   /* Logo */
   .logo {
-    max-width: 80px; /* Smaller logo size */
+    max-width: 70px; /* Smaller logo size */
     height: auto; /* Maintain aspect ratio */
-    margin-bottom: 10px;
+    margin-bottom: 5px; /* Reduced space below the logo */
   }
 
   /* Heading */
   h1 {
-    font-size: 16px; /* Smaller heading font */
-    margin: 0 0 10px; /* Space below the heading */
+    font-size: 14px; /* Smaller font size for mobile */
+    margin-bottom: 8px; /* Reduced space below the heading */
     text-align: center;
   }
 
@@ -372,23 +362,23 @@ body {
   input[type="text"] {
     width: 90%; /* Fit within the container */
     max-width: 300px; /* Cap maximum width */
-    font-size: 12px; /* Smaller font for mobile */
+    font-size: 12px; /* Smaller font size */
     padding: 8px; /* Adjust padding for mobile */
-    margin-bottom: 15px; /* Space below input field */
+    margin-bottom: 10px; /* Reduced space below the input field */
     border: 1px solid #c9e7c5; /* Border to match design */
     border-radius: 5px; /* Rounded corners */
   }
 
   /* QR Code Section */
   #qrcode-container {
-    width: 150px; /* Smaller size for mobile */
-    height: 150px; /* Keep height proportional */
-    padding: 5px; /* Add padding */
-    margin: 10px auto; /* Center within the container */
+    width: 130px; /* Smaller size for mobile */
+    height: 130px; /* Keep height proportional */
+    padding: 5px; /* Add small padding */
+    margin: 8px 0; /* Small margin around QR code */
   }
 
   #qrcode-container canvas {
-    max-width: 100%; /* Ensure canvas fits within the container */
+    width: 100%; /* Ensure the QR code fits the container */
     height: auto; /* Maintain aspect ratio */
   }
 
@@ -396,16 +386,16 @@ body {
   .button-row {
     display: flex;
     flex-direction: column; /* Stack buttons vertically */
-    gap: 10px; /* Space between buttons */
+    gap: 8px; /* Smaller gap between buttons */
     align-items: center;
     width: 100%; /* Fit buttons to container */
   }
 
   .button-row button {
-    width: 90%; /* Fit button width to container */
-    max-width: 250px; /* Cap maximum width */
-    padding: 10px; /* Adjust padding for mobile */
-    font-size: 12px; /* Smaller font size */
+    width: 85%; /* Consistent button width */
+    max-width: 250px; /* Cap button size */
+    padding: 8px; /* Smaller padding for buttons */
+    font-size: 12px; /* Adjust font size */
     border: none;
     border-radius: 5px; /* Rounded corners */
     background-color: #2e9962; /* Match existing design */
@@ -415,9 +405,9 @@ body {
 
   /* Adjust "Customer Support" Section */
   .customer-support {
-    font-size: 10px; /* Smaller font size */
-    text-align: center;
-    margin-top: 10px; /* Space above */
+    font-size: 10px; /* Smaller text */
+    text-align: center; /* Center-align text */
+    margin-top: 8px; /* Reduce spacing */
   }
 }
 
