@@ -326,3 +326,56 @@ body {
   text-align: center; /* Center-align text */
   margin-bottom: 15px; /* Add spacing between text elements */
 }
+
+/* Mobile-Friendly Styles */
+@media screen and (max-width: 600px) {
+  /* Container adjustments for mobile */
+  .container {
+    width: 95%; /* Take almost the full width of the screen */
+    max-width: none; /* Remove desktop max-width */
+    padding: 15px; /* Add padding for better spacing */
+    text-align: center; /* Center text */
+  }
+
+  /* Adjust the QR Code Section */
+  #qrcode-container {
+    width: 100%; /* Full width of the container */
+    height: auto; /* Maintain aspect ratio */
+    padding: 10px; /* Add spacing */
+    box-shadow: none; /* Simplify for mobile */
+  }
+
+  /* Make buttons stack vertically */
+  .button-row {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px; /* Add spacing between buttons */
+  }
+
+  .button-row button {
+    flex: none; /* Remove flex stretching */
+    width: 100%; /* Full width of the container */
+    max-width: none; /* No max width for buttons */
+    padding: 12px; /* Increase padding for easier tapping */
+    font-size: 14px; /* Slightly smaller font for buttons */
+  }
+
+  /* Adjust the heading */
+  h1 {
+    font-size: 20px; /* Smaller font size for mobile */
+  }
+
+  /* Adjust the input field */
+  input[type="text"] {
+    width: 100%; /* Full width of the container */
+    font-size: 14px; /* Adjust font size */
+    padding: 10px; /* Add padding for easier typing */
+  }
+
+  /* Customer Support Section */
+  .customer-support {
+    font-size: 12px; /* Smaller text for mobile */
+    text-align: center; /* Center-align for mobile */
+    margin-top: 15px; /* Add spacing */
+  }
+}
+
