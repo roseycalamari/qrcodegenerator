@@ -85,17 +85,44 @@ function generateQRCodeWithoutWatermark(text) {
   const qrcodeContainer = document.getElementById("qrcode-container");
   qrcodeContainer.innerHTML = ""; // Clear existing QR codes
 
-  new QRCode(qrcodeContainer, {
+  const qrCanvas = document.createElement("canvas");
+  const size = 1000; // High resolution: 1000x1000 pixels
+  const margin = 40; // Add margin around the QR code
+
+  // Generate QR code on a high-resolution canvas
+  const qrCode = new QRCode(qrcodeContainer, {
     text: text,
-    width: 200,
-    height: 200,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.L,
+    width: size,
+    height: size,
+    colorDark: "#000000", // QR code color
+    colorLight: "#ffffff", // Background color
+    correctLevel: QRCode.CorrectLevel.H, // High error correction level
   });
 
-  preventCanvasDragging(); // Disable dragging
+  // Once the QR code is generated, draw it on a larger canvas with margins
+  setTimeout(() => {
+    const tempCanvas = qrcodeContainer.querySelector("canvas");
+    const ctx = qrCanvas.getContext("2d");
+
+    qrCanvas.width = size + 2 * margin;
+    qrCanvas.height = size + 2 * margin;
+
+    // Fill the background with white
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
+
+    // Draw the QR code on the larger canvas
+    ctx.drawImage(tempCanvas, margin, margin);
+
+    // Replace the QR code container content with the high-resolution canvas
+    qrcodeContainer.innerHTML = "";
+    qrcodeContainer.appendChild(qrCanvas);
+
+    // Prevent dragging
+    preventCanvasDragging();
+  }, 0);
 }
+
 
 // Add a thank-you message for paid users
 function showThankYouMessage() {
@@ -122,50 +149,102 @@ function isValidURL(string) {
 // Add watermark to the displayed QR code
 function addWatermarkToDisplayedQRCode() {
   const qrcodeContainer = document.getElementById("qrcode-container");
-  const qrCanvas = qrcodeContainer.querySelector("canvas");
+  const tempCanvas = qrcodeContainer.querySelector("canvas");
 
-  if (!qrCanvas) {
+  if (!tempCanvas) {
     console.error("QR code canvas not found.");
     return;
   }
 
-  const scaleFactor = 4;
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
+  const size = 1000; // High resolution: 1000x1000 pixels
+  const margin = 50; // Add margin around the QR code
+  const logoSize = size * 0.4; // Larger logo size (20% of the QR code size)
+  const watermarkText = "QRCodeChameleon.com"; // Text to display
 
-  canvas.width = qrCanvas.width * scaleFactor;
-  canvas.height = qrCanvas.height * scaleFactor;
-  ctx.scale(scaleFactor, scaleFactor);
+  const qrCanvas = document.createElement("canvas");
+  const ctx = qrCanvas.getContext("2d");
 
-  ctx.drawImage(qrCanvas, 0, 0);
+  qrCanvas.width = size + 2 * margin;
+  qrCanvas.height = size + 2 * margin;
 
-  const text = "QRCodeChameleon.com";
-  const fontSize = qrCanvas.width * 0.1;
-  ctx.font = `bold ${fontSize}px Impact`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-  ctx.strokeStyle = "rgba(0, 0, 0, 0.3)";
-  ctx.lineWidth = fontSize * 0.05;
+  // Draw a white background
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
 
-  const gap = fontSize * 5;
-  for (let y = -gap; y < canvas.height / scaleFactor + gap; y += gap) {
-    for (let x = -gap; x < canvas.width / scaleFactor + gap; x += gap) {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(-Math.PI / 6);
-      ctx.fillText(text, 0, 0);
-      ctx.strokeText(text, 0, 0);
-      ctx.restore();
+  // Draw the original QR code onto the high-resolution canvas
+  ctx.drawImage(tempCanvas, margin, margin, size, size);
+
+  // Load the logo
+  const logo = new Image();
+  logo.src = "chameleon logo white.png"; // Replace with the path to your logo image
+
+  logo.onload = () => {
+    console.log("Drawing two logos and diagonal text with outline");
+
+    // Set global settings for shadow and opacity
+    ctx.globalAlpha = 0.5; // Set low opacity for watermark
+    ctx.shadowColor = "rgba(0, 0, 0, 0.61)"; // Shadow color
+    ctx.shadowBlur = 6; // Shadow blur level
+    ctx.shadowOffsetX = 5; // Horizontal shadow offset
+    ctx.shadowOffsetY = 5; // Vertical shadow offset
+
+    // Draw logos at the top-left and bottom-right corners
+    const corners = [
+      { x: margin, y: margin }, // Top-left
+      { x: qrCanvas.width - margin - logoSize, y: qrCanvas.height - margin - logoSize }, // Bottom-right
+    ];
+
+    corners.forEach((corner) => {
+      ctx.drawImage(
+        logo,
+        corner.x,
+        corner.y,
+        logoSize,
+        logoSize
+      );
+    });
+
+    // Draw the diagonal text in the center
+    ctx.globalAlpha = 0.7; // Slightly higher opacity for the text
+    ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; // Semi-transparent white text
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.42)"; // Semi-transparent black outline
+    const maxTextWidth = size * 1.3; // Ensure text fits inside QR code
+    ctx.font = `bold ${logoSize * 0.8}px Arial`; // Dynamically scaled font size
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.lineWidth = 5; // Thickness of the outline
+
+    // Measure and scale text to fit within QR code
+    let textWidth = ctx.measureText(watermarkText).width;
+    while (textWidth > maxTextWidth) {
+      const currentFontSize = parseFloat(ctx.font.match(/\d+/)[0]); // Extract font size
+      ctx.font = `bold ${currentFontSize - 2}px Arial`; // Reduce font size
+      textWidth = ctx.measureText(watermarkText).width;
     }
-  }
 
-  qrcodeContainer.innerHTML = "";
-  qrcodeContainer.appendChild(canvas);
-  preventCanvasDragging();
+    // Rotate and draw the text diagonally
+    ctx.save();
+    ctx.translate(qrCanvas.width / 2, qrCanvas.height / 2); // Move to the center
+    ctx.rotate(-Math.PI / 4); // Rotate 45 degrees
+    ctx.fillText(watermarkText, 0, 0); // Draw filled text
+    ctx.strokeText(watermarkText, 0, 0); // Draw outlined text
+    ctx.restore();
+
+    // Replace the container's content with the new canvas
+    qrcodeContainer.innerHTML = "";
+    qrcodeContainer.appendChild(qrCanvas);
+
+    // Prevent dragging
+    preventCanvasDragging(); // Ensure dragging is disabled
+  };
+
+  // Handle error in case the logo fails to load
+  logo.onerror = () => {
+    console.error("Failed to load the logo.");
+  };
 }
 
-// Prevent dragging of the QR code
+// Function to prevent dragging of the QR code canvas
 function preventCanvasDragging() {
   const qrCanvas = document.querySelector("#qrcode-container canvas");
   if (qrCanvas) {
@@ -176,20 +255,33 @@ function preventCanvasDragging() {
   }
 }
 
+
+
+
+
+
 // Download QR code
 function downloadQRCode() {
   const qrCodeCanvas = document.querySelector("#qrcode-container canvas");
+
   if (!qrCodeCanvas) {
     alert("No QR code found!");
     return;
   }
 
+  const qrText = localStorage.getItem("qrText") || "QR_Code";
+  const sanitizedFileName = sanitizeFileName(qrText);
+
   const link = document.createElement("a");
-  link.href = qrCodeCanvas.toDataURL("image/png");
-  link.download = "qrcode.png";
+  link.href = qrCodeCanvas.toDataURL("image/png"); // Export as PNG
+  link.download = `${sanitizedFileName}_high_quality.png`; // Name the file
   link.click();
 }
 
+// Helper function to sanitize file names
+function sanitizeFileName(text) {
+  return text.replace(/[^a-zA-Z0-9]/g, "-").substring(0, 50); // Remove special characters
+}
 
 // Redirect to Stripe for payment
 function redirectToStripe() {
@@ -211,12 +303,12 @@ function getQueryParameter(param) {
   return urlParams.get(param);
 }
 
+// Function to handle ?paid=true page
 const isPaidPage = getQueryParameter("paid") === "true";
 const qrText = getQueryParameter("qr");
 
 if (isPaidPage) {
   const container = document.querySelector(".container");
-  const qrcodeContainer = document.getElementById("qrcode-container");
 
   // Clear the page and show "thank you" message
   container.innerHTML = `
@@ -224,29 +316,104 @@ if (isPaidPage) {
     <p>Your QR Code is ready for download.</p>
     <div id="qrcode-container" style="margin: 20px 0;"></div>
     <div class="button-row">
-      <button id="download-btn" onclick="downloadQRCode()">Download QR Code</button>
-      <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate Another QR Code</button>
+      <button id="download-btn" onclick="downloadQRCode()">Download</button>
+      <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
     </div>
   `;
 
-  // Generate the QR code without watermark
+  // Generate the high-quality QR code
   if (qrText) {
-    new QRCode(document.getElementById("qrcode-container"), {
-      text: qrText,
-      width: 200,
-      height: 200,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.L,
-    });
+    generateHighQualityQRCode(qrText);
   } else {
+    const qrcodeContainer = document.getElementById("qrcode-container");
     qrcodeContainer.innerHTML = "<p style='color: red;'>Error: No QR Code data provided!</p>";
   }
 }
 
-// Reset function to return to the original page
+// Function to generate a high-quality QR code
+function generateHighQualityQRCode(text) {
+  const qrcodeContainer = document.getElementById("qrcode-container");
+  qrcodeContainer.innerHTML = ""; // Clear any existing QR codes
+
+  const qrCanvas = document.createElement("canvas");
+  const ctx = qrCanvas.getContext("2d");
+  const size = 1000; // High resolution: 1000x1000 pixels
+  const margin = 50; // Add margin around the QR code
+
+  qrCanvas.width = size + 2 * margin;
+  qrCanvas.height = size + 2 * margin;
+
+  // Create a temporary QR code to draw onto the high-resolution canvas
+  const tempQRCode = new QRCode(document.createElement("div"), {
+    text: text,
+    width: size,
+    height: size,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H, // High error correction level
+  });
+
+  // Extract the generated QR code and draw it onto the high-resolution canvas
+  setTimeout(() => {
+    const tempCanvas = tempQRCode._oDrawing._elCanvas;
+
+    // Draw a white background on the high-resolution canvas
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
+
+    // Draw the QR code with margin
+    ctx.drawImage(tempCanvas, margin, margin, size, size);
+
+    // Replace the container content with the high-resolution QR code
+    qrcodeContainer.appendChild(qrCanvas);
+
+    // Prevent dragging
+    preventCanvasDragging();
+  }, 100);
+}
+
+// Function to download the QR code as a high-quality image
+function downloadQRCode() {
+  const qrCodeCanvas = document.querySelector("#qrcode-container canvas");
+
+  if (!qrCodeCanvas) {
+    alert("No QR code found!");
+    return;
+  }
+
+  const qrText = localStorage.getItem("qrText") || "QR_Code";
+  const sanitizedFileName = sanitizeFileName(qrText);
+
+  const link = document.createElement("a");
+  link.href = qrCodeCanvas.toDataURL("image/png"); // Export as PNG
+  link.download = `${sanitizedFileName}_high_quality.png`; // Name the file
+  link.click();
+}
+
+// Helper function to sanitize file names
+function sanitizeFileName(text) {
+  return text.replace(/[^a-zA-Z0-9]/g, "-").substring(0, 50); // Remove special characters
+}
+
+// Function to reset the QR code generator
 function resetQRCodeGenerator() {
   window.location.href = window.location.pathname; // Removes query parameters
 }
 
+// Function to prevent dragging of QR code canvas
+function preventCanvasDragging() {
+  const qrCanvas = document.querySelector("#qrcode-container canvas");
+  if (qrCanvas) {
+    qrCanvas.addEventListener("dragstart", (event) => event.preventDefault());
+    qrCanvas.addEventListener("mousedown", (event) => event.preventDefault());
+    qrCanvas.addEventListener("touchstart", (event) => event.preventDefault());
+    qrCanvas.style.pointerEvents = "none";
+  }
+}
 
+// Helper function to get query parameters
+function getQueryParameter(param) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get(param);
+}
