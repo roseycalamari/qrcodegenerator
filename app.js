@@ -296,7 +296,7 @@ function redirectToStripe() {
   localStorage.setItem("qrText", qrText);
 
   // Stripe test payment link
-  const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
+  const stripePaymentLink = "https://buy.stripe.com/14k2bw68BcND1JC7sw";
 
   // Redirect to Stripe
   window.location.href = stripePaymentLink;
