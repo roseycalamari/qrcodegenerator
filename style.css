@@ -329,11 +329,11 @@ body {
 
 /* Mobile-Friendly Styles */
 @media screen and (max-width: 600px) {
-  /* Container Adjustments */
+  /* Cream Container */
   .container {
     margin: 20px; /* Add space around the container */
     padding: 15px; /* Adjust internal spacing */
-    width: auto; /* Allow the container to shrink based on content */
+    width: auto; /* Allow the container to shrink */
     max-width: none; /* Remove desktop constraints */
     min-height: 100vh; /* Ensure full screen height is covered */
     display: flex;
@@ -352,37 +352,38 @@ body {
 
   /* Input Field */
   input[type="text"] {
-    width: 100%; /* Full width of the container */
-    font-size: 12px; /* Smaller font size */
-    padding: 8px; /* Add smaller padding */
+    width: 80%; /* Shorter width for mobile */
+    max-width: 300px; /* Cap the length */
+    font-size: 14px; /* Keep readable font */
+    padding: 10px; /* Maintain thickness */
   }
 
   /* QR Code Container */
   #qrcode-container {
-    width: 150px; /* Smaller size for mobile */
-    height: 150px;
-    padding: 10px;
-    margin: 10px auto; /* Center and add spacing */
+    width: 120px; /* Much smaller size for mobile */
+    height: 120px;
+    margin: 20px auto; /* Center and add spacing */
+    padding: 5px; /* Reduce padding */
   }
 
   #qrcode-container canvas {
-    max-width: 100%; /* Ensure canvas fits within container */
+    width: 100%; /* Fit within container */
     height: auto; /* Maintain aspect ratio */
   }
 
   /* Buttons */
   .button-row {
     flex-direction: column; /* Stack buttons vertically */
-    gap: 8px; /* Add smaller spacing between buttons */
-    margin-top: 10px;
+    gap: 10px; /* Add spacing between buttons */
+    align-items: center; /* Center-align buttons */
   }
 
   .button-row button {
-    width: auto; /* Allow buttons to size dynamically */
-    padding: 8px 12px; /* Reduce button padding */
-    font-size: 12px; /* Smaller font size */
-    max-width: 180px; /* Cap button size */
-    margin: 0 auto; /* Center the buttons */
+    width: 80%; /* Same size for all buttons */
+    max-width: 300px; /* Cap width for consistency */
+    padding: 12px; /* Keep a balanced size */
+    font-size: 14px; /* Ensure readability */
+    text-align: center; /* Center-align button text */
   }
 
   /* Customer Support Section */
@@ -392,3 +393,4 @@ body {
     margin-top: 15px; /* Add spacing */
   }
 }
+
