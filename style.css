@@ -329,53 +329,58 @@ body {
 
 /* Mobile-Friendly Styles */
 @media screen and (max-width: 600px) {
-  /* Container adjustments for mobile */
+  /* Cream Container */
   .container {
-    width: 95%; /* Take almost the full width of the screen */
-    max-width: none; /* Remove desktop max-width */
-    padding: 15px; /* Add padding for better spacing */
-    text-align: center; /* Center text */
+    margin: 20px; /* Add space around the container */
+    padding: 15px; /* Adjust internal spacing */
+    width: auto; /* Allow the container to shrink based on content */
+    max-width: none; /* Remove desktop constraints */
   }
 
-  /* Adjust the QR Code Section */
+  /* QR Code Container */
   #qrcode-container {
-    width: 100%; /* Full width of the container */
-    height: auto; /* Maintain aspect ratio */
-    padding: 10px; /* Add spacing */
-    box-shadow: none; /* Simplify for mobile */
+    width: 200px; /* Smaller size for mobile */
+    height: 200px;
+    padding: 10px; /* Add padding around it */
+    margin: 20px auto; /* Center with spacing */
   }
 
-  /* Make buttons stack vertically */
+  #qrcode-container canvas {
+    max-width: 100%; /* Ensure canvas fits within container */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  /* Buttons */
   .button-row {
     flex-direction: column; /* Stack buttons vertically */
     gap: 10px; /* Add spacing between buttons */
+    margin-top: 10px;
   }
 
   .button-row button {
-    flex: none; /* Remove flex stretching */
-    width: 100%; /* Full width of the container */
-    max-width: none; /* No max width for buttons */
-    padding: 12px; /* Increase padding for easier tapping */
-    font-size: 14px; /* Slightly smaller font for buttons */
+    width: 100%; /* Full width */
+    padding: 10px; /* Smaller padding for mobile */
+    font-size: 14px; /* Adjust font size */
+    max-width: 200px; /* Cap button size */
+    margin: 0 auto; /* Center buttons */
   }
 
-  /* Adjust the heading */
-  h1 {
-    font-size: 20px; /* Smaller font size for mobile */
-  }
-
-  /* Adjust the input field */
+  /* Input Field */
   input[type="text"] {
     width: 100%; /* Full width of the container */
     font-size: 14px; /* Adjust font size */
     padding: 10px; /* Add padding for easier typing */
   }
 
+  /* Heading */
+  h1 {
+    font-size: 20px; /* Smaller font size for mobile */
+  }
+
   /* Customer Support Section */
   .customer-support {
-    font-size: 12px; /* Smaller text for mobile */
-    text-align: center; /* Center-align for mobile */
+    font-size: 12px; /* Smaller text */
+    text-align: center;
     margin-top: 15px; /* Add spacing */
   }
 }
-
