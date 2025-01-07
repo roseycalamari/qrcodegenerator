@@ -328,8 +328,8 @@ window.addEventListener("DOMContentLoaded", () => {
         <p>Your QR Code is ready for download.</p>
         <div id="qrcode-container" style="margin: 20px 0;"></div>
         <div class="button-row">
-          <button id="download-btn" onclick="downloadQRCode()">Download QR Code</button>
-          <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate Another QR Code</button>
+          <button id="download-btn" onclick="downloadQRCode()">Download</button>
+          <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
         </div>
       `;
 
