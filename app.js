@@ -292,18 +292,14 @@ function redirectToStripe() {
     return;
   }
 
-  // Save the QR code data in localStorage for use on the ?paid=true page
+  // Save QR code data in localStorage to use on ?paid=true page
   localStorage.setItem("qrText", qrText);
 
-  // URL encode the QR code text to safely pass it as a query parameter
-  const encodedQRText = encodeURIComponent(qrText);
+  // Stripe test payment link
+  const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
 
-  // Stripe payment link with the QR code data as a query parameter
-  const stripePaymentLink = "https://buy.stripe.com/14k2bw68BcND1JC7sw";
-  const paymentLinkWithQR = `${stripePaymentLink}?qr=${encodedQRText}`;
-
-  // Redirect to the Stripe payment link
-  window.location.href = paymentLinkWithQR;
+  // Redirect to Stripe
+  window.location.href = stripePaymentLink;
 }
 
 
@@ -316,31 +312,52 @@ function getQueryParameter(param) {
 }
 
 // Function to handle ?paid=true page
-const isPaidPage = getQueryParameter("paid") === "true";
-const qrText = getQueryParameter("qr");
+window.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isPaid = urlParams.get("paid") === "true";
 
-if (isPaidPage) {
-  const container = document.querySelector(".container");
+  if (isPaid) {
+    // Retrieve QR code data from localStorage
+    const qrText = localStorage.getItem("qrText");
 
-  // Clear the page and show "thank you" message
-  container.innerHTML = `
-    <h1>Thank you for your payment!</h1>
-    <p>Your QR Code is ready for download.</p>
-    <div id="qrcode-container" style="margin: 20px 0;"></div>
-    <div class="button-row">
-      <button id="download-btn" onclick="downloadQRCode()">Download</button>
-      <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
-    </div>
-  `;
+    if (qrText) {
+      // Display thank you message
+      const container = document.querySelector(".container");
+      container.innerHTML = `
+        <h1>Thank you for your payment!</h1>
+        <p>Your QR Code is ready for download.</p>
+        <div id="qrcode-container" style="margin: 20px 0;"></div>
+        <div class="button-row">
+          <button id="download-btn" onclick="downloadQRCode()">Download QR Code</button>
+          <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate Another QR Code</button>
+        </div>
+      `;
 
-  // Generate the high-quality QR code
-  if (qrText) {
-    generateHighQualityQRCode(qrText);
-  } else {
-    const qrcodeContainer = document.getElementById("qrcode-container");
-    qrcodeContainer.innerHTML = "<p style='color: red;'>Error: No QR Code data provided!</p>";
+      // Generate QR code without watermark
+      generateQRCodeWithoutWatermark(qrText);
+    } else {
+      alert("Error: QR code data not found. Please generate a new QR code.");
+      window.location.href = "/";
+    }
   }
+});
+
+// Function to generate QR code without watermark
+function generateQRCodeWithoutWatermark(text) {
+  const qrcodeContainer = document.getElementById("qrcode-container");
+  qrcodeContainer.innerHTML = ""; // Clear existing QR codes
+
+  new QRCode(qrcodeContainer, {
+    text: text,
+    width: 1000,
+    height: 1000,
+    colorDark: "#000000", // Black QR code
+    colorLight: "#ffffff", // White background
+    correctLevel: QRCode.CorrectLevel.H, // High error correction level
+  });
 }
+
+
 
 // Function to generate a high-quality QR code
 function generateHighQualityQRCode(text) {
