@@ -329,68 +329,95 @@ body {
 
 /* Mobile-Friendly Styles */
 @media screen and (max-width: 600px) {
-  /* Cream Container */
-  .container {
-    margin: 20px; /* Add space around the container */
-    padding: 15px; /* Adjust internal spacing */
-    width: auto; /* Allow the container to shrink */
-    max-width: none; /* Remove desktop constraints */
-    min-height: 100vh; /* Ensure full screen height is covered */
+  /* Body and Overall Layout */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Disable scrolling */
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
+    min-height: 100vh; /* Full screen height */
+    background-color: #55996f; /* Match your existing background */
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; /* Space items within the container */
+    align-items: center; /* Center horizontally */
+    width: 90%; /* Make it fit within mobile screen width */
+    height: 95vh; /* Fit within the screen without scrolling */
+    background: rgba(255, 255, 255, 0.9); /* Cream background */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   }
 
   /* Logo */
   .logo {
-    width: 100%;
-    max-width: 120px; /* Smaller logo for mobile */
+    max-width: 80px; /* Smaller logo size */
     height: auto; /* Maintain aspect ratio */
-    margin-bottom: 10px; /* Add spacing below the logo */
+    margin-bottom: 10px;
+  }
+
+  /* Heading */
+  h1 {
+    font-size: 16px; /* Smaller heading font */
+    margin: 0 0 10px; /* Space below the heading */
+    text-align: center;
   }
 
   /* Input Field */
   input[type="text"] {
-    width: 80%; /* Shorter width for mobile */
-    max-width: 300px; /* Cap the length */
-    font-size: 14px; /* Keep readable font */
-    padding: 10px; /* Maintain thickness */
+    width: 90%; /* Fit within the container */
+    max-width: 300px; /* Cap maximum width */
+    font-size: 12px; /* Smaller font for mobile */
+    padding: 8px; /* Adjust padding for mobile */
+    margin-bottom: 15px; /* Space below input field */
+    border: 1px solid #c9e7c5; /* Border to match design */
+    border-radius: 5px; /* Rounded corners */
   }
 
-  /* QR Code Container */
+  /* QR Code Section */
   #qrcode-container {
-    width: 120px; /* Much smaller size for mobile */
-    height: 120px;
-    margin: 20px auto; /* Center and add spacing */
-    padding: 5px; /* Reduce padding */
+    width: 150px; /* Smaller size for mobile */
+    height: 150px; /* Keep height proportional */
+    padding: 5px; /* Add padding */
+    margin: 10px auto; /* Center within the container */
   }
 
   #qrcode-container canvas {
-    width: 100%; /* Fit within container */
+    max-width: 100%; /* Ensure canvas fits within the container */
     height: auto; /* Maintain aspect ratio */
   }
 
   /* Buttons */
   .button-row {
+    display: flex;
     flex-direction: column; /* Stack buttons vertically */
-    gap: 10px; /* Add spacing between buttons */
-    align-items: center; /* Center-align buttons */
+    gap: 10px; /* Space between buttons */
+    align-items: center;
+    width: 100%; /* Fit buttons to container */
   }
 
   .button-row button {
-    width: 80%; /* Same size for all buttons */
-    max-width: 300px; /* Cap width for consistency */
-    padding: 12px; /* Keep a balanced size */
-    font-size: 14px; /* Ensure readability */
-    text-align: center; /* Center-align button text */
+    width: 90%; /* Fit button width to container */
+    max-width: 250px; /* Cap maximum width */
+    padding: 10px; /* Adjust padding for mobile */
+    font-size: 12px; /* Smaller font size */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    background-color: #2e9962; /* Match existing design */
+    color: white;
+    text-align: center;
   }
 
-  /* Customer Support Section */
+  /* Adjust "Customer Support" Section */
   .customer-support {
-    font-size: 12px; /* Smaller text */
-    text-align: center; /* Center-align text */
-    margin-top: 15px; /* Add spacing */
+    font-size: 10px; /* Smaller font size */
+    text-align: center;
+    margin-top: 10px; /* Space above */
   }
 }
 
