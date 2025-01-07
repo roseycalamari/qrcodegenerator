@@ -329,20 +329,40 @@ body {
 
 /* Mobile-Friendly Styles */
 @media screen and (max-width: 600px) {
-  /* Cream Container */
+  /* Container Adjustments */
   .container {
     margin: 20px; /* Add space around the container */
     padding: 15px; /* Adjust internal spacing */
     width: auto; /* Allow the container to shrink based on content */
     max-width: none; /* Remove desktop constraints */
+    min-height: 100vh; /* Ensure full screen height is covered */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  /* Logo */
+  .logo {
+    width: 100%;
+    max-width: 120px; /* Smaller logo for mobile */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 10px; /* Add spacing below the logo */
+  }
+
+  /* Input Field */
+  input[type="text"] {
+    width: 100%; /* Full width of the container */
+    font-size: 12px; /* Smaller font size */
+    padding: 8px; /* Add smaller padding */
   }
 
   /* QR Code Container */
   #qrcode-container {
-    width: 200px; /* Smaller size for mobile */
-    height: 200px;
-    padding: 10px; /* Add padding around it */
-    margin: 20px auto; /* Center with spacing */
+    width: 150px; /* Smaller size for mobile */
+    height: 150px;
+    padding: 10px;
+    margin: 10px auto; /* Center and add spacing */
   }
 
   #qrcode-container canvas {
@@ -353,34 +373,22 @@ body {
   /* Buttons */
   .button-row {
     flex-direction: column; /* Stack buttons vertically */
-    gap: 10px; /* Add spacing between buttons */
+    gap: 8px; /* Add smaller spacing between buttons */
     margin-top: 10px;
   }
 
   .button-row button {
-    width: 100%; /* Full width */
-    padding: 10px; /* Smaller padding for mobile */
-    font-size: 14px; /* Adjust font size */
-    max-width: 200px; /* Cap button size */
-    margin: 0 auto; /* Center buttons */
-  }
-
-  /* Input Field */
-  input[type="text"] {
-    width: 100%; /* Full width of the container */
-    font-size: 14px; /* Adjust font size */
-    padding: 10px; /* Add padding for easier typing */
-  }
-
-  /* Heading */
-  h1 {
-    font-size: 20px; /* Smaller font size for mobile */
+    width: auto; /* Allow buttons to size dynamically */
+    padding: 8px 12px; /* Reduce button padding */
+    font-size: 12px; /* Smaller font size */
+    max-width: 180px; /* Cap button size */
+    margin: 0 auto; /* Center the buttons */
   }
 
   /* Customer Support Section */
   .customer-support {
     font-size: 12px; /* Smaller text */
-    text-align: center;
+    text-align: center; /* Center-align text */
     margin-top: 15px; /* Add spacing */
   }
 }
