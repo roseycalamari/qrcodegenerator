@@ -271,17 +271,18 @@ body {
 
 /* Center the QR Code Container */
 #qrcode-container {
-  display: flex; /* Use flexbox for centering */
+  display: flex;
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
-  margin: 20px auto; /* Center horizontally and add spacing */
-  width: 240px; /* Fixed size for the QR code */
-  height: 240px;
-  padding: 20px; /* Add padding around the QR code */
-  background: #ffffff; /* White background for the QR code */
-  border-radius: 5px; /* Slightly rounded corners */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin: 20px auto; /* Center within the parent container */
+  width: 320px; /* Add padding around the QR code */
+  height: 320px;
+  padding: 10px;
+  background: #ffffff; /* White background */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visibility */
 }
+
 
 
 /* Button Row for ?paid=true Page */

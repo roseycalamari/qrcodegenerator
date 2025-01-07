@@ -345,17 +345,20 @@ window.addEventListener("DOMContentLoaded", () => {
 // Function to generate QR code without watermark
 function generateQRCodeWithoutWatermark(text) {
   const qrcodeContainer = document.getElementById("qrcode-container");
-  qrcodeContainer.innerHTML = ""; // Clear existing QR codes
+  qrcodeContainer.innerHTML = ""; // Clear any existing QR codes
+
+  const qrSize = 300; // Set a reasonable size for the QR code
 
   new QRCode(qrcodeContainer, {
     text: text,
-    width: 1000,
-    height: 1000,
+    width: qrSize,
+    height: qrSize,
     colorDark: "#000000", // Black QR code
     colorLight: "#ffffff", // White background
     correctLevel: QRCode.CorrectLevel.H, // High error correction level
   });
 }
+
 
 
 
