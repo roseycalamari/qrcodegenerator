@@ -286,15 +286,27 @@ function sanitizeFileName(text) {
 // Redirect to Stripe for payment
 function redirectToStripe() {
   const qrText = document.getElementById("text-input").value.trim();
+
   if (!qrText) {
     alert("Please generate a QR code before proceeding!");
     return;
   }
 
+  // Save the QR code data in localStorage for use on the ?paid=true page
+  localStorage.setItem("qrText", qrText);
+
+  // URL encode the QR code text to safely pass it as a query parameter
+  const encodedQRText = encodeURIComponent(qrText);
+
+  // Stripe payment link with the QR code data as a query parameter
   const stripePaymentLink = "https://buy.stripe.com/14k2bw68BcND1JC7sw";
-  const paymentLinkWithQR = `${stripePaymentLink}?qr=${encodeURIComponent(qrText)}`;
+  const paymentLinkWithQR = `${stripePaymentLink}?qr=${encodedQRText}`;
+
+  // Redirect to the Stripe payment link
   window.location.href = paymentLinkWithQR;
 }
+
+
 
 // Extract the QR code text from the URL
 function getQueryParameter(param) {
@@ -417,3 +429,4 @@ function getQueryParameter(param) {
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get(param);
 }
+
