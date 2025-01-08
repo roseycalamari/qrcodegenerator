@@ -429,7 +429,8 @@ function sanitizeFileName(text) {
 
 // Function to reset the QR code generator
 function resetQRCodeGenerator() {
-  window.location.href = window.location.pathname; // Removes query parameters
+  // Redirect to the main page (initial state) without any query parameters
+  window.location.href = window.location.origin + window.location.pathname;
 }
 
 // Function to prevent dragging of QR code canvas

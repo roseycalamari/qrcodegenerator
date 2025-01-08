@@ -12,14 +12,17 @@ body {
 
 /* Main Container */
 .container {
-  background: rgba(255, 255, 255, 0.9); /* Cream-colored container */
-  backdrop-filter: blur(10px);
+  margin: 10px auto; /* Center the container */
+  padding: 10px;
+  width: 70%; /* Fit within the screen */
+  height: auto; /* Adjust height to content */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9); /* Cream background */
   border-radius: 10px;
-  padding: 30px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  width: 95%;
-  max-width: 650px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 #generate-btn {
@@ -221,11 +224,15 @@ button:hover {
 
 /* Customer Support Section */
 .customer-support {
-  margin-top: 15px; /* Space between container and support text */
-  text-align: center;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.9); /* Cream color */
+  font-size: 13px; /* Keep text readable */
+  text-align: center; /* Center the text */
+  position: relative; /* Position relative to its normal flow */
+  margin: 0 auto; /* Center horizontally within the page */
+  top: 10px; /* Adjust vertical position */
+  width: 100%; /* Ensure full-width for centering calculations */
+  transform: translateX(0%); /* Fine-tune horizontal centering */
 }
+
 
 .customer-support a {
   color: rgba(255, 255, 255, 0.9); /* Cream color for email */
@@ -253,18 +260,17 @@ body {
 /* Styles for ?paid=true Page */
 
 .container {
-  display: flex; /* Enable flexbox for alignment */
-  flex-direction: column; /* Stack child elements vertically */
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
-  width: 90%; /* Adjust percentage to control width relative to the screen */
-  max-width: 800px; /* Set a new maximum width for the container */
-  margin: auto; /* Center the container on the page */
-  padding: 20px; /* Add some spacing inside the container */
-  background: rgba(255, 255, 255, 0.9); /* Light background color */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  text-align: center; /* Center-align text */
+  margin: 10px auto; /* Center the container */
+  padding: 10px;
+  width: 70%; /* Fit within the screen */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9); /* Cream background */
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  position: relative; /* Ensure stacking context for alignment */
 }
 
 
@@ -275,8 +281,8 @@ body {
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
   margin: 20px auto; /* Center within the parent container */
-  width: 320px; /* Add padding around the QR code */
-  height: 320px;
+  width: 290px; /* Add padding around the QR code */
+  height: 290px;
   padding: 10px;
   background: #ffffff; /* White background */
   border-radius: 5px; /* Rounded corners */
@@ -411,8 +417,21 @@ body {
 
   /* Customer Support Section Styling */
   .customer-support {
-    font-size: 10px; /* Smaller font size */
-    text-align: center; /* Center-align the text */
-    margin-top: 10px; /* Add some spacing above */
+    font-size: 9px; /* Slightly smaller font size */
+    margin-top: 2px !important; /* Minimal spacing on mobile */
   }
 }
+
+.support-label {
+  color: #ffffff; /* Color for "Customer Support" text */
+}
+
+.customer-support a {
+  color: #ffffff; /* Color for the email link */
+  text-decoration: none; /* Remove underline if desired */
+}
+
+.customer-support a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
