@@ -369,14 +369,38 @@ body {
     border-radius: 5px; /* Rounded corners */
   }
 
-  /* QR Code Container Styling (Both Pages) */
-  #qrcode-container, #qrcode-container-paid {
-    width: 120px; /* Much smaller size for mobile */
-    height: 120px;
-    margin: 5px auto; /* Center QR code with minimal spacing */
+  /* QR Code Container (Generated with Watermark) */
+  #qrcode-container {
+    width: 180px; /* Larger size for the watermark QR code */
+    height: 180px;
+    margin: 10px auto; /* Center the QR code container */
+    display: flex;
+    justify-content: center; /* Center content inside container */
+    align-items: center;
+    background-color: #ffffff; /* Ensure QR code has a clear background */
+    border-radius: 5px; /* Match container design */
+    overflow: hidden; /* Prevent QR code from overflowing */
   }
 
-  #qrcode-container canvas, #qrcode-container-paid canvas {
+  #qrcode-container canvas {
+    width: 100%; /* Ensure the QR code fits the container */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  /* QR Code Container (Without Watermark on ?paid=true Page) */
+  #qrcode-container-paid {
+    width: 130px; /* Smaller size for QR code without watermark */
+    height: 130px;
+    margin: 10px auto; /* Center the QR code container */
+    display: flex;
+    justify-content: center; /* Center content inside container */
+    align-items: center;
+    background-color: #ffffff; /* Ensure QR code has a clear background */
+    border-radius: 5px; /* Match container design */
+    overflow: hidden; /* Prevent QR code from overflowing */
+  }
+
+  #qrcode-container-paid canvas {
     width: 100%; /* Ensure the QR code fits the container */
     height: auto; /* Maintain aspect ratio */
   }
@@ -384,7 +408,7 @@ body {
   /* Buttons Styling (Both Pages) */
   .button-row {
     flex-direction: column; /* Stack buttons vertically */
-    gap: 4px; /* Very small gap between buttons */
+    gap: 4px; /* Smaller gap between buttons */
     width: 100%; /* Full width of container */
     margin-top: 5px; /* Bring buttons closer to the QR code */
     align-items: center;
@@ -393,7 +417,7 @@ body {
   .button-row button {
     width: 75%; /* Smaller button width */
     max-width: 200px; /* Cap the button width */
-    padding: 6px; /* Smaller padding for compact design */
+    padding: 8px; /* Adjust padding for compact design */
     font-size: 12px; /* Smaller button text */
     border-radius: 5px;
     background-color: #2e9962; /* Match your design */
