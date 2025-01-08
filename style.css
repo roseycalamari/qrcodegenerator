@@ -55,7 +55,7 @@ body {
 
 /* Logo Styling */
 .logo {
-  height: 200px;
+  height: 150px;
   margin-bottom: 5px;
 }
 
@@ -150,7 +150,7 @@ button:hover {
 }
 
 
-/* Ensure consistency across all screen sizes */
+/* Ensure consistency across all screen sizes */ /*Mobile*/
 @media screen and (max-width: 480px) {
   .button-row {
     flex-wrap: wrap; /* Allow wrapping on very small screens */
@@ -165,8 +165,8 @@ button:hover {
   display: flex;
   flex-direction: column; /* Stack elements vertically */
   align-items: center; /* Center align horizontally */
-  gap: 20px; /* Space between QR code and buttons */
-  margin: 15px auto;
+  gap: 8px; /* Space between QR code and buttons */
+  margin: 8px auto;
 }
 
 /* QR Code Container Styling */
@@ -174,8 +174,8 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px; /* Fixed size */
-  height: 200px;
+  width: 100px; /* Fixed size */
+  height: 100px;
   padding: 20px; /* Add padding inside the container */
   background: #ffffff; /* White background for QR code */
   border-radius: 5px; /* Rounded corners */
