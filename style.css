@@ -333,7 +333,7 @@ body {
   .container {
     margin: 10px;
     padding: 10px;
-    width: 90%; /* Fit within mobile screen width */
+    width: 90%; /* Fit within the screen */
     height: 95vh; /* Full height without scrolling */
     display: flex;
     flex-direction: column; /* Stack items vertically */
@@ -346,9 +346,9 @@ body {
 
   /* Logo Styling */
   .logo {
-    max-width: 70px; /* Smaller logo for mobile */
+    max-width: 100px; /* Bigger logo size */
     height: auto;
-    margin-bottom: 5px; /* Reduced space below the logo */
+    margin: 0; /* Remove padding influence */
   }
 
   /* Heading Styling */
@@ -371,9 +371,9 @@ body {
 
   /* QR Code Container Styling (Both Pages) */
   #qrcode-container, #qrcode-container-paid {
-    width: 150px; /* Same QR code size for both pages */
-    height: 150px;
-    margin: 10px auto; /* Center QR code with some spacing */
+    width: 120px; /* Much smaller size for mobile */
+    height: 120px;
+    margin: 5px auto; /* Center QR code with minimal spacing */
   }
 
   #qrcode-container canvas, #qrcode-container-paid canvas {
@@ -384,17 +384,17 @@ body {
   /* Buttons Styling (Both Pages) */
   .button-row {
     flex-direction: column; /* Stack buttons vertically */
-    gap: 6px; /* Smaller gap between buttons */
+    gap: 4px; /* Very small gap between buttons */
     width: 100%; /* Full width of container */
-    margin-top: 10px; /* Bring buttons closer to the QR code */
+    margin-top: 5px; /* Bring buttons closer to the QR code */
     align-items: center;
   }
 
   .button-row button {
-    width: 85%; /* Consistent button width */
-    max-width: 250px; /* Cap the button width */
-    padding: 8px; /* Adjust padding for usability */
-    font-size: 14px; /* Readable button text */
+    width: 75%; /* Smaller button width */
+    max-width: 200px; /* Cap the button width */
+    padding: 6px; /* Smaller padding for compact design */
+    font-size: 12px; /* Smaller button text */
     border-radius: 5px;
     background-color: #2e9962; /* Match your design */
     color: white;
