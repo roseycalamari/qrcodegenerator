@@ -165,8 +165,8 @@ button:hover {
   display: flex;
   flex-direction: column; /* Stack elements vertically */
   align-items: center; /* Center align horizontally */
-  gap: 8px; /* Space between QR code and buttons */
-  margin: 8px auto;
+  gap: 5px; /* Space between QR code and buttons */
+  margin: 5px auto;
 }
 
 /* QR Code Container Styling */
@@ -174,8 +174,8 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px; /* Fixed size */
-  height: 100px;
+  width: 50px; /* Fixed size */
+  height: 50px;
   padding: 20px; /* Add padding inside the container */
   background: #ffffff; /* White background for QR code */
   border-radius: 5px; /* Rounded corners */
