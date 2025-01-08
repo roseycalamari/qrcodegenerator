@@ -373,7 +373,7 @@ body {
   #qrcode-container {
     width: 180px; /* Larger size for the watermark QR code */
     height: 180px;
-    margin: 10px auto; /* Center the QR code container */
+    margin: 5px auto; /* Reduced spacing around QR code */
     display: flex;
     justify-content: center; /* Center content inside container */
     align-items: center;
@@ -383,7 +383,7 @@ body {
   }
 
   #qrcode-container canvas {
-    width: 100%; /* Ensure the QR code fits the container */
+    width: 95%; /* Fit within the container with a small margin */
     height: auto; /* Maintain aspect ratio */
   }
 
@@ -391,7 +391,7 @@ body {
   #qrcode-container-paid {
     width: 130px; /* Smaller size for QR code without watermark */
     height: 130px;
-    margin: 10px auto; /* Center the QR code container */
+    margin: 5px auto; /* Reduced spacing around QR code */
     display: flex;
     justify-content: center; /* Center content inside container */
     align-items: center;
@@ -401,14 +401,14 @@ body {
   }
 
   #qrcode-container-paid canvas {
-    width: 100%; /* Ensure the QR code fits the container */
+    width: 95%; /* Fit within the container with a small margin */
     height: auto; /* Maintain aspect ratio */
   }
 
   /* Buttons Styling (Both Pages) */
   .button-row {
     flex-direction: column; /* Stack buttons vertically */
-    gap: 4px; /* Smaller gap between buttons */
+    gap: 3px; /* Smaller gap between buttons */
     width: 100%; /* Full width of container */
     margin-top: 5px; /* Bring buttons closer to the QR code */
     align-items: center;
@@ -417,7 +417,7 @@ body {
   .button-row button {
     width: 75%; /* Smaller button width */
     max-width: 200px; /* Cap the button width */
-    padding: 8px; /* Adjust padding for compact design */
+    padding: 6px; /* Smaller padding for compact design */
     font-size: 12px; /* Smaller button text */
     border-radius: 5px;
     background-color: #2e9962; /* Match your design */
@@ -432,4 +432,5 @@ body {
     margin-top: 10px; /* Add some spacing above */
   }
 }
+
 
