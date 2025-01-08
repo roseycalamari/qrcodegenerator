@@ -9,35 +9,37 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
-  <!-- Main Container -->
   <div class="container">
     <!-- Logo -->
-    <img src="chameleon logo.png" alt="Logo" class="logo" draggable="false" ondragstart="return false;">
+    <img src="chameleon_logo.png" alt="Logo" class="logo" draggable="false" ondragstart="return false;">
 
     <!-- Heading -->
-    <h1>Chameleon QR Code Generator</h1>
+    <h1 id="main-heading">Chameleon QR Code Generator</h1>
 
-    <!-- Text Input -->
-    <input type="text" id="text-input" placeholder="Enter a valid URL">
-
-    <!-- Generate Button -->
-    <button id="generate-btn" onclick="generateQRCode()">Generate QR Code</button>
-
-    <!-- Loading Bar -->
-    <div id="loading-bar" style="display: none;">
-      <div class="progress"></div>
+    <!-- Initial Page Elements -->
+    <div id="initial-page">
+      <input type="text" id="text-input" placeholder="Enter a valid URL">
+      <button id="generate-btn" onclick="generateQRCode()">Generate QR Code</button>
     </div>
 
-    <!-- QR Code Section -->
-    <div class="qr-section" style="display: none;">
-      <div id="qr-overlay" style="position: relative; display: inline-block;">
-        <div id="qrcode-container"></div>
-      </div>
-      <!-- Button Row -->
+    <!-- Generated QR Code Page -->
+    <div id="generated-page" style="display: none;">
+      <div id="qrcode-container"></div>
       <div class="button-row">
         <button id="download-btn" onclick="downloadQRCode()">Download</button>
         <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
-        <button onclick="redirectToStripe()">Remove Watermark</button>
+        <button id="remove-watermark-btn" onclick="redirectToStripe()">Remove Watermark</button>
+      </div>
+    </div>
+
+    <!-- ?paid=true Page -->
+    <div id="paid-page" style="display: none;">
+      <h1>Thank you for your payment!</h1>
+      <p>Your QR Code is ready for download.</p>
+      <div id="qrcode-container-paid"></div>
+      <div class="button-row">
+        <button id="download-btn-paid" onclick="downloadQRCode()">Download</button>
+        <button id="generate-new-btn-paid" onclick="resetQRCodeGenerator()">Generate New</button>
       </div>
     </div>
   </div>
@@ -46,8 +48,117 @@
   <div class="customer-support">
     <p>Customer Support: <a href="mailto:contact.qrcodechameleon@gmail.com">contact.qrcodechameleon@gmail.com</a></p>
   </div>
-  
 
-  <script src="app.js"></script>
+  <script>
+    // Check which page to load (initial, generated, or paid)
+    window.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isPaid = urlParams.get("paid") === "true";
+
+      if (isPaid) {
+        showPaidPage();
+      } else {
+        showInitialPage();
+      }
+    });
+
+    // Show the initial page
+    function showInitialPage() {
+      document.getElementById("initial-page").style.display = "block";
+      document.getElementById("generated-page").style.display = "none";
+      document.getElementById("paid-page").style.display = "none";
+    }
+
+    // Show the generated QR code page
+    function showGeneratedPage() {
+      document.getElementById("initial-page").style.display = "none";
+      document.getElementById("generated-page").style.display = "block";
+      document.getElementById("paid-page").style.display = "none";
+    }
+
+    // Show the paid QR code page
+    function showPaidPage() {
+      const qrText = localStorage.getItem("qrText");
+      if (qrText) {
+        document.getElementById("initial-page").style.display = "none";
+        document.getElementById("generated-page").style.display = "none";
+        document.getElementById("paid-page").style.display = "block";
+
+        generateQRCodeWithoutWatermark(qrText, "qrcode-container-paid");
+      } else {
+        alert("Error: No QR Code data found. Redirecting to main page.");
+        resetQRCodeGenerator();
+      }
+    }
+
+    // Generate QR Code with watermark
+    function generateQRCode() {
+      const inputText = document.getElementById("text-input").value.trim();
+      if (!inputText) {
+        alert("Please enter a valid URL.");
+        return;
+      }
+      localStorage.setItem("qrText", inputText); // Save for use on paid page
+
+      const qrcodeContainer = document.getElementById("qrcode-container");
+      qrcodeContainer.innerHTML = ""; // Clear existing QR code
+      new QRCode(qrcodeContainer, {
+        text: inputText,
+        width: 150,
+        height: 150,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+
+      showGeneratedPage();
+    }
+
+    // Generate QR Code without watermark
+    function generateQRCodeWithoutWatermark(text, containerId) {
+      const qrcodeContainer = document.getElementById(containerId);
+      qrcodeContainer.innerHTML = ""; // Clear existing QR code
+      new QRCode(qrcodeContainer, {
+        text: text,
+        width: 130,
+        height: 130,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+    }
+
+    // Reset to initial page
+    function resetQRCodeGenerator() {
+      window.location.href = window.location.pathname;
+    }
+
+    // Redirect to Stripe for payment
+    function redirectToStripe() {
+      const qrText = localStorage.getItem("qrText");
+      if (!qrText) {
+        alert("Please generate a QR code first.");
+        return;
+      }
+
+      const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
+      window.location.href = `${stripePaymentLink}?qr=${encodeURIComponent(qrText)}`;
+    }
+
+    // Download QR Code
+    function downloadQRCode() {
+      const qrCodeCanvas = document.querySelector("#qrcode-container canvas, #qrcode-container-paid canvas");
+      if (!qrCodeCanvas) {
+        alert("No QR code found!");
+        return;
+      }
+
+      const qrText = localStorage.getItem("qrText") || "QR_Code";
+      const link = document.createElement("a");
+      link.href = qrCodeCanvas.toDataURL("image/png");
+      link.download = `${qrText}_QRCode.png`;
+      link.click();
+    }
+  </script>
 </body>
 </html>

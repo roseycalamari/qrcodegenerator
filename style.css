@@ -329,85 +329,132 @@ body {
 
 /* Mobile-Friendly Styles */
 @media screen and (max-width: 600px) {
-  /* Cream Container */
   .container {
-    margin: 10px; /* Add small margin around the container */
-    padding: 10px; /* Reduce internal spacing */
-    width: 90%; /* Fit within mobile screen width */
-    height: 95vh; /* Full height of the screen */
+    margin: 10px;
+    padding: 10px;
+    width: 90%; /* Fit within the screen */
+    height: 95vh; /* Full height without scrolling */
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    justify-content: space-between; /* Evenly distribute space between items */
+    flex-direction: column;
+    justify-content: center; /* Center everything vertically */
     align-items: center;
     background: rgba(255, 255, 255, 0.9); /* Cream background */
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   }
 
   /* Logo */
   .logo {
-    max-width: 70px; /* Smaller logo size */
-    height: auto; /* Maintain aspect ratio */
-    margin-bottom: 5px; /* Reduced space below the logo */
+    max-width: 80px; /* Smaller logo size for mobile */
+    height: auto;
+    margin-bottom: 5px; /* Reduced space below logo */
   }
 
   /* Heading */
   h1 {
-    font-size: 14px; /* Smaller font size for mobile */
-    margin-bottom: 8px; /* Reduced space below the heading */
-    text-align: center;
+    font-size: 16px; /* Slightly smaller heading font */
+    margin-bottom: 8px; /* Reduced space below heading */
   }
 
   /* Input Field */
   input[type="text"] {
-    width: 90%; /* Fit within the container */
+    width: 85%; /* Adjust width for mobile */
     max-width: 300px; /* Cap maximum width */
-    font-size: 12px; /* Smaller font size */
-    padding: 8px; /* Adjust padding for mobile */
-    margin-bottom: 10px; /* Reduced space below the input field */
-    border: 1px solid #c9e7c5; /* Border to match design */
-    border-radius: 5px; /* Rounded corners */
+    font-size: 14px; /* Readable font size */
+    padding: 10px; /* Maintain padding for good usability */
+    margin-bottom: 10px; /* Reduced spacing below input */
   }
 
-  /* QR Code Section */
-  #qrcode-container {
-    width: 130px; /* Smaller size for mobile */
-    height: 130px; /* Keep height proportional */
-    padding: 5px; /* Add small padding */
-    margin: 8px 0; /* Small margin around QR code */
-  }
-
-  #qrcode-container canvas {
-    width: 100%; /* Ensure the QR code fits the container */
-    height: auto; /* Maintain aspect ratio */
-  }
-
-  /* Buttons */
-  .button-row {
-    display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 8px; /* Smaller gap between buttons */
-    align-items: center;
-    width: 100%; /* Fit buttons to container */
-  }
-
-  .button-row button {
-    width: 85%; /* Consistent button width */
-    max-width: 250px; /* Cap button size */
-    padding: 8px; /* Smaller padding for buttons */
-    font-size: 12px; /* Adjust font size */
-    border: none;
-    border-radius: 5px; /* Rounded corners */
-    background-color: #2e9962; /* Match existing design */
+  /* Generate QR Code Button */
+  #generate-btn {
+    margin-top: 5px; /* Bring button closer to input field */
+    padding: 10px 20px; /* Keep good size for tapping */
+    font-size: 14px; /* Match font size for readability */
+    border-radius: 5px;
+    background-color: #2e9962;
     color: white;
     text-align: center;
   }
+}
 
-  /* Adjust "Customer Support" Section */
-  .customer-support {
-    font-size: 10px; /* Smaller text */
-    text-align: center; /* Center-align text */
-    margin-top: 8px; /* Reduce spacing */
+@media screen and (max-width: 600px) {
+  /* QR Code Section */
+  #qrcode-container {
+    width: 150px; /* Slightly smaller QR code size for mobile */
+    height: 150px;
+    margin: 10px auto; /* Keep it centered */
+  }
+
+  #qrcode-container canvas {
+    width: 100%; /* Ensure it fits within the container */
+    height: auto;
+  }
+
+  /* Buttons Row */
+  .button-row {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 8px; /* Small gap between buttons */
+    margin-top: 10px; /* Bring buttons closer to QR code */
+    width: 100%; /* Full width of the container */
+    align-items: center;
+  }
+
+  .button-row button {
+    width: 85%; /* Consistent button size */
+    max-width: 250px; /* Cap width */
+    padding: 8px; /* Adjust padding for a better fit */
+    font-size: 14px; /* Keep font readable */
+    text-align: center;
+    background-color: #2e9962;
+    color: white;
+    border-radius: 5px;
+  }
+
+  /* Logo */
+  .logo {
+    max-width: 80px;
+    height: auto;
+    margin-bottom: 10px; /* Keep spacing below logo */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  /* Paid QR Code Section */
+  #qrcode-container-paid {
+    width: 130px; /* Smaller QR code size for mobile */
+    height: 130px;
+    margin: 10px auto; /* Center it with spacing */
+  }
+
+  #qrcode-container-paid canvas {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Buttons Row */
+  .button-row {
+    flex-direction: column; /* Stack buttons */
+    gap: 8px; /* Reduce gap */
+    margin-top: 10px; /* Bring buttons closer to QR code */
+    align-items: center;
+    width: 100%;
+  }
+
+  .button-row button {
+    width: 85%; /* Ensure consistent width */
+    max-width: 250px;
+    padding: 8px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #2e9962;
+    color: white;
+    border-radius: 5px;
+  }
+
+  /* Logo */
+  .logo {
+    max-width: 80px; /* Consistent logo size */
+    height: auto;
+    margin-bottom: 10px; /* Add space below logo */
   }
 }
 
