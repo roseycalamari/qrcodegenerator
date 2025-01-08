@@ -369,49 +369,32 @@ body {
     border-radius: 5px; /* Rounded corners */
   }
 
-  /* QR Code Container (Generated with Watermark) */
-  #qrcode-container {
-    width: 180px; /* Larger size for the watermark QR code */
-    height: 180px;
-    margin: 5px auto; /* Reduced spacing around QR code */
-    display: flex;
-    justify-content: center; /* Center content inside container */
-    align-items: center;
-    background-color: #ffffff; /* Ensure QR code has a clear background */
-    border-radius: 5px; /* Match container design */
-    overflow: hidden; /* Prevent QR code from overflowing */
-  }
-
-  #qrcode-container canvas {
-    width: 95%; /* Fit within the container with a small margin */
-    height: auto; /* Maintain aspect ratio */
-  }
-
   /* QR Code Container (Without Watermark on ?paid=true Page) */
   #qrcode-container-paid {
-    width: 130px; /* Smaller size for QR code without watermark */
-    height: 130px;
-    margin: 5px auto; /* Reduced spacing around QR code */
+    width: 120px; /* Smaller container size for paid QR code */
+    height: 120px;
+    margin: 10px auto; /* Tidy spacing around container */
     display: flex;
     justify-content: center; /* Center content inside container */
     align-items: center;
     background-color: #ffffff; /* Ensure QR code has a clear background */
     border-radius: 5px; /* Match container design */
     overflow: hidden; /* Prevent QR code from overflowing */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for a clean look */
   }
 
   #qrcode-container-paid canvas {
-    width: 90%; /* Reduce QR code size to fit perfectly */
+    width: 85%; /* Reduce QR code size to fit perfectly */
     height: auto; /* Maintain aspect ratio */
     object-fit: contain; /* Ensure QR code scales proportionally */
   }
 
-  /* Buttons Styling (Both Pages) */
+  /* Buttons Styling (Paid Page) */
   .button-row {
     flex-direction: column; /* Stack buttons vertically */
-    gap: 3px; /* Smaller gap between buttons */
+    gap: 3px; /* Small gap between buttons */
     width: 100%; /* Full width of container */
-    margin-top: 5px; /* Bring buttons closer to the QR code */
+    margin-top: 10px; /* Add a bit of space between QR code and buttons */
     align-items: center;
   }
 
