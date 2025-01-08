@@ -401,8 +401,9 @@ body {
   }
 
   #qrcode-container-paid canvas {
-    width: 95%; /* Fit within the container with a small margin */
+    width: 90%; /* Reduce QR code size to fit perfectly */
     height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure QR code scales proportionally */
   }
 
   /* Buttons Styling (Both Pages) */
@@ -417,7 +418,7 @@ body {
   .button-row button {
     width: 75%; /* Smaller button width */
     max-width: 200px; /* Cap the button width */
-    padding: 6px; /* Smaller padding for compact design */
+    padding: 8px; /* Adjust padding for compact design */
     font-size: 12px; /* Smaller button text */
     border-radius: 5px;
     background-color: #2e9962; /* Match your design */
@@ -432,5 +433,3 @@ body {
     margin-top: 10px; /* Add some spacing above */
   }
 }
-
-
