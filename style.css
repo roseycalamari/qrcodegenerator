@@ -333,7 +333,7 @@ body {
   .container {
     margin: 10px;
     padding: 10px;
-    width: 90%; /* Fit within the screen */
+    width: 90%; /* Fit within mobile screen width */
     height: 95vh; /* Full height without scrolling */
     display: flex;
     flex-direction: column; /* Stack items vertically */
@@ -369,22 +369,22 @@ body {
     border-radius: 5px; /* Rounded corners */
   }
 
-  /* QR Code Container Styling */
+  /* QR Code Container Styling (Both Pages) */
   #qrcode-container, #qrcode-container-paid {
-    width: 150px; /* Smaller QR code size */
+    width: 150px; /* Same QR code size for both pages */
     height: 150px;
     margin: 10px auto; /* Center QR code with some spacing */
   }
 
   #qrcode-container canvas, #qrcode-container-paid canvas {
-    width: 100%; /* Fit the QR code to the container */
+    width: 100%; /* Ensure the QR code fits the container */
     height: auto; /* Maintain aspect ratio */
   }
 
-  /* Buttons Styling */
+  /* Buttons Styling (Both Pages) */
   .button-row {
     flex-direction: column; /* Stack buttons vertically */
-    gap: 8px; /* Small gap between buttons */
+    gap: 6px; /* Smaller gap between buttons */
     width: 100%; /* Full width of container */
     margin-top: 10px; /* Bring buttons closer to the QR code */
     align-items: center;
