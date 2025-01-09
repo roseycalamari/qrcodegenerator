@@ -339,11 +339,11 @@ body {
   .container {
     margin: 10px;
     padding: 10px;
-    width: 90%; /* Fit within the screen */
-    height: 95vh; /* Full height without scrolling */
+    width: 90%; /* Ensure it fits the mobile screen */
+    height: auto; /* Adjust height to fit content */
     display: flex;
     flex-direction: column; /* Stack items vertically */
-    justify-content: center; /* Center everything vertically */
+    justify-content: center; /* Center-align items */
     align-items: center;
     background: rgba(255, 255, 255, 0.9); /* Cream background */
     border-radius: 10px;
@@ -437,45 +437,54 @@ body {
 
 @media screen and (max-width: 600px) {
   /* QR Code Container (Watermark and No-Watermark Pages) */
-  #qrcode-container,
   #qrcode-container-paid {
-    width: 140px; /* Reduce container size */
-    height: 140px;
-    margin: 10px auto; /* Center the container */
+    width: 130px; /* Reduce container size */
+    height: 130px;
+    margin: 10px auto; /* Center within the cream container */
     padding: 5px; /* Adjust padding */
-    background: #ffffff; /* Ensure background is clean */
+    background: #ffffff; /* White background */
     border-radius: 5px; /* Rounded corners */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow: hidden; /* Ensure QR code does not overflow */
   }
 
-  /* QR Code Canvas (For QR Code itself) */
-  #qrcode-container canvas,
   #qrcode-container-paid canvas {
-    width: 100%; /* Scale QR code to fit container */
+    width: 100%; /* Scale QR code to fit the container */
     height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure proportional scaling */
   }
 
   /* Buttons (Watermark and No-Watermark Pages) */
-  .button-row {
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 8px; /* Smaller gap between buttons */
-    width: 100%; /* Full width of the container */
-    margin-top: 10px; /* Adjust spacing */
-    align-items: center; /* Center-align buttons */
-  }
+/* Buttons for ?paid=true Page */
+.button-row {
+  flex-direction: column; /* Stack buttons vertically */
+  gap: 8px; /* Reduce spacing between buttons */
+  width: 100%; /* Full width of the container */
+  margin-top: 10px; /* Adjust spacing from QR code */
+  align-items: center; /* Center-align buttons */
+}
 
-  .button-row button {
-    width: 75%; /* Reduce button width */
-    max-width: 200px; /* Cap the width */
-    height: 35px; /* Smaller button height */
-    font-size: 12px; /* Reduce button font size */
-    padding: 5px 10px; /* Compact padding */
-    border-radius: 4px; /* Adjust border roundness */
-    background-color: #2e9962; /* Consistent green color */
-    color: white;
-    text-align: center;
-  }
+.button-row button {
+  width: 75%; /* Match the size of buttons on the watermark page */
+  max-width: 180px; /* Cap button width */
+  height: 35px; /* Compact button height */
+  font-size: 12px; /* Match font size */
+  padding: 5px 10px; /* Compact padding */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #2e9962; /* Consistent green background */
+  color: white;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  cursor: pointer; /* Ensure it’s clickable */
+  transition: all 0.3s ease-in-out; /* Smooth transition effects */
+}
 
+/* Button Hover Effect */
+.button-row button:hover {
+  background: #ffffff; /* White background on hover */
+  color: #2e9962; /* Green text */
+  transform: translateY(-2px); /* Lift effect */
+}
   /* Text and Logo Adjustments */
   .container h1,
   .container p {
