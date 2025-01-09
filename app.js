@@ -319,41 +319,37 @@ function getQueryParameter(param) {
 window.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const isPaid = urlParams.get("paid") === "true";
-
-  // Retrieve session ID and QR code data from localStorage
   const sessionId = urlParams.get("session_id");
   const savedSessionId = localStorage.getItem("session_id");
   const qrText = localStorage.getItem("qrText");
+  
+  // Prevent validation logic on other pages
+  if (!isPaid) return;
 
-  if (isPaid) {
-    // Validate the session ID
-    if (!sessionId || sessionId !== savedSessionId) {
-      alert("Unauthorized access. Please complete the payment first.");
-      window.location.href = "/"; // Redirect to the main page
-      return;
-    }
+  // Validation
+  if (!sessionId || sessionId !== savedSessionId) {
+    alert("Unauthorized access. Redirecting to the main page.");
+    window.location.href = "/";
+    return;
+  }
 
-    // Validation passed, display thank you message and QR code
-    if (qrText) {
-      const container = document.querySelector(".container");
-      container.innerHTML = `
-        <h1>Thank you for your payment!</h1>
-        <p>Your QR Code is ready for download.</p>
-        <div id="qrcode-container" style="margin: 20px 0;"></div>
-        <div class="button-row">
-          <button id="download-btn" onclick="downloadQRCode()">Download</button>
-          <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
-        </div>
-      `;
+  // Show the page content for valid session
+  document.body.classList.remove("hidden");
 
-      // Generate the QR code without watermark
-      generateQRCodeWithoutWatermark(qrText);
-    } else {
-      alert("Error: QR code data not found. Please generate a new QR code.");
-      window.location.href = "/";
-    }
+  if (qrText) {
+    const container = document.querySelector(".container");
+    container.innerHTML = `
+      <h1>Thank you for your payment!</h1>
+      <p>Your QR Code is ready for download.</p>
+      <div id="qrcode-container" style="margin: 20px 0;"></div>
+      <div class="button-row">
+        <button id="download-btn" onclick="downloadQRCode()">Download</button>
+        <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
+      </div>
+    `;
+    generateQRCodeWithoutWatermark(qrText);
   } else {
-    // Redirect unauthorized access to the homepage
+    alert("Error: QR code data not found. Please generate a new QR code.");
     window.location.href = "/";
   }
 });
