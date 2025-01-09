@@ -316,22 +316,24 @@ function getQueryParameter(param) {
 // Function to handle ?paid=true page
 window.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const sessionId = urlParams.get("session_id"); // From the URL
-  const savedSessionId = localStorage.getItem("session_id"); // From localStorage
-  const qrText = localStorage.getItem("qrText");
+  const isPaid = urlParams.get("paid") === "true";
+  const sessionId = urlParams.get("session_id"); // Get session ID from URL
+  const savedSessionId = localStorage.getItem("session_id"); // Get session ID from localStorage
 
-  console.log("URL Session ID:", sessionId); // Debugging: Check the session ID in the URL
-  console.log("Saved Session ID:", savedSessionId); // Debugging: Check the session ID in localStorage
+  // Prevent validation logic on non-paid pages (no redirection)
+  if (!isPaid) return;
 
+  // Validate session ID
   if (!sessionId || sessionId !== savedSessionId) {
     alert("Unauthorized access. Please complete the payment first.");
-    window.location.href = "/";
+    window.location.href = "/"; // Redirect to the main page
     return;
   }
 
-  // Show the page content for valid session
+  // If validation passes, display the page content
   document.body.classList.remove("hidden");
 
+  const qrText = localStorage.getItem("qrText");
   if (qrText) {
     const container = document.querySelector(".container");
     container.innerHTML = `
@@ -349,6 +351,7 @@ window.addEventListener("DOMContentLoaded", () => {
     window.location.href = "/";
   }
 });
+
 
 
 
