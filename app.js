@@ -299,14 +299,12 @@ function redirectToStripe() {
   const sessionId = `session_${Math.random().toString(36).substring(2)}`;
   localStorage.setItem("session_id", sessionId);
 
-  // Stripe test payment link
+  // Stripe test payment link with session ID
   const stripePaymentLink = `https://buy.stripe.com/test_9AQ5o60a43oz0XCbII?session_id=${sessionId}`;
 
   // Redirect to Stripe
   window.location.href = stripePaymentLink;
 }
-
-
 
 
 
@@ -325,7 +323,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const savedSessionId = localStorage.getItem("session_id");
 
   if (isPaid) {
-    if (sessionId !== savedSessionId) {
+    // Check if session_id is valid
+    if (!sessionId || sessionId !== savedSessionId) {
       alert("Unauthorized access. Please complete the payment first.");
       window.location.href = "/"; // Redirect to the main page
       return;
@@ -335,7 +334,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const qrText = localStorage.getItem("qrText");
 
     if (qrText) {
-      // Display thank you message
+      // Display thank you message and generate QR code without watermark
       const container = document.querySelector(".container");
       container.innerHTML = `
         <h1>Thank you for your payment!</h1>
@@ -355,6 +354,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
 
 // Function to generate QR code without watermark
 function generateQRCodeWithoutWatermark(text) {
@@ -443,10 +443,11 @@ function sanitizeFileName(text) {
 
 // Function to reset the QR code generator
 function resetQRCodeGenerator() {
-  localStorage.removeItem("session_id"); // Clear the session ID
-  localStorage.removeItem("qrText"); // Clear the QR code text
-  window.location.href = window.location.origin + window.location.pathname; // Redirect to the main page
+  localStorage.removeItem("session_id"); // Clear session ID
+  localStorage.removeItem("qrText"); // Clear QR text
+  window.location.href = "/"; // Redirect to the main page
 }
+
 
 // Function to prevent dragging of QR code canvas
 function preventCanvasDragging() {
