@@ -500,7 +500,3 @@ body {
   }
 }
 
-body.hidden {
-  visibility: hidden; /* Hide content */
-  overflow: hidden; /* Prevent scrolling */
-}

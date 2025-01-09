@@ -329,14 +329,13 @@ window.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Session validated, show the page
+    // Validation passed, remove the 'hidden' class
     document.body.classList.remove("hidden");
 
-    // Retrieve QR code data from localStorage
+    // Retrieve QR code data and proceed
     const qrText = localStorage.getItem("qrText");
 
     if (qrText) {
-      // Display thank you message and generate QR code without watermark
       const container = document.querySelector(".container");
       container.innerHTML = `
         <h1>Thank you for your payment!</h1>
@@ -348,18 +347,16 @@ window.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
-      // Generate QR code without watermark
       generateQRCodeWithoutWatermark(qrText);
     } else {
       alert("Error: QR code data not found. Please generate a new QR code.");
       window.location.href = "/";
     }
   } else {
-    // Redirect to the main page for unauthorized access
+    // Redirect for unauthorized access
     window.location.href = "/";
   }
 });
-
 
 
 // Function to generate QR code without watermark
