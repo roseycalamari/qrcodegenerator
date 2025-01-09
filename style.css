@@ -438,8 +438,8 @@ body {
 @media screen and (max-width: 600px) {
   /* QR Code Container (Watermark and No-Watermark Pages) */
   #qrcode-container-paid {
-    width: 130px; /* Reduce container size */
-    height: 130px;
+    width: 90px; /* Reduce container size */
+    height: 90px;
     margin: 10px auto; /* Center within the cream container */
     padding: 5px; /* Adjust padding */
     background: #ffffff; /* White background */
