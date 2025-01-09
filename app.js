@@ -292,15 +292,16 @@ function redirectToStripe() {
     return;
   }
 
-  // Generate a unique session ID (for example, use a timestamp or UUID)
+  // Generate a unique session ID
   const sessionId = `session-${Date.now()}`;
-  localStorage.setItem("session_id", sessionId); // Save the session ID locally
-  localStorage.setItem("qrText", qrText); // Save the QR code data for later use
+  localStorage.setItem("session_id", sessionId);
+  localStorage.setItem("qrText", qrText);
+
+  console.log("Saved Session ID:", sessionId); // Debugging: Check the session ID
 
   // Stripe test payment link with session ID
   const stripePaymentLink = `https://buy.stripe.com/test_9AQ5o60a43oz0XCbII?session_id=${sessionId}`;
 
-  // Redirect to Stripe
   window.location.href = stripePaymentLink;
 }
 
@@ -315,15 +316,13 @@ function getQueryParameter(param) {
 // Function to handle ?paid=true page
 window.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const isPaid = urlParams.get("paid") === "true";
-  const sessionId = urlParams.get("session_id"); // Get session ID from URL
-  const savedSessionId = localStorage.getItem("session_id"); // Get session ID from localStorage
+  const sessionId = urlParams.get("session_id"); // From the URL
+  const savedSessionId = localStorage.getItem("session_id"); // From localStorage
   const qrText = localStorage.getItem("qrText");
 
-  // Prevent validation logic on non-paid pages
-  if (!isPaid) return;
+  console.log("URL Session ID:", sessionId); // Debugging: Check the session ID in the URL
+  console.log("Saved Session ID:", savedSessionId); // Debugging: Check the session ID in localStorage
 
-  // Validate session ID
   if (!sessionId || sessionId !== savedSessionId) {
     alert("Unauthorized access. Please complete the payment first.");
     window.location.href = "/";
@@ -350,6 +349,7 @@ window.addEventListener("DOMContentLoaded", () => {
     window.location.href = "/";
   }
 });
+
 
 
 // Function to generate QR code without watermark
