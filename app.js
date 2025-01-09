@@ -294,15 +294,13 @@ function redirectToStripe() {
 
   // Generate a unique session ID
   const sessionId = `session-${Date.now()}`;
-  localStorage.setItem("session_id", sessionId);
-  localStorage.setItem("qrText", qrText);
-
-  console.log("Saved Session ID:", sessionId); // Debugging: Check the session ID
+  localStorage.setItem("session_id", sessionId); // Save session ID
+  localStorage.setItem("qrText", qrText); // Save QR text for later use
 
   // Stripe test payment link with session ID
   const stripePaymentLink = `https://buy.stripe.com/test_9AQ5o60a43oz0XCbII?session_id=${sessionId}`;
 
-  window.location.href = stripePaymentLink;
+  window.location.href = stripePaymentLink; // Redirect to Stripe
 }
 
 
@@ -317,42 +315,38 @@ function getQueryParameter(param) {
 window.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const isPaid = urlParams.get("paid") === "true";
-  const sessionId = urlParams.get("session_id"); // Get session ID from URL
-  const savedSessionId = localStorage.getItem("session_id"); // Get session ID from localStorage
+  const sessionId = urlParams.get("session_id"); // From URL
+  const savedSessionId = localStorage.getItem("session_id"); // From localStorage
 
-  // Prevent validation logic on non-paid pages (no redirection)
-  if (!isPaid) return;
+  // Check if this is the paid page
+  if (isPaid) {
+    // Validate the session ID
+    if (!sessionId || sessionId !== savedSessionId) {
+      alert("Unauthorized access. Please complete the payment first.");
+      window.location.href = "/";
+      return;
+    }
 
-  // Validate session ID
-  if (!sessionId || sessionId !== savedSessionId) {
-    alert("Unauthorized access. Please complete the payment first.");
-    window.location.href = "/"; // Redirect to the main page
-    return;
-  }
-
-  // If validation passes, display the page content
-  document.body.classList.remove("hidden");
-
-  const qrText = localStorage.getItem("qrText");
-  if (qrText) {
-    const container = document.querySelector(".container");
-    container.innerHTML = `
-      <h1>Thank you for your payment!</h1>
-      <p>Your QR Code is ready for download.</p>
-      <div id="qrcode-container" style="margin: 20px 0;"></div>
-      <div class="button-row">
-        <button id="download-btn" onclick="downloadQRCode()">Download</button>
-        <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
-      </div>
-    `;
-    generateQRCodeWithoutWatermark(qrText);
-  } else {
-    alert("Error: QR code data not found. Please generate a new QR code.");
-    window.location.href = "/";
+    // If session is valid, display the QR code
+    const qrText = localStorage.getItem("qrText");
+    if (qrText) {
+      const container = document.querySelector(".container");
+      container.innerHTML = `
+        <h1>Thank you for your payment!</h1>
+        <p>Your QR Code is ready for download.</p>
+        <div id="qrcode-container" style="margin: 20px 0;"></div>
+        <div class="button-row">
+          <button id="download-btn" onclick="downloadQRCode()">Download</button>
+          <button id="generate-new-btn" onclick="resetQRCodeGenerator()">Generate New</button>
+        </div>
+      `;
+      generateQRCodeWithoutWatermark(qrText);
+    } else {
+      alert("Error: QR code data not found. Please generate a new QR code.");
+      window.location.href = "/";
+    }
   }
 });
-
-
 
 
 // Function to generate QR code without watermark
