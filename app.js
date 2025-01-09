@@ -292,12 +292,10 @@ function redirectToStripe() {
     return;
   }
 
-  // Save QR text for later use
-  localStorage.setItem("qrText", qrText);
-
-  // Generate a unique session ID
-  const sessionId = `session_${Math.random().toString(36).substring(2)}`;
-  localStorage.setItem("session_id", sessionId);
+  // Generate a unique session ID (for example, use a timestamp or UUID)
+  const sessionId = `session-${Date.now()}`;
+  localStorage.setItem("session_id", sessionId); // Save the session ID locally
+  localStorage.setItem("qrText", qrText); // Save the QR code data for later use
 
   // Stripe test payment link with session ID
   const stripePaymentLink = `https://buy.stripe.com/test_9AQ5o60a43oz0XCbII?session_id=${sessionId}`;
@@ -305,7 +303,6 @@ function redirectToStripe() {
   // Redirect to Stripe
   window.location.href = stripePaymentLink;
 }
-
 
 
 // Extract the QR code text from the URL
@@ -319,16 +316,16 @@ function getQueryParameter(param) {
 window.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const isPaid = urlParams.get("paid") === "true";
-  const sessionId = urlParams.get("session_id");
-  const savedSessionId = localStorage.getItem("session_id");
+  const sessionId = urlParams.get("session_id"); // Get session ID from URL
+  const savedSessionId = localStorage.getItem("session_id"); // Get session ID from localStorage
   const qrText = localStorage.getItem("qrText");
-  
-  // Prevent validation logic on other pages
+
+  // Prevent validation logic on non-paid pages
   if (!isPaid) return;
 
-  // Validation
+  // Validate session ID
   if (!sessionId || sessionId !== savedSessionId) {
-    alert("Unauthorized access. Redirecting to the main page.");
+    alert("Unauthorized access. Please complete the payment first.");
     window.location.href = "/";
     return;
   }
