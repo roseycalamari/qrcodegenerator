@@ -292,15 +292,21 @@ function redirectToStripe() {
     return;
   }
 
-  // Save QR code data in localStorage to use on ?paid=true page
+  // Save QR text for later use
   localStorage.setItem("qrText", qrText);
 
+  // Generate a unique session ID
+  const sessionId = `session_${Math.random().toString(36).substring(2)}`;
+  localStorage.setItem("session_id", sessionId);
+
   // Stripe test payment link
-  const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
+  const stripePaymentLink = `https://buy.stripe.com/test_9AQ5o60a43oz0XCbII?session_id=${sessionId}`;
 
   // Redirect to Stripe
   window.location.href = stripePaymentLink;
 }
+
+
 
 
 
@@ -315,8 +321,16 @@ function getQueryParameter(param) {
 window.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const isPaid = urlParams.get("paid") === "true";
+  const sessionId = urlParams.get("session_id");
+  const savedSessionId = localStorage.getItem("session_id");
 
   if (isPaid) {
+    if (sessionId !== savedSessionId) {
+      alert("Unauthorized access. Please complete the payment first.");
+      window.location.href = "/"; // Redirect to the main page
+      return;
+    }
+
     // Retrieve QR code data from localStorage
     const qrText = localStorage.getItem("qrText");
 
@@ -429,8 +443,9 @@ function sanitizeFileName(text) {
 
 // Function to reset the QR code generator
 function resetQRCodeGenerator() {
-  // Redirect to the main page (initial state) without any query parameters
-  window.location.href = window.location.origin + window.location.pathname;
+  localStorage.removeItem("session_id"); // Clear the session ID
+  localStorage.removeItem("qrText"); // Clear the QR code text
+  window.location.href = window.location.origin + window.location.pathname; // Redirect to the main page
 }
 
 // Function to prevent dragging of QR code canvas
