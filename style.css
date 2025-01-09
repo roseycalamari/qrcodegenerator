@@ -499,3 +499,8 @@ body {
     margin-bottom: 10px; /* Ensure spacing below logo */
   }
 }
+
+body.hidden {
+  visibility: hidden; /* Hide content */
+  overflow: hidden; /* Prevent scrolling */
+}

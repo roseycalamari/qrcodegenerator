@@ -323,12 +323,14 @@ window.addEventListener("DOMContentLoaded", () => {
   const savedSessionId = localStorage.getItem("session_id");
 
   if (isPaid) {
-    // Check if session_id is valid
     if (!sessionId || sessionId !== savedSessionId) {
       alert("Unauthorized access. Please complete the payment first.");
       window.location.href = "/"; // Redirect to the main page
       return;
     }
+
+    // Session validated, show the page
+    document.body.classList.remove("hidden");
 
     // Retrieve QR code data from localStorage
     const qrText = localStorage.getItem("qrText");
@@ -352,8 +354,12 @@ window.addEventListener("DOMContentLoaded", () => {
       alert("Error: QR code data not found. Please generate a new QR code.");
       window.location.href = "/";
     }
+  } else {
+    // Redirect to the main page for unauthorized access
+    window.location.href = "/";
   }
 });
+
 
 
 // Function to generate QR code without watermark
