@@ -319,23 +319,13 @@ function getQueryParameter(param) {
 window.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const isPaid = urlParams.get("paid") === "true";
-  const sessionId = urlParams.get("session_id");
-  const savedSessionId = localStorage.getItem("session_id");
 
   if (isPaid) {
-    if (!sessionId || sessionId !== savedSessionId) {
-      alert("Unauthorized access. Please complete the payment first.");
-      window.location.href = "/"; // Redirect to the main page
-      return;
-    }
-
-    // Validation passed, remove the 'hidden' class
-    document.body.classList.remove("hidden");
-
-    // Retrieve QR code data and proceed
+    // Retrieve QR code data from localStorage
     const qrText = localStorage.getItem("qrText");
 
     if (qrText) {
+      // Display thank you message
       const container = document.querySelector(".container");
       container.innerHTML = `
         <h1>Thank you for your payment!</h1>
@@ -347,14 +337,12 @@ window.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
+      // Generate QR code without watermark
       generateQRCodeWithoutWatermark(qrText);
     } else {
       alert("Error: QR code data not found. Please generate a new QR code.");
       window.location.href = "/";
     }
-  } else {
-    // Redirect for unauthorized access
-    window.location.href = "/";
   }
 });
 
