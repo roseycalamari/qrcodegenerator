@@ -435,3 +435,58 @@ body {
   text-decoration: underline; /* Add underline on hover */
 }
 
+@media screen and (max-width: 600px) {
+  /* QR Code Container (Watermark and No-Watermark Pages) */
+  #qrcode-container,
+  #qrcode-container-paid {
+    width: 140px; /* Reduce container size */
+    height: 140px;
+    margin: 10px auto; /* Center the container */
+    padding: 5px; /* Adjust padding */
+    background: #ffffff; /* Ensure background is clean */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  /* QR Code Canvas (For QR Code itself) */
+  #qrcode-container canvas,
+  #qrcode-container-paid canvas {
+    width: 100%; /* Scale QR code to fit container */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  /* Buttons (Watermark and No-Watermark Pages) */
+  .button-row {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 8px; /* Smaller gap between buttons */
+    width: 100%; /* Full width of the container */
+    margin-top: 10px; /* Adjust spacing */
+    align-items: center; /* Center-align buttons */
+  }
+
+  .button-row button {
+    width: 75%; /* Reduce button width */
+    max-width: 200px; /* Cap the width */
+    height: 35px; /* Smaller button height */
+    font-size: 12px; /* Reduce button font size */
+    padding: 5px 10px; /* Compact padding */
+    border-radius: 4px; /* Adjust border roundness */
+    background-color: #2e9962; /* Consistent green color */
+    color: white;
+    text-align: center;
+  }
+
+  /* Text and Logo Adjustments */
+  .container h1,
+  .container p {
+    text-align: center; /* Center text */
+    font-size: 14px; /* Smaller font size */
+    margin-bottom: 8px; /* Adjust spacing below text */
+  }
+
+  .logo {
+    max-width: 100px; /* Adjust logo size */
+    height: auto;
+    margin-bottom: 10px; /* Ensure spacing below logo */
+  }
+}
