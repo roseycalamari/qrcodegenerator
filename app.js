@@ -129,12 +129,7 @@ function redirectToStripe() {
     return;
   }
 
-  // Your Stripe Payment Link
   const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
-
-  // Append the QR code text as a query parameter
   const paymentLinkWithQR = `${stripePaymentLink}?qr=${encodeURIComponent(qrText)}`;
-
-  // Redirect to Stripe
   window.location.href = paymentLinkWithQR;
 }
