@@ -21,13 +21,13 @@
       const qrText = urlParams.get("qr");
 
       if (!qrText) {
-        alert("No QR Code data found.");
+        document.body.innerHTML = "<h1>Error: No QR Code data found</h1>";
         return;
       }
 
       const qrcodeContainer = document.getElementById("qrcode-container");
       new QRCode(qrcodeContainer, {
-        text: qrText,
+        text: decodeURIComponent(qrText),
         width: 200,
         height: 200,
         colorDark: "#000000",
