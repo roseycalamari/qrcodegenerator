@@ -244,9 +244,12 @@
         return;
       }
 
+      const inputText = document.getElementById("text-input").value.trim();
+      const sanitizedFileName = inputText.replace(/[^a-zA-Z0-9]/g, "_").substring(0, 50);
+
       const link = document.createElement("a");
       link.href = qrCanvas.toDataURL("image/png");
-      link.download = "qr_code.png";
+      link.download = `${sanitizedFileName}_qr_code.png`;
       link.click();
     });
 
@@ -259,42 +262,7 @@
 
       localStorage.setItem("qrText", inputText);
       const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
-      window.location.href = `${stripePaymentLink}?paid=true`;
-    });
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const isPaid = urlParams.get("paid") === "true";
-
-      if (isPaid) {
-        const qrText = localStorage.getItem("qrText");
-        if (qrText) {
-          alert("Thanks for your payment. Enjoy your QR code!");
-          watermarkEnabled = false;
-
-          const qrcodeContainer = document.getElementById("qrcode-container");
-          const qrSection = document.querySelector(".qr-section");
-          const generateBtn = document.getElementById("generate-btn");
-
-          generateBtn.style.display = "none";
-          qrSection.style.display = "flex";
-
-          QRCode.toCanvas(document.createElement("canvas"), qrText, {
-            width: 200,
-            margin: 2,
-            color: {
-              dark: "#000000", // Without watermark
-              light: "#00000000",
-            },
-          }).then((canvas) => {
-            qrcodeContainer.innerHTML = "";
-            qrcodeContainer.appendChild(canvas);
-          });
-        } else {
-          alert("Error: No QR code found. Please generate one.");
-          window.location.href = "/";
-        }
-      }
+      window.location.href = `${stripePaymentLink}?redirect=https://yourdomain.com/paid.html`;
     });
 
     document.getElementById("generate-new-btn").addEventListener("click", () => {
