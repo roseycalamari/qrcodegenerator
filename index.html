@@ -54,11 +54,6 @@
       outline: none;
     }
 
-    input[type="text"]::placeholder {
-      color: #fdf2e3;
-      opacity: 1;
-    }
-
     button {
       background: #fdf2e3;
       color: #55996f;
@@ -78,82 +73,11 @@
       transform: scale(1.05);
     }
 
-    .qr-section {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 20px;
-    }
-
-    #qrcode-container {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      margin: 20px auto;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #loading-bar {
-      display: none;
-      width: 60%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 5px;
-      overflow: hidden;
-      margin: 15px auto;
-      position: relative;
-    }
-
-    #loading-bar span {
-      display: block;
-      height: 100%;
-      width: 0;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), #fdf2e3, rgba(255, 255, 255, 0.7));
-      box-shadow: 0 0 15px 6px #fdf2e3;
-      animation: loadingEffect 2s ease-out forwards;
-    }
-
-    @keyframes loadingEffect {
-      0% {
-        width: 0;
-        box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.3);
-      }
-      50% {
-        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.6);
-      }
-      100% {
-        width: 100%;
-        box-shadow: 0 0 30px 15px rgba(255, 255, 255, 0.9);
-      }
-    }
-
     .button-row {
       display: flex;
       justify-content: center;
       gap: 10px;
       margin-top: 15px;
-      flex-wrap: wrap;
-    }
-
-    .customer-support {
-      margin-top: 20px;
-      font-size: 16px;
-      text-align: center;
-      color: #fdf2e3;
-    }
-
-    .customer-support a {
-      color: #fdf2e3;
-      text-decoration: none;
-    }
-
-    .customer-support a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
@@ -173,134 +97,47 @@
       </div>
     </div>
   </div>
-  <div class="customer-support">
-    <p>Customer Support: <a href="mailto:contact.qrcodechameleon@gmail.com">contact.qrcodechameleon@gmail.com</a></p>
-  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
-    let watermarkEnabled = true;
-
     document.getElementById("generate-btn").addEventListener("click", generateQRCode);
 
-// Function to generate QR Code and include the watermark
-function generateQRCode() {
-  const inputText = document.getElementById("text-input").value.trim();
-  const generateBtn = document.getElementById("generate-btn");
-  const loadingBar = document.getElementById("loading-bar");
-  const qrSection = document.querySelector(".qr-section");
-  const qrcodeContainer = document.getElementById("qrcode-container");
+    function generateQRCode() {
+      const inputText = document.getElementById("text-input").value.trim();
+      const generateBtn = document.getElementById("generate-btn");
+      const loadingBar = document.getElementById("loading-bar");
+      const qrSection = document.querySelector(".qr-section");
+      const qrcodeContainer = document.getElementById("qrcode-container");
 
-  if (!inputText) {
-    alert("Please enter a URL to generate a QR code.");
-    return;
-  }
-
-  generateBtn.style.display = "none";
-  loadingBar.style.display = "block";
-
-  setTimeout(() => {
-    loadingBar.style.display = "none";
-    qrSection.style.display = "flex";
-
-    qrcodeContainer.innerHTML = ""; // Clear existing QR codes
-
-    // Create the QR code canvas
-    QRCode.toCanvas(document.createElement("canvas"), inputText, {
-      width: 200,
-      margin: 2,
-      color: {
-        dark: "#fdf2e3", // QR code dots
-        light: "#00000000", // Transparent background
-      },
-    }).then((canvas) => {
-      // Draw watermark logo on the canvas
-      addWatermark(canvas);
-
-      qrcodeContainer.appendChild(canvas);
-    }).catch((error) => {
-      console.error("QR Code Generation Error:", error);
-      alert("Failed to generate QR code. Please try again.");
-    });
-  }, 2000);
-}
-
-// Function to add watermark on the QR code canvas
-function addWatermark(canvas) {
-  const ctx = canvas.getContext("2d");
-
-  // Load logo image
-  const logo = new Image();
-  logo.src = "logos.png"; // Path to your logo image (make sure the path is correct)
-
-  logo.onload = function () {
-    const logoWidth = 50; // Smaller logo width
-    const logoHeight = 50; // Smaller logo height
-
-    // Set up the shadow effect for the watermark
-    ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; // Slight shadow for better visibility
-    ctx.shadowBlur = 6;
-
-    // Calculate the center of the canvas
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-
-    // Shortened gap between logos (distance between them in the pattern)
-    const gap = logoWidth + 20; // Reduced the gap to shorten the distance
-
-    // Opacity for logos (higher opacity for better visibility)
-    ctx.globalAlpha = 0.8;  // Increase opacity to 0.8
-
-    // Draw the logo at the center
-    ctx.drawImage(logo, centerX - logoWidth / 2, centerY - logoHeight / 2, logoWidth, logoHeight);
-
-    // Symmetrical positions around the center
-    const positions = [
-      { x: 0, y: 0 },   // Center logo already placed
-      { x: gap, y: 0 },  // Right
-      { x: -gap, y: 0 }, // Left
-      { x: 0, y: gap },  // Bottom
-      { x: 0, y: -gap }, // Top
-      { x: gap, y: gap },        // Bottom-right diagonal
-      { x: -gap, y: -gap },      // Top-left diagonal
-      { x: gap, y: -gap },       // Top-right diagonal
-      { x: -gap, y: gap },       // Bottom-left diagonal
-    ];
-
-    // Draw logos in symmetrical positions with black color and higher opacity
-    positions.forEach(position => {
-      ctx.drawImage(logo, centerX + position.x - logoWidth / 2, centerY + position.y - logoHeight / 2, logoWidth, logoHeight);
-    });
-
-    // Reset the opacity to default (1) for any further drawing
-    ctx.globalAlpha = 1;
-  };
-}
-
-// Add an event listener for the Enter key to trigger QR code generation
-document.getElementById("text-input").addEventListener("keypress", (event) => {
-  if (event.key === "Enter") {
-    generateQRCode();
-  }
-});
-
-
-
-    document.getElementById("download-btn").addEventListener("click", () => {
-      const qrCanvas = document.querySelector("#qrcode-container canvas");
-      if (!qrCanvas) {
-        alert("No QR code to download!");
+      if (!inputText) {
+        alert("Please enter a URL to generate a QR code.");
         return;
       }
 
-      const inputText = document.getElementById("text-input").value.trim();
-      const sanitizedFileName = inputText.replace(/[^a-zA-Z0-9]/g, "_").substring(0, 50);
+      generateBtn.style.display = "none";
+      loadingBar.style.display = "block";
 
-      const link = document.createElement("a");
-      link.href = qrCanvas.toDataURL("image/png");
-      link.download = `${sanitizedFileName}_qr_code.png`;
-      link.click();
-    });
+      setTimeout(() => {
+        loadingBar.style.display = "none";
+        qrSection.style.display = "flex";
+
+        qrcodeContainer.innerHTML = ""; // Clear existing QR codes
+
+        QRCode.toCanvas(document.createElement("canvas"), inputText, {
+          width: 200,
+          margin: 2,
+          color: {
+            dark: "#fdf2e3", // QR code dots
+            light: "#00000000", // Transparent background
+          },
+        }).then((canvas) => {
+          qrcodeContainer.appendChild(canvas);
+        }).catch((error) => {
+          console.error("QR Code Generation Error:", error);
+          alert("Failed to generate QR code. Please try again.");
+        });
+      }, 2000);
+    }
 
     document.getElementById("remove-watermark-btn").addEventListener("click", () => {
       const inputText = document.getElementById("text-input").value.trim();
@@ -309,9 +146,12 @@ document.getElementById("text-input").addEventListener("keypress", (event) => {
         return;
       }
 
+      // Save QR code text into localStorage
       localStorage.setItem("qrText", inputText);
-      const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
-      window.location.href = `${stripePaymentLink}?redirect=https://yourdomain.com/paid.html`;
+
+      // Redirect to Stripe payment page (replace with your actual Stripe link)
+      const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";  // Replace with your actual Stripe link
+      window.location.href = `${stripePaymentLink}?redirect=https://yourdomain.com/paid.html`;  // Replace with your actual domain
     });
 
     document.getElementById("generate-new-btn").addEventListener("click", () => {

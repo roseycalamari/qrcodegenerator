@@ -61,20 +61,6 @@
       align-items: center;
     }
 
-    label.color-picker {
-      margin-bottom: 10px;
-      font-size: 16px;
-      color: #fdf2e3;
-    }
-
-    input[type="color"] {
-      margin-bottom: 15px;
-      border: none;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 5px;
-    }
-
     button {
       background: #fdf2e3;
       color: #55996f;
@@ -93,14 +79,6 @@
       background: #e4d9c7;
       transform: scale(1.05);
     }
-
-    .button-row {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 15px;
-      flex-wrap: wrap;
-    }
   </style>
 </head>
 <body>
@@ -108,8 +86,6 @@
     <img src="logos.png" alt="Chameleon Logo" class="logo">
     <h1>QR Code Without Watermark</h1>
     <div class="qr-section">
-      <label for="color-picker" class="color-picker">Pick QR Code Color:</label>
-      <input type="color" id="color-picker" value="#000000">
       <div id="qrcode-container"></div>
       <div class="button-row">
         <button id="download-btn">Download QR Code</button>
@@ -120,16 +96,18 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
+    // Retrieve the QR code text from localStorage
     const qrText = localStorage.getItem("qrText");
 
     if (!qrText) {
       alert("Error: No QR code found. Please generate one.");
-      window.location.href = "/";
+      window.location.href = "/";  // Redirect back to the main page
     }
 
+    // Generate the QR code
     function generateQRWithColor(color) {
       const qrcodeContainer = document.getElementById("qrcode-container");
-      qrcodeContainer.innerHTML = "";
+      qrcodeContainer.innerHTML = ""; // Clear any previous QR code
 
       QRCode.toCanvas(document.createElement("canvas"), qrText, {
         width: 200,
@@ -146,13 +124,10 @@
       });
     }
 
-    // Default color
+    // Default color for QR code
     generateQRWithColor("#000000");
 
-    document.getElementById("color-picker").addEventListener("input", (event) => {
-      generateQRWithColor(event.target.value);
-    });
-
+    // Download button functionality
     document.getElementById("download-btn").addEventListener("click", () => {
       const qrCanvas = document.querySelector("#qrcode-container canvas");
       if (!qrCanvas) {
@@ -166,9 +141,10 @@
       link.click();
     });
 
+    // Generate new QR code button
     document.getElementById("generate-new-btn").addEventListener("click", () => {
       localStorage.removeItem("qrText");
-      window.location.href = "/";
+      window.location.href = "/";  // Redirect back to the main page
     });
   </script>
 </body>

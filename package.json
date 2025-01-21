@@ -1,0 +1,18 @@
+{
+  "name": "chameleon-qr-code-generator",
+  "version": "1.0.0",
+  "description": "A simple QR code generator with a watermark feature",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "14.x"
+  },
+  "author": "",
+  "license": "ISC"
+}
