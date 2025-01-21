@@ -183,59 +183,108 @@
 
     document.getElementById("generate-btn").addEventListener("click", generateQRCode);
 
-    function generateQRCode() {
-      const inputText = document.getElementById("text-input").value.trim();
-      const generateBtn = document.getElementById("generate-btn");
-      const loadingBar = document.getElementById("loading-bar");
-      const qrSection = document.querySelector(".qr-section");
-      const qrcodeContainer = document.getElementById("qrcode-container");
+// Function to generate QR Code and include the watermark
+function generateQRCode() {
+  const inputText = document.getElementById("text-input").value.trim();
+  const generateBtn = document.getElementById("generate-btn");
+  const loadingBar = document.getElementById("loading-bar");
+  const qrSection = document.querySelector(".qr-section");
+  const qrcodeContainer = document.getElementById("qrcode-container");
 
-      if (!inputText) {
-        alert("Please enter a URL to generate a QR code.");
-        return;
-      }
+  if (!inputText) {
+    alert("Please enter a URL to generate a QR code.");
+    return;
+  }
 
-      generateBtn.style.display = "none";
-      loadingBar.style.display = "block";
+  generateBtn.style.display = "none";
+  loadingBar.style.display = "block";
 
-      setTimeout(() => {
-        loadingBar.style.display = "none";
-        qrSection.style.display = "flex";
+  setTimeout(() => {
+    loadingBar.style.display = "none";
+    qrSection.style.display = "flex";
 
-        qrcodeContainer.innerHTML = ""; // Clear existing QR codes
+    qrcodeContainer.innerHTML = ""; // Clear existing QR codes
 
-        QRCode.toCanvas(document.createElement("canvas"), inputText, {
-          width: 200,
-          margin: 2,
-          color: {
-            dark: watermarkEnabled ? "#fdf2e3" : "#000000", // QR code dots
-            light: "#00000000", // Transparent background
-          },
-        }).then((canvas) => {
-          if (watermarkEnabled) addWatermark(canvas);
-          qrcodeContainer.appendChild(canvas);
-        }).catch((error) => {
-          console.error("QR Code Generation Error:", error);
-          alert("Failed to generate QR code. Please try again.");
-        });
-      }, 2000);
-    }
+    // Create the QR code canvas
+    QRCode.toCanvas(document.createElement("canvas"), inputText, {
+      width: 200,
+      margin: 2,
+      color: {
+        dark: "#fdf2e3", // QR code dots
+        light: "#00000000", // Transparent background
+      },
+    }).then((canvas) => {
+      // Draw watermark logo on the canvas
+      addWatermark(canvas);
 
-    function addWatermark(canvas) {
-      const ctx = canvas.getContext("2d");
-      ctx.font = "20px Montserrat bold";
-      ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-      ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-      ctx.shadowBlur = 4;
+      qrcodeContainer.appendChild(canvas);
+    }).catch((error) => {
+      console.error("QR Code Generation Error:", error);
+      alert("Failed to generate QR code. Please try again.");
+    });
+  }, 2000);
+}
 
-      ctx.rotate(-Math.PI / 4);
-      for (let y = -canvas.height; y < canvas.height * 2; y += 50) {
-        for (let x = -canvas.width; x < canvas.width * 2; x += 200) {
-          ctx.fillText("qrcodechameleon.com", x, y); // Lowercase text
-        }
-      }
-      ctx.rotate(Math.PI / 4);
-    }
+// Function to add watermark on the QR code canvas
+function addWatermark(canvas) {
+  const ctx = canvas.getContext("2d");
+
+  // Load logo image
+  const logo = new Image();
+  logo.src = "logos.png"; // Path to your logo image (make sure the path is correct)
+
+  logo.onload = function () {
+    const logoWidth = 50; // Smaller logo width
+    const logoHeight = 50; // Smaller logo height
+
+    // Set up the shadow effect for the watermark
+    ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; // Slight shadow for better visibility
+    ctx.shadowBlur = 6;
+
+    // Calculate the center of the canvas
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // Shortened gap between logos (distance between them in the pattern)
+    const gap = logoWidth + 20; // Reduced the gap to shorten the distance
+
+    // Opacity for logos (higher opacity for better visibility)
+    ctx.globalAlpha = 0.8;  // Increase opacity to 0.8
+
+    // Draw the logo at the center
+    ctx.drawImage(logo, centerX - logoWidth / 2, centerY - logoHeight / 2, logoWidth, logoHeight);
+
+    // Symmetrical positions around the center
+    const positions = [
+      { x: 0, y: 0 },   // Center logo already placed
+      { x: gap, y: 0 },  // Right
+      { x: -gap, y: 0 }, // Left
+      { x: 0, y: gap },  // Bottom
+      { x: 0, y: -gap }, // Top
+      { x: gap, y: gap },        // Bottom-right diagonal
+      { x: -gap, y: -gap },      // Top-left diagonal
+      { x: gap, y: -gap },       // Top-right diagonal
+      { x: -gap, y: gap },       // Bottom-left diagonal
+    ];
+
+    // Draw logos in symmetrical positions with black color and higher opacity
+    positions.forEach(position => {
+      ctx.drawImage(logo, centerX + position.x - logoWidth / 2, centerY + position.y - logoHeight / 2, logoWidth, logoHeight);
+    });
+
+    // Reset the opacity to default (1) for any further drawing
+    ctx.globalAlpha = 1;
+  };
+}
+
+// Add an event listener for the Enter key to trigger QR code generation
+document.getElementById("text-input").addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    generateQRCode();
+  }
+});
+
+
 
     document.getElementById("download-btn").addEventListener("click", () => {
       const qrCanvas = document.querySelector("#qrcode-container canvas");
