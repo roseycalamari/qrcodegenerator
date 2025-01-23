@@ -152,6 +152,30 @@
       margin-top: 15px;
     }
 
+    /* Customer Support Email Container */
+    .support-container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 30px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+      color: #fdf2e3;
+    }
+
+    .support-container a {
+      color: #fdf2e3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .support-container a:hover {
+      color: #55996f;
+    }
+
   </style>
 </head>
 <body>
@@ -180,6 +204,11 @@
     </div>
   </div>
 
+  <!-- Customer Support Section -->
+  <div class="support-container">
+    <p>Need help? Contact us: <a href="mailto:contact.qrcodechameleon@gmail.com">contact.qrcodechameleon@gmail.com</a></p>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
     // Simulate QR code data for Live Server (you can manually set it in DevTools)
@@ -188,10 +217,11 @@
     // Function to generate QR code
     function generateQRWithoutWatermark() {
       const qrcodeContainer = document.getElementById("qrcode-container");
-      qrcodeContainer.innerHTML = ""; 
+      qrcodeContainer.innerHTML = ""; // Clear any previous QR code
 
       const color = document.getElementById("color-picker").value;
 
+      // Generate QR code
       QRCode.toCanvas(document.createElement("canvas"), qrText, {
         width: 200,
         margin: 2,
@@ -209,6 +239,7 @@
 
     window.onload = generateQRWithoutWatermark;
 
+    // Re-generate QR code when color picker changes
     document.getElementById("color-picker").addEventListener("input", function() {
       generateQRWithoutWatermark();
     });

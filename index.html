@@ -127,6 +127,43 @@
       100% { transform: rotate(360deg); }
     }
 
+    /* Customer Support Email Container */
+    .support-container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 30px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+      color: #fdf2e3;
+    }
+
+    .support-container a {
+      color: #fdf2e3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .support-container a:hover {
+      color: #55996f;
+    }
+
+    /* Web App Movement Message Container */
+    .waiting-message {
+      display: none; /* Initially hidden */
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 15px;
+      font-size: 16px;
+      color: #fdf2e3;
+      text-align: center;
+    }
+
   </style>
 </head>
 <body>
@@ -139,6 +176,9 @@
     <!-- Loading Spinner (Centered and More Transparent) -->
     <div id="loading-spinner"></div>
 
+    <!-- Waiting Message (Appears while QR Code is generating) -->
+    <div id="waiting-message" class="waiting-message"></div>
+
     <div class="qr-section">
       <div id="qrcode-container"></div>
       <div class="button-row">
@@ -149,8 +189,29 @@
     </div>
   </div>
 
+  <!-- Customer Support Section -->
+  <div class="support-container">
+    <p>Need help? Contact us: <a href="mailto:contact.qrcodechameleon@gmail.com">contact.qrcodechameleon@gmail.com</a></p>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
+    // Array of random messages related to web app movement and privacy
+    const messages = [
+      "We don't store your data. Just generate your QR code and go.",
+      "No account required. Simple, fast, and private.",
+      "Supporting privacy—your data is yours and yours alone.",
+      "Quick, easy, and completely anonymous. That’s how QR code generation should be.",
+      "Why create an account when you can just create a QR code?",
+      "No delays, no data storage, just QR codes. That's our promise.",
+      "Your privacy is our priority. Generate a QR code in seconds.",
+      "Instant QR code generation with no unnecessary steps.",
+      "Simplifying QR code creation without compromising your privacy.",
+      "One click, one code, no sign-up required.",
+      "We’re here for your privacy. Your data is safe with us—now and always.",
+      "Our mission is to make QR codes easy without the hassle of accounts."
+    ];
+
     // Function that generates the QR Code when called
     function generateQRCode() {
       const inputText = document.getElementById("text-input").value.trim();
@@ -159,6 +220,7 @@
       const qrSection = document.querySelector(".qr-section");
       const qrcodeContainer = document.getElementById("qrcode-container");
       const buttonRow = document.querySelector(".button-row");
+      const waitingMessage = document.getElementById("waiting-message");
 
       if (!inputText) {
         alert("Please enter a URL to generate a QR code.");
@@ -167,10 +229,16 @@
 
       generateBtn.style.display = "none"; // Hide generate button after click
       loadingSpinner.style.display = "block"; // Show loading spinner
+      waitingMessage.style.display = "block"; // Show waiting message
 
-      // Simulate the QR code generation time
+      // Pick a random message from the array
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      waitingMessage.innerText = randomMessage;
+
+      // Simulate the QR code generation time (slightly extended for user to read the message)
       setTimeout(() => {
         loadingSpinner.style.display = "none"; // Hide loading spinner
+        waitingMessage.style.display = "none"; // Hide waiting message
         qrSection.style.display = "flex";
 
         qrcodeContainer.innerHTML = ""; // Clear existing QR codes
@@ -187,17 +255,19 @@
           const ctx = canvas.getContext("2d");
 
           // Watermark Text Diagonal - Adjusted Font Size to Fit
-          const watermarkText = "qrcodechameleon.com";
-          ctx.font = "bold 22px Arial";  // Adjusted bold font size to fit better
-          ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; // Slightly increased opacity
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
+// Watermark Text Diagonal - Adjusted Font Size to Fit
+const watermarkText = "qrcodechameleon.com";
+ctx.font = "bold 22px Montserrat";  // Changed font to Montserrat
+ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; // Slightly increased opacity
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
 
-          // Set sharper shadow properties for the watermark
-          ctx.shadowColor = 'rgba(0, 0, 0, 1)';  // Sharper black shadow with opacity
-          ctx.shadowBlur = 3; // Sharper blur shadow
-          ctx.shadowOffsetX = 1; // Offset the shadow horizontally
-          ctx.shadowOffsetY = 1; // Offset the shadow vertically
+// Set sharper shadow properties for the watermark
+ctx.shadowColor = 'rgba(0, 0, 0, 1)';  // Sharper black shadow with opacity
+ctx.shadowBlur = 3; // Sharper blur shadow
+ctx.shadowOffsetX = 1; // Offset the shadow horizontally
+ctx.shadowOffsetY = 1; // Offset the shadow vertically
+
 
           // Calculate the center of the QR code
           const centerX = canvas.width / 2;
@@ -216,7 +286,7 @@
           console.error("QR Code Generation Error:", error);
           alert("Failed to generate QR code. Please try again.");
         });
-      }, 1500); // QR code generation time (1.5 seconds)
+      }, 2500); // QR code generation time (increased to give time for message display)
     }
 
     // Trigger generateQRCode function when the button is clicked
