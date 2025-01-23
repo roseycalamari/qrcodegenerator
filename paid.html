@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chameleon QR Code - Paid</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="icon.ico.png" type="image/x-icon"> <!-- Add your icon here -->
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
@@ -31,8 +32,8 @@
     }
 
     .logo {
-      width: 100px;
-      margin-bottom: 5px;
+      width: 150px;
+      margin-bottom: 2px;
       max-width: 100%;
     }
 
@@ -174,6 +175,77 @@
 
     .support-container a:hover {
       color: #55996f;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+        width: 90%;
+      }
+
+      .logo {
+        width: 120px;
+      }
+
+      h1 {
+        font-size: 22px;
+        margin-bottom: 15px;
+      }
+
+      input[type="text"] {
+        width: calc(100% - 30px);
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .button-row {
+        width: 100%;
+        gap: 8px;
+      }
+
+      .qr-section {
+        margin-top: 15px;
+      }
+
+      #qrcode-container {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        width: 100px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      input[type="text"] {
+        font-size: 12px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .qr-section {
+        margin-top: 10px;
+      }
+
+      #qrcode-container {
+        width: 160px;
+        height: 160px;
+      }
     }
 
   </style>
