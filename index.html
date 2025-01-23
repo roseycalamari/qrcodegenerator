@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Chameleon QR Code Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <link rel="icon" href="icon.ico.png" type="image/x-icon"> <!-- Add your icon here -->
@@ -100,8 +100,8 @@
 
     #qrcode-container {
       position: relative;
-      width: 230px; /* Increased width for container */
-      height: 230px; /* Increased height for container */
+      width: 230px; /* Adjusted width for mobile version */
+      height: 230px; /* Adjusted height for mobile version */
       margin: 20px auto;
       background: rgba(255, 255, 255, 0.2);
       border-radius: 12px;
@@ -161,7 +161,7 @@
       padding: 10px;
       margin-top: 15px;
       font-size: 16px;
-      color: #ffffff; /* Darker font color */
+      color: #333333; /* Darker font color */
       text-align: center;
     }
 
@@ -203,8 +203,8 @@
       }
 
       #qrcode-container {
-        width: 200px; /* Increased size */
-        height: 200px; /* Increased size */
+        width: 180px; /* Adjusted smaller QR code */
+        height: 180px; /* Adjusted smaller QR code */
       }
     }
 
@@ -231,8 +231,8 @@
       }
 
       #qrcode-container {
-        width: 170px; /* Increased size */
-        height: 170px; /* Increased size */
+        width: 160px; /* Adjusted smaller QR code */
+        height: 160px; /* Adjusted smaller QR code */
       }
     }
 
