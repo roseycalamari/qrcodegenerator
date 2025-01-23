@@ -16,6 +16,7 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      user-select: none;
     }
 
     .container {
@@ -30,15 +31,22 @@
     }
 
     .logo {
-      width: 80px;
+      width: 100px;
       margin-bottom: 5px;
+      max-width: 100%;
     }
 
     h1 {
       font-size: 24px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       color: #fdf2e3;
       text-transform: uppercase;
+    }
+
+    .thank-you-msg {
+      font-size: 18px;
+      color: #fdf2e3;
+      margin-bottom: 20px;
     }
 
     .qr-section {
@@ -61,6 +69,7 @@
       align-items: center;
     }
 
+    /* Button Styles */
     button {
       background: #fdf2e3;
       color: #55996f;
@@ -71,7 +80,8 @@
       font-weight: bold;
       cursor: pointer;
       margin: 10px 5px;
-      width: 190px;
+      width: 100%;
+      max-width: 190px;
       transition: background 0.3s, transform 0.2s;
     }
 
@@ -79,12 +89,60 @@
       background: #e4d9c7;
       transform: scale(1.05);
     }
+
+    /* Color Picker Styling */
+    .color-picker {
+      margin: 10px 0;
+      border: 2px solid #55996f;
+      border-radius: 8px;
+      padding: 5px;
+      background: transparent;
+      width: 80px;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 20px;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      .logo {
+        width: 80px;
+      }
+
+      .thank-you-msg {
+        font-size: 16px;
+      }
+
+      .qr-section {
+        margin-top: 10px;
+      }
+
+      .color-picker {
+        width: 100px;
+      }
+
+      button {
+        width: 100%;
+        max-width: 180px;
+        font-size: 14px;
+      }
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
     <img src="logos.png" alt="Chameleon Logo" class="logo">
     <h1>QR Code Without Watermark</h1>
+    <p class="thank-you-msg">Thank you for your payment!</p>
+
+    <input type="color" id="color-picker" class="color-picker" value="#fdf2e3"> <!-- Color Picker -->
+
     <div class="qr-section">
       <div id="qrcode-container"></div>
       <div class="button-row">
@@ -96,7 +154,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
-    // Retrieve the QR code text from localStorage
     const qrText = localStorage.getItem("qrText");
 
     if (!qrText) {
@@ -104,17 +161,18 @@
       window.location.href = "/";  // Redirect back to the main page
     }
 
-    // Generate the QR code
-    function generateQRWithColor(color) {
+    function generateQRWithoutWatermark() {
       const qrcodeContainer = document.getElementById("qrcode-container");
-      qrcodeContainer.innerHTML = ""; // Clear any previous QR code
+      qrcodeContainer.innerHTML = ""; 
+
+      const color = document.getElementById("color-picker").value;
 
       QRCode.toCanvas(document.createElement("canvas"), qrText, {
         width: 200,
         margin: 2,
         color: {
           dark: color,
-          light: "#00000000", // Transparent background
+          light: "#00000000",
         },
       }).then((canvas) => {
         qrcodeContainer.appendChild(canvas);
@@ -124,10 +182,11 @@
       });
     }
 
-    // Default color for QR code
-    generateQRWithColor("#000000");
+    window.onload = generateQRWithoutWatermark;
+    document.getElementById("color-picker").addEventListener("input", function() {
+      generateQRWithoutWatermark();
+    });
 
-    // Download button functionality
     document.getElementById("download-btn").addEventListener("click", () => {
       const qrCanvas = document.querySelector("#qrcode-container canvas");
       if (!qrCanvas) {
@@ -136,15 +195,18 @@
       }
 
       const link = document.createElement("a");
+      const filename = qrText.replace(/[^a-z0-9]/gi, '-').toLowerCase() + ".png";
       link.href = qrCanvas.toDataURL("image/png");
-      link.download = "qr_code.png";
+      link.download = filename;
       link.click();
     });
 
-    // Generate new QR code button
     document.getElementById("generate-new-btn").addEventListener("click", () => {
-      localStorage.removeItem("qrText");
-      window.location.href = "/";  // Redirect back to the main page
+      const confirmGenerateNew = confirm("By clicking 'Generate New', you will be redirected to the main page and you will lose your current QR code. Do you want to continue?");
+      if (confirmGenerateNew) {
+        localStorage.removeItem("qrText");
+        window.location.href = "/"; 
+      }
     });
   </script>
 </body>

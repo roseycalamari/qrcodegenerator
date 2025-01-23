@@ -16,6 +16,7 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      user-select: none; /* Disable text selection */
     }
 
     .container {
@@ -27,10 +28,14 @@
       width: 95%;
       max-width: 700px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .logo {
-      width: 80px;
+      width: 100px; /* Adjust logo size */
       margin-bottom: 5px;
     }
 
@@ -50,8 +55,12 @@
       border: none;
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.1);
-      color: #fdf2e3;
+      color: #fdf2e3; /* Text color matches the title */
       outline: none;
+    }
+
+    input:focus {
+      outline: none; /* Remove outline when input is focused */
     }
 
     button {
@@ -74,11 +83,50 @@
     }
 
     .button-row {
+      display: none; /* Buttons are hidden by default */
       display: flex;
       justify-content: center;
       gap: 10px;
       margin-top: 15px;
     }
+
+    .qr-section {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    #qrcode-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Loading Spinner (Centered and More Transparent) */
+    #loading-spinner {
+      display: none; /* Initially hidden */
+      border: 8px solid rgba(243, 243, 243, 0.3); /* Light transparent background */
+      border-top: 8px solid #fdf2e3; /* Solid spinning color */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 2s linear infinite;
+      margin: 20px auto; /* Centers the spinner */
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
   </style>
 </head>
 <body>
@@ -87,11 +135,14 @@
     <h1>Chameleon QR Code</h1>
     <input type="text" id="text-input" placeholder="Enter URL">
     <button id="generate-btn">Generate QR Code</button>
-    <div id="loading-bar"><span></span></div>
+
+    <!-- Loading Spinner (Centered and More Transparent) -->
+    <div id="loading-spinner"></div>
+
     <div class="qr-section">
       <div id="qrcode-container"></div>
       <div class="button-row">
-        <button id="download-btn">Download QR Code</button>
+        <button id="download-btn">Download QR Code</button> <!-- Download Button -->
         <button id="remove-watermark-btn">Remove Watermark</button>
         <button id="generate-new-btn">Generate New</button>
       </div>
@@ -100,29 +151,31 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
-    document.getElementById("generate-btn").addEventListener("click", generateQRCode);
-
+    // Function that generates the QR Code when called
     function generateQRCode() {
       const inputText = document.getElementById("text-input").value.trim();
       const generateBtn = document.getElementById("generate-btn");
-      const loadingBar = document.getElementById("loading-bar");
+      const loadingSpinner = document.getElementById("loading-spinner");
       const qrSection = document.querySelector(".qr-section");
       const qrcodeContainer = document.getElementById("qrcode-container");
+      const buttonRow = document.querySelector(".button-row");
 
       if (!inputText) {
         alert("Please enter a URL to generate a QR code.");
         return;
       }
 
-      generateBtn.style.display = "none";
-      loadingBar.style.display = "block";
+      generateBtn.style.display = "none"; // Hide generate button after click
+      loadingSpinner.style.display = "block"; // Show loading spinner
 
+      // Simulate the QR code generation time
       setTimeout(() => {
-        loadingBar.style.display = "none";
+        loadingSpinner.style.display = "none"; // Hide loading spinner
         qrSection.style.display = "flex";
 
         qrcodeContainer.innerHTML = ""; // Clear existing QR codes
 
+        // Generate QR code
         QRCode.toCanvas(document.createElement("canvas"), inputText, {
           width: 200,
           margin: 2,
@@ -131,13 +184,65 @@
             light: "#00000000", // Transparent background
           },
         }).then((canvas) => {
-          qrcodeContainer.appendChild(canvas);
+          const ctx = canvas.getContext("2d");
+
+          // Watermark Text Diagonal - Adjusted Font Size to Fit
+          const watermarkText = "qrcodechameleon.com";
+          ctx.font = "bold 22px Arial";  // Adjusted bold font size to fit better
+          ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; // Slightly increased opacity
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+
+          // Set sharper shadow properties for the watermark
+          ctx.shadowColor = 'rgba(0, 0, 0, 1)';  // Sharper black shadow with opacity
+          ctx.shadowBlur = 3; // Sharper blur shadow
+          ctx.shadowOffsetX = 1; // Offset the shadow horizontally
+          ctx.shadowOffsetY = 1; // Offset the shadow vertically
+
+          // Calculate the center of the QR code
+          const centerX = canvas.width / 2;
+          const centerY = canvas.height / 2;
+
+          // Watermark Text Diagonal (Centered and adjusted to fit inside the QR code)
+          ctx.save();
+          ctx.translate(centerX, centerY);
+          ctx.rotate(Math.PI / 4); // Diagonal rotation
+          ctx.fillText(watermarkText, 0, 0);
+          ctx.restore();
+
+          qrcodeContainer.appendChild(canvas); // Append canvas with watermark
+          buttonRow.style.display = "flex"; // Show buttons after QR code is generated
         }).catch((error) => {
           console.error("QR Code Generation Error:", error);
           alert("Failed to generate QR code. Please try again.");
         });
-      }, 2000);
+      }, 1500); // QR code generation time (1.5 seconds)
     }
+
+    // Trigger generateQRCode function when the button is clicked
+    document.getElementById("generate-btn").addEventListener("click", generateQRCode);
+
+    // Trigger generateQRCode function when the Enter key is pressed
+    document.getElementById("text-input").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        generateQRCode();
+      }
+    });
+
+    // Download button functionality
+    document.getElementById("download-btn").addEventListener("click", () => {
+      const qrCanvas = document.querySelector("#qrcode-container canvas");
+      if (!qrCanvas) {
+        alert("No QR code to download!");
+        return;
+      }
+
+      const link = document.createElement("a");
+      const filename = document.getElementById("text-input").value.replace(/[^a-z0-9]/gi, '-').toLowerCase() + ".png";
+      link.href = qrCanvas.toDataURL("image/png");
+      link.download = filename;
+      link.click();
+    });
 
     document.getElementById("remove-watermark-btn").addEventListener("click", () => {
       const inputText = document.getElementById("text-input").value.trim();
@@ -146,12 +251,10 @@
         return;
       }
 
-      // Save QR code text into localStorage
       localStorage.setItem("qrText", inputText);
 
-      // Redirect to Stripe payment page (replace with your actual Stripe link)
-      const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";  // Replace with your actual Stripe link
-      window.location.href = `${stripePaymentLink}?redirect=https://yourdomain.com/paid.html`;  // Replace with your actual domain
+      const stripePaymentLink = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII"; 
+      window.location.href = `${stripePaymentLink}?redirect=https://yourdomain.com/paid.html`; 
     });
 
     document.getElementById("generate-new-btn").addEventListener("click", () => {
