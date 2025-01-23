@@ -75,14 +75,15 @@
       color: #55996f;
       border: none;
       border-radius: 8px;
-      padding: 10px;
+      padding: 15px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       margin: 10px 5px;
       width: 100%;
-      max-width: 190px;
+      max-width: 250px; /* Increased width to ensure single line of text */
       transition: background 0.3s, transform 0.2s;
+      white-space: nowrap; /* Prevents text from wrapping */
     }
 
     button:hover {
@@ -100,37 +101,55 @@
       width: 80px;
     }
 
-    /* Media Queries for Responsiveness */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 20px;
-      }
+    /* Custom Warning Dialog */
+    .custom-warning {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fdf2e3;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
 
-      .container {
-        padding: 15px;
-      }
+    .warning-box {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      width: 400px; /* Increased width */
+    }
 
-      .logo {
-        width: 80px;
-      }
+    .warning-box p {
+      font-size: 16px;
+      color: #fdf2e3;
+    }
 
-      .thank-you-msg {
-        font-size: 16px;
-      }
+    .warning-box button {
+      background: #55996f;
+      color: #fdf2e3;
+      font-weight: bold;
+      width: 100px;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 5px;
+      transition: background 0.3s;
+    }
 
-      .qr-section {
-        margin-top: 10px;
-      }
+    .warning-box button:hover {
+      background: #4e9c60;
+    }
 
-      .color-picker {
-        width: 100px;
-      }
-
-      button {
-        width: 100%;
-        max-width: 180px;
-        font-size: 14px;
-      }
+    /* Button Row - Align buttons horizontally */
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
     }
 
   </style>
@@ -152,15 +171,21 @@
     </div>
   </div>
 
+  <!-- Custom Warning Dialog -->
+  <div class="custom-warning" id="warning-dialog">
+    <div class="warning-box">
+      <p>By clicking "Generate New", you will be redirected to the main page and lose your current QR code. Make sure you download it first!</p>
+      <button id="confirm-warning">Proceed</button>
+      <button id="cancel-warning">Cancel</button>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
-    const qrText = localStorage.getItem("qrText");
+    // Simulate QR code data for Live Server (you can manually set it in DevTools)
+    const qrText = "https://example.com"; // Use a test value for the QR code
 
-    if (!qrText) {
-      alert("Error: No QR code found. Please generate one.");
-      window.location.href = "/";  // Redirect back to the main page
-    }
-
+    // Function to generate QR code
     function generateQRWithoutWatermark() {
       const qrcodeContainer = document.getElementById("qrcode-container");
       qrcodeContainer.innerHTML = ""; 
@@ -183,6 +208,7 @@
     }
 
     window.onload = generateQRWithoutWatermark;
+
     document.getElementById("color-picker").addEventListener("input", function() {
       generateQRWithoutWatermark();
     });
@@ -201,12 +227,19 @@
       link.click();
     });
 
+    // Show warning dialog when "Generate New" button is clicked
     document.getElementById("generate-new-btn").addEventListener("click", () => {
-      const confirmGenerateNew = confirm("By clicking 'Generate New', you will be redirected to the main page and you will lose your current QR code. Do you want to continue?");
-      if (confirmGenerateNew) {
-        localStorage.removeItem("qrText");
-        window.location.href = "/"; 
-      }
+      document.getElementById("warning-dialog").style.display = "flex";  // Show the custom warning dialog
+    });
+
+    // Handle the confirmation to proceed with generating a new QR code (Redirect to main page)
+    document.getElementById("confirm-warning").addEventListener("click", () => {
+      window.location.href = "index.html";  // Redirect to the main page
+    });
+
+    // Handle cancel action in the warning dialog
+    document.getElementById("cancel-warning").addEventListener("click", () => {
+      document.getElementById("warning-dialog").style.display = "none";  // Close the warning dialog
     });
   </script>
 </body>
