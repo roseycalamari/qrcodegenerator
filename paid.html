@@ -59,8 +59,8 @@
 
     #qrcode-container {
       position: relative;
-      width: 230px; /* Increased width for container */
-      height: 230px; /* Increased height for container */
+      width: 200px; /* Display QR code at 200x200 */
+      height: 200px;
       margin: 20px auto;
       background: rgba(255, 255, 255, 0.2);
       border-radius: 12px;
@@ -276,16 +276,16 @@
     // Simulate QR code data for Live Server (you can manually set it in DevTools)
     const qrText = "https://example.com"; // Use a test value for the QR code
 
-    // Function to generate QR code
+    // Function to generate QR code (for display 200x200 but download 1000x1000)
     function generateQRWithoutWatermark() {
       const qrcodeContainer = document.getElementById("qrcode-container");
       qrcodeContainer.innerHTML = ""; // Clear any previous QR code
 
       const color = document.getElementById("color-picker").value;
 
-      // Generate QR code
+      // Generate QR code for display at 200x200
       QRCode.toCanvas(document.createElement("canvas"), qrText, {
-        width: 200,
+        width: 200, // Display QR code size
         margin: 2,
         color: {
           dark: color,
@@ -314,10 +314,23 @@
       }
 
       const link = document.createElement("a");
-      const filename = qrText.replace(/[^a-z0-9]/gi, '-').toLowerCase() + ".png";
-      link.href = qrCanvas.toDataURL("image/png");
-      link.download = filename;
-      link.click();
+
+      // Generate high-resolution QR code (1000x1000) for download
+      QRCode.toCanvas(document.createElement("canvas"), qrText, {
+        width: 1000, // High resolution for download
+        margin: 2,
+        color: {
+          dark: "#fdf2e3", // QR code dots
+          light: "#00000000", // Transparent background
+        },
+      }).then((canvas) => {
+        link.href = canvas.toDataURL("image/png");
+        link.download = qrText.replace(/[^a-z0-9]/gi, '-').toLowerCase() + ".png";
+        link.click();
+      }).catch((error) => {
+        console.error("QR Code Generation Error:", error);
+        alert("Failed to generate high-res QR code. Please try again.");
+      });
     });
 
     // Show warning dialog when "Generate New" button is clicked
