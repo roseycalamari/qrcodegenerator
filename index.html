@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Chameleon QR Code Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="icon" href="icon.ico.png" type="image/x-icon"> <!-- Add your icon here -->
+  <link rel="icon" href="icon.ico.png" type="image/x-icon">
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
@@ -17,7 +17,7 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
-      user-select: none; /* Disable text selection */
+      user-select: none;
     }
 
     .container {
@@ -36,7 +36,7 @@
     }
 
     .logo {
-      width: 150px; /* Adjust logo size */
+      width: 150px;
       margin-bottom: 2px;
     }
 
@@ -56,12 +56,12 @@
       border: none;
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.1);
-      color: #ffffff; /* Text color matches the title */
+      color: #ffffff;
       outline: none;
     }
 
     input:focus {
-      outline: none; /* Remove outline when input is focused */
+      outline: none;
     }
 
     button {
@@ -84,7 +84,7 @@
     }
 
     .button-row {
-      display: none; /* Buttons are hidden by default */
+      display: none;
       display: flex;
       justify-content: center;
       gap: 10px;
@@ -100,8 +100,8 @@
 
     #qrcode-container {
       position: relative;
-      width: 230px; /* Adjusted width for mobile version */
-      height: 230px; /* Adjusted height for mobile version */
+      width: 230px;
+      height: 230px;
       margin: 20px auto;
       background: rgba(255, 255, 255, 0.2);
       border-radius: 12px;
@@ -111,16 +111,16 @@
       align-items: center;
     }
 
-    /* Loading Spinner (Centered and More Transparent) */
+    /* Loading Spinner */
     #loading-spinner {
-      display: none; /* Initially hidden */
-      border: 8px solid rgba(243, 243, 243, 0.3); /* Light transparent background */
-      border-top: 8px solid #fdf2e3; /* Solid spinning color */
+      display: none;
+      border: 8px solid rgba(243, 243, 243, 0.3);
+      border-top: 8px solid #fdf2e3;
       border-radius: 50%;
       width: 40px;
       height: 40px;
       animation: spin 2s linear infinite;
-      margin: 20px auto; /* Centers the spinner */
+      margin: 20px auto;
     }
 
     @keyframes spin {
@@ -128,7 +128,6 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Customer Support Email Container */
     .support-container {
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px);
@@ -152,16 +151,16 @@
       color: #55996f;
     }
 
-    /* Web App Movement Message Container */
+    /* Web App Movement Message */
     .waiting-message {
-      display: none; /* Initially hidden */
-      background: rgba(0, 0, 0, 0.2); /* More transparent */
+      display: none;
+      background: rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(10px);
       border-radius: 8px;
       padding: 10px;
       margin-top: 15px;
       font-size: 16px;
-      color: #ffffff; /* Darker font color */
+      color: #ffffff;
       text-align: center;
     }
 
@@ -203,8 +202,8 @@
       }
 
       #qrcode-container {
-        width: 180px; /* Adjusted smaller QR code */
-        height: 180px; /* Adjusted smaller QR code */
+        width: 180px;
+        height: 180px;
       }
     }
 
@@ -231,11 +230,10 @@
       }
 
       #qrcode-container {
-        width: 160px; /* Adjusted smaller QR code */
-        height: 160px; /* Adjusted smaller QR code */
+        width: 160px;
+        height: 160px;
       }
     }
-
   </style>
 </head>
 <body>
@@ -245,46 +243,34 @@
     <input type="text" id="text-input" placeholder="Enter URL">
     <button id="generate-btn">Generate QR Code</button>
 
-    <!-- Loading Spinner (Centered and More Transparent) -->
     <div id="loading-spinner"></div>
-
-    <!-- Waiting Message (Appears while QR Code is generating) -->
     <div id="waiting-message" class="waiting-message"></div>
 
     <div class="qr-section">
       <div id="qrcode-container"></div>
       <div class="button-row">
-        <button id="download-btn">Download QR Code</button> <!-- Download Button -->
+        <button id="download-btn">Download QR Code</button>
         <button id="remove-watermark-btn">Remove Watermark</button>
         <button id="generate-new-btn">Generate New</button>
       </div>
     </div>
   </div>
 
-  <!-- Customer Support Section -->
   <div class="support-container">
     <p>Need help? Contact us: <a href="mailto:contact.qrcodechameleon@gmail.com">contact.qrcodechameleon@gmail.com</a></p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
-    // Array of random messages related to web app movement and privacy
+    // Array of random messages
     const messages = [
       "We don't store your data. Just generate your QR code and go.",
       "No account required. Simple, fast, and private.",
       "Supporting privacy—your data is yours and yours alone.",
-      "Quick, easy, and completely anonymous. That’s how QR code generation should be.",
-      "Why create an account when you can just create a QR code?",
-      "No delays, no data storage, just QR codes. That's our promise.",
-      "Your privacy is our priority. Generate a QR code in seconds.",
-      "Instant QR code generation with no unnecessary steps.",
-      "Simplifying QR code creation without compromising your privacy.",
-      "One click, one code, no sign-up required.",
-      "We’re here for your privacy. Your data is safe with us—now and always.",
-      "Our mission is to make QR codes easy without the hassle of accounts."
+      "Quick, easy, and completely anonymous. That’s how QR code generation should be."
     ];
 
-    // Function that generates the QR Code when called
+    // Function to generate QR Code
     function generateQRCode() {
       const inputText = document.getElementById("text-input").value.trim();
       const generateBtn = document.getElementById("generate-btn");
@@ -299,77 +285,69 @@
         return;
       }
 
-      generateBtn.style.display = "none"; // Hide generate button after click
-      loadingSpinner.style.display = "block"; // Show loading spinner
-      waitingMessage.style.display = "block"; // Show waiting message
+      generateBtn.style.display = "none";
+      loadingSpinner.style.display = "block";
+      waitingMessage.style.display = "block";
 
-      // Pick a random message from the array
+      // Pick a random message
       const randomMessage = messages[Math.floor(Math.random() * messages.length)];
       waitingMessage.innerText = randomMessage;
 
-      // Simulate the QR code generation time (slightly extended for user to read the message)
+      // Simulate QR code generation time
       setTimeout(() => {
-        loadingSpinner.style.display = "none"; // Hide loading spinner
-        waitingMessage.style.display = "none"; // Hide waiting message
+        loadingSpinner.style.display = "none";
+        waitingMessage.style.display = "none";
         qrSection.style.display = "flex";
 
-        qrcodeContainer.innerHTML = ""; // Clear existing QR codes
+        qrcodeContainer.innerHTML = "";
 
         // Generate QR code
         QRCode.toCanvas(document.createElement("canvas"), inputText, {
           width: 200,
           margin: 2,
           color: {
-            dark: "#fdf2e3", // QR code dots
-            light: "#00000000", // Transparent background
-          },
+            dark: "#fdf2e3",
+            light: "#00000000"
+          }
         }).then((canvas) => {
           const ctx = canvas.getContext("2d");
 
-          // Watermark Text Diagonal - Adjusted Font Size to Fit
           const watermarkText = "qrcodechameleon.com";
-          ctx.font = "bold 22px Montserrat";  // Changed font to Montserrat
-          ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; // Slightly increased opacity
+          ctx.font = "bold 22px Montserrat";
+          ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
 
-          // Set sharper shadow properties for the watermark
-          ctx.shadowColor = 'rgba(0, 0, 0, 1)';  // Sharper black shadow with opacity
-          ctx.shadowBlur = 3; // Sharper blur shadow
-          ctx.shadowOffsetX = 1; // Offset the shadow horizontally
-          ctx.shadowOffsetY = 1; // Offset the shadow vertically
+          ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+          ctx.shadowBlur = 3;
+          ctx.shadowOffsetX = 1;
+          ctx.shadowOffsetY = 1;
 
-          // Calculate the center of the QR code
           const centerX = canvas.width / 2;
           const centerY = canvas.height / 2;
 
-          // Watermark Text Diagonal (Centered and adjusted to fit inside the QR code)
           ctx.save();
           ctx.translate(centerX, centerY);
-          ctx.rotate(Math.PI / 4); // Diagonal rotation
+          ctx.rotate(Math.PI / 4);
           ctx.fillText(watermarkText, 0, 0);
           ctx.restore();
 
-          qrcodeContainer.appendChild(canvas); // Append canvas with watermark
-          buttonRow.style.display = "flex"; // Show buttons after QR code is generated
+          qrcodeContainer.appendChild(canvas);
+          buttonRow.style.display = "flex";
         }).catch((error) => {
           console.error("QR Code Generation Error:", error);
           alert("Failed to generate QR code. Please try again.");
         });
-      }, 2500); // QR code generation time (increased to give time for message display)
+      }, 2500);
     }
 
-    // Trigger generateQRCode function when the button is clicked
     document.getElementById("generate-btn").addEventListener("click", generateQRCode);
-
-    // Trigger generateQRCode function when the Enter key is pressed
-    document.getElementById("text-input").addEventListener("keydown", function(event) {
+    document.getElementById("text-input").addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         generateQRCode();
       }
     });
 
-    // Download button functionality
     document.getElementById("download-btn").addEventListener("click", () => {
       const qrCanvas = document.querySelector("#qrcode-container canvas");
       if (!qrCanvas) {
@@ -378,10 +356,21 @@
       }
 
       const link = document.createElement("a");
-      const filename = document.getElementById("text-input").value.replace(/[^a-z0-9]/gi, '-').toLowerCase() + ".png";
-      link.href = qrCanvas.toDataURL("image/png");
-      link.download = filename;
-      link.click();
+      QRCode.toCanvas(document.createElement("canvas"), qrText, {
+        width: 1000,
+        margin: 2,
+        color: {
+          dark: "#fdf2e3",
+          light: "#00000000"
+        }
+      }).then((canvas) => {
+        link.href = canvas.toDataURL("image/png");
+        link.download = qrText.replace(/[^a-z0-9]/gi, '-').toLowerCase() + ".png";
+        link.click();
+      }).catch((error) => {
+        console.error("QR Code Generation Error:", error);
+        alert("Failed to generate high-res QR code. Please try again.");
+      });
     });
 
     document.getElementById("remove-watermark-btn").addEventListener("click", () => {
@@ -392,10 +381,14 @@
       }
 
       localStorage.setItem("qrText", inputText);
-
-      const stripePaymentLink = "https://buy.stripe.com/14k2bw68BcND1JC7sw"; 
-      window.location.href = `${stripePaymentLink}?redirect=https://yourdomain.com/paid.html`; 
+      // Stripe payment link
+      window.location.href = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
     });
+
+    // Security check for paid.html access
+    if (!localStorage.getItem("qrText")) {
+      window.location.href = "index.html";
+    }
 
     document.getElementById("generate-new-btn").addEventListener("click", () => {
       location.reload();

@@ -257,7 +257,6 @@
     </div>
   </div>
 
-  <!-- Custom Warning Dialog -->
   <div class="custom-warning" id="warning-dialog">
     <div class="warning-box">
       <p>By clicking "Generate New", you will be redirected to the main page and lose your current QR code. Make sure you download it first!</p>
@@ -266,46 +265,35 @@
     </div>
   </div>
 
-  <!-- Customer Support Section -->
   <div class="support-container">
     <p>Need help? Contact us: <a href="mailto:contact.qrcodechameleon@gmail.com">contact.qrcodechameleon@gmail.com</a></p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
-    // Simulate QR code data for Live Server (you can manually set it in DevTools)
-    const qrText = "https://example.com"; // Use a test value for the QR code
+    // Fetch stored QR code data from localStorage (with watermark)
+    const qrData = localStorage.getItem("qrData");
 
-    // Function to generate QR code (for display 200x200 but download 1000x1000)
-    function generateQRWithoutWatermark() {
-      const qrcodeContainer = document.getElementById("qrcode-container");
-      qrcodeContainer.innerHTML = ""; // Clear any previous QR code
-
-      const color = document.getElementById("color-picker").value;
-
-      // Generate QR code for display at 200x200
-      QRCode.toCanvas(document.createElement("canvas"), qrText, {
-        width: 200, // Display QR code size
-        margin: 2,
-        color: {
-          dark: color,
-          light: "#00000000",
-        },
-      }).then((canvas) => {
-        qrcodeContainer.appendChild(canvas);
-      }).catch((error) => {
-        console.error("QR Code Generation Error:", error);
-        alert("Failed to generate QR code. Please try again.");
-      });
+    // If no data found, redirect back to the index page
+    if (!qrData) {
+      window.location.href = "index.html";
     }
 
-    window.onload = generateQRWithoutWatermark;
+    const qrcodeContainer = document.getElementById("qrcode-container");
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
 
-    // Re-generate QR code when color picker changes
-    document.getElementById("color-picker").addEventListener("input", function() {
-      generateQRWithoutWatermark();
-    });
+    const img = new Image();
+    img.src = qrData;
 
+    img.onload = () => {
+      canvas.width = 200;
+      canvas.height = 200;
+      ctx.drawImage(img, 0, 0, 200, 200);
+      qrcodeContainer.appendChild(canvas);
+    };
+
+    // Download button functionality
     document.getElementById("download-btn").addEventListener("click", () => {
       const qrCanvas = document.querySelector("#qrcode-container canvas");
       if (!qrCanvas) {
@@ -314,18 +302,13 @@
       }
 
       const link = document.createElement("a");
-
-      // Generate high-resolution QR code (1000x1000) for download
-      QRCode.toCanvas(document.createElement("canvas"), qrText, {
-        width: 1000, // High resolution for download
+      QRCode.toCanvas(document.createElement("canvas"), qrData, {
+        width: 1000,
         margin: 2,
-        color: {
-          dark: "#fdf2e3", // QR code dots
-          light: "#00000000", // Transparent background
-        },
+        color: { dark: "#fdf2e3", light: "#00000000" }
       }).then((canvas) => {
         link.href = canvas.toDataURL("image/png");
-        link.download = qrText.replace(/[^a-z0-9]/gi, '-').toLowerCase() + ".png";
+        link.download = "qrcode_without_watermark.png";
         link.click();
       }).catch((error) => {
         console.error("QR Code Generation Error:", error);
@@ -333,19 +316,9 @@
       });
     });
 
-    // Show warning dialog when "Generate New" button is clicked
+    // Handle new generation (reset)
     document.getElementById("generate-new-btn").addEventListener("click", () => {
-      document.getElementById("warning-dialog").style.display = "flex";  // Show the custom warning dialog
-    });
-
-    // Handle the confirmation to proceed with generating a new QR code (Redirect to main page)
-    document.getElementById("confirm-warning").addEventListener("click", () => {
-      window.location.href = "index.html";  // Redirect to the main page
-    });
-
-    // Handle cancel action in the warning dialog
-    document.getElementById("cancel-warning").addEventListener("click", () => {
-      document.getElementById("warning-dialog").style.display = "none";  // Close the warning dialog
+      location.reload();
     });
   </script>
 </body>
