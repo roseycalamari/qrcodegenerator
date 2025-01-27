@@ -18,6 +18,7 @@
       min-height: 100vh;
       margin: 0;
       user-select: none;
+      padding: 15px; /* Added padding to body to ensure margin */
     }
 
     .container {
@@ -100,13 +101,16 @@
 
     #qrcode-container {
       position: relative;
+      width: 240px; /* Larger container */
+      height: 240px;
       margin: 20px auto;
       background: rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
+      border-radius: 16px; /* Rounded corners */
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px; /* Added padding around the QR code */
     }
 
     /* Loading Spinner */
@@ -137,6 +141,8 @@
       text-align: center;
       font-size: 16px;
       color: #fdf2e3;
+      margin-left: 10px;
+      margin-right: 10px; /* Added margin for spacing from screen borders */
     }
 
     .support-container a {
@@ -151,10 +157,6 @@
 
     /* Mobile Styles */
     @media (max-width: 768px) {
-      body {
-        padding: 15px;
-      }
-
       .container {
         padding: 20px;
         width: 100%;
@@ -192,21 +194,18 @@
       }
 
       #qrcode-container {
-        width: 160px;  /* Adjusted to fit the QR code */
-        height: 160px; /* Adjusted to fit the QR code */
+        width: 200px;  /* Smaller than the container */
+        height: 200px;
+        padding: 30px; /* Padding inside the container */
       }
 
-      .support-container {
-        margin-left: 20px;
-        margin-right: 20px;
+      #qrcode-container canvas {
+        width: 160px; /* Smaller QR code */
+        height: 160px;
       }
     }
 
     @media (max-width: 480px) {
-      body {
-        padding: 10px;
-      }
-
       .logo {
         width: 100px;
       }
@@ -229,13 +228,14 @@
       }
 
       #qrcode-container {
-        width: 140px;  /* Smaller size for smaller screens */
-        height: 140px; /* Smaller size for smaller screens */
+        width: 160px;
+        height: 160px;
+        padding: 30px; /* Padding inside the container */
       }
 
-      .support-container {
-        margin-left: 10px;
-        margin-right: 10px;
+      #qrcode-container canvas {
+        width: 120px; /* Smaller QR code */
+        height: 120px;
       }
     }
   </style>
@@ -251,7 +251,9 @@
     <div id="waiting-message" class="waiting-message"></div>
 
     <div class="qr-section">
-      <div id="qrcode-container"></div>
+      <div id="qrcode-container">
+        <!-- QR code will be generated here -->
+      </div>
       <div class="button-row">
         <button id="download-btn">Download QR Code</button>
         <button id="remove-watermark-btn">Remove Watermark</button>
@@ -307,7 +309,7 @@
 
         // Generate QR code
         QRCode.toCanvas(document.createElement("canvas"), inputText, {
-          width: 160,   // Width adjusted to match container
+          width: 200,
           margin: 2,
           color: {
             dark: "#fdf2e3",
@@ -361,7 +363,7 @@
 
       const link = document.createElement("a");
       link.href = qrCanvas.toDataURL("image/png");
-      link.download = "qrcode.png";
+      link.download = qrText.replace(/[^a-z0-9]/gi, '-').toLowerCase() + ".png";
       link.click();
     });
 
