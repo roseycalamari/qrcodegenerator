@@ -153,9 +153,14 @@
 
     /* Mobile Styles */
     @media (max-width: 768px) {
+      body {
+        padding: 15px;  /* Added padding to body to ensure margin */
+      }
+
       .container {
-        padding: 15px;
-        width: 90%;
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .logo {
@@ -195,6 +200,10 @@
     }
 
     @media (max-width: 480px) {
+      body {
+        padding: 10px;  /* Additional margin for smaller screens */
+      }
+
       .logo {
         width: 100px;
       }

@@ -17,6 +17,8 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
       user-select: none;
     }
 
@@ -150,9 +152,13 @@
 
     /* Mobile Styles */
     @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
       .container {
         padding: 15px;
-        width: 90%;
+        width: 100%;
       }
 
       .logo {
@@ -165,8 +171,10 @@
       }
 
       #qrcode-container {
-        width: 180px;
-        height: 180px;
+        width: 100%;
+        height: auto;
+        max-width: 180px;
+        margin: 20px 0;
       }
 
       button {
@@ -190,8 +198,10 @@
       }
 
       #qrcode-container {
-        width: 160px;
-        height: 160px;
+        width: 100%;
+        height: auto;
+        max-width: 160px;
+        margin: 10px 0;
       }
 
       button {
@@ -257,9 +267,12 @@
     // Get the modal
     var modal = document.getElementById("warningModal");
 
+    // Initially, the modal is hidden, do not show on page load
+    modal.style.display = "none";
+
     // When the user clicks the "Generate New QR Code" button
     document.getElementById("generate-new-btn").addEventListener("click", () => {
-      // Show the modal
+      // Show the modal when the button is clicked
       modal.style.display = "flex";
     });
 
