@@ -100,11 +100,9 @@
 
     #qrcode-container {
       position: relative;
-      width: 230px;
-      height: 230px;
       margin: 20px auto;
       background: rgba(255, 255, 255, 0.2);
-      border-radius: 16px; /* Added border radius */
+      border-radius: 16px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       display: flex;
       justify-content: center;
@@ -154,7 +152,7 @@
     /* Mobile Styles */
     @media (max-width: 768px) {
       body {
-        padding: 15px;  /* Added padding to body to ensure margin */
+        padding: 15px;
       }
 
       .container {
@@ -194,20 +192,19 @@
       }
 
       #qrcode-container {
-        width: 160px;  /* Smaller width */
-        height: 160px; /* Smaller height */
-        max-width: 160px; /* Ensure the QR code fits inside */
+        width: 160px;  /* Adjusted to fit the QR code */
+        height: 160px; /* Adjusted to fit the QR code */
       }
 
       .support-container {
         margin-left: 20px;
-        margin-right: 20px; /* Ensure support container has margin from screen edges */
+        margin-right: 20px;
       }
     }
 
     @media (max-width: 480px) {
       body {
-        padding: 10px;  /* Additional margin for smaller screens */
+        padding: 10px;
       }
 
       .logo {
@@ -232,13 +229,13 @@
       }
 
       #qrcode-container {
-        width: 140px;  /* Smaller width for even smaller screens */
-        height: 140px; /* Smaller height */
+        width: 140px;  /* Smaller size for smaller screens */
+        height: 140px; /* Smaller size for smaller screens */
       }
 
       .support-container {
         margin-left: 10px;
-        margin-right: 10px; /* Ensure support container has margin from screen edges */
+        margin-right: 10px;
       }
     }
   </style>
@@ -310,7 +307,7 @@
 
         // Generate QR code
         QRCode.toCanvas(document.createElement("canvas"), inputText, {
-          width: 200,
+          width: 160,   // Width adjusted to match container
           margin: 2,
           color: {
             dark: "#fdf2e3",
