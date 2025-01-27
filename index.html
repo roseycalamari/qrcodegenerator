@@ -104,7 +104,7 @@
       height: 230px;
       margin: 20px auto;
       background: rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
+      border-radius: 16px; /* Added border radius */
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       display: flex;
       justify-content: center;
@@ -194,14 +194,14 @@
       }
 
       #qrcode-container {
-        width: 180px;
-        height: 180px;
-        max-width: 180px; /* Ensures the QR code is smaller than the container */
+        width: 160px;  /* Smaller width */
+        height: 160px; /* Smaller height */
+        max-width: 160px; /* Ensure the QR code fits inside */
       }
 
       .support-container {
         margin-left: 20px;
-        margin-right: 20px; /* Ensures support container has margin from screen edges */
+        margin-right: 20px; /* Ensure support container has margin from screen edges */
       }
     }
 
@@ -232,13 +232,13 @@
       }
 
       #qrcode-container {
-        width: 160px;
-        height: 160px;
+        width: 140px;  /* Smaller width for even smaller screens */
+        height: 140px; /* Smaller height */
       }
 
       .support-container {
         margin-left: 10px;
-        margin-right: 10px; /* Ensures support container has margin from screen edges */
+        margin-right: 10px; /* Ensure support container has margin from screen edges */
       }
     }
   </style>
