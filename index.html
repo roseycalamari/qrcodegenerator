@@ -154,23 +154,34 @@
       font-weight: bold;
     }
 
-    /* Mobile styles */
-    @media (max-width: 768px) {
-      .button-group {
-        flex-direction: column;
-        align-items: center;
-      }
-      .button-group button {
-        width: 100%;
-        margin: 5px 0;
-      }
+/* Mobile styles */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button-group button {
+    width: 100%;
+    margin: 5px 0;
+  }
 
-      #qrcode-container {
-        max-width: 100%; /* Make the container fill up more space */
-        height: auto; /* Adjust height automatically */
-        padding: 20px; /* Add some padding for better alignment */
-      }
-    }
+  #qrcode-container {
+    width: 80%; /* Allow the container to scale based on the screen width */
+    max-width: 300px; /* Prevent the container from becoming too wide */
+    height: 0;
+    padding-bottom: 100%; /* Maintain aspect ratio of 1:1 (height = width) */
+    margin: 10px auto; /* Center the container */
+    background: rgba(255, 255, 255, 0.8); /* Slight opacity for visibility */
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+  }
+}
+
   </style>
 </head>
 <body>
