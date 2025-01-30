@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- Previous head content remains the same until the style section -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -69,8 +70,7 @@
 
     #qrcode-container {
       position: relative;
-      width: 100%;
-      max-width: 230px;
+      width: 230px;
       height: 230px;
       margin: 20px auto;
       background: transparent;
@@ -79,7 +79,11 @@
       display: none;
       justify-content: center;
       align-items: center;
-      backdrop-filter: blur(10px);
+    }
+
+    #qrcode {
+      width: 230px;
+      height: 230px;
     }
 
     .loading-message {
@@ -165,13 +169,16 @@
         margin: 5px 0;
       }
 
+      /* Keep QR code container consistent on mobile */
       #qrcode-container {
-        width: 80%;
+        width: 230px;
         height: 230px;
         margin: 10px auto;
-        background: transparent;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        display: none;
+      }
+
+      #qrcode {
+        width: 230px;
+        height: 230px;
       }
     }
   </style>
@@ -230,12 +237,14 @@
         canvas.height = 230;
         const ctx = canvas.getContext("2d");
 
-        // Create QR code with white modules on transparent background
+        // Clear any existing content
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         QRCode.toCanvas(canvas, inputText, {
           width: 230,
           margin: 2,
           color: {
-            dark: "#FFFFFF",
+            dark: "#000000",
             light: "#00000000"
           }
         }, function (error) {
@@ -249,14 +258,15 @@
           qrCanvas.width = 230;
           qrCanvas.height = 230;
           
-          // Clear the canvas with transparency
+          // Clear the canvas
           qrCtx.clearRect(0, 0, qrCanvas.width, qrCanvas.height);
           
+          // Invert the colors
+          qrCtx.filter = 'invert(1)';
           qrCtx.drawImage(canvas, 0, 0, 230, 230);
+          qrCtx.filter = 'none';
 
           const qrCodeSize = 230;
-          const diagonalLength = Math.sqrt(qrCodeSize * qrCodeSize + qrCodeSize * qrCodeSize);
-
           qrCtx.save();
           qrCtx.translate(qrCodeSize / 2, qrCodeSize / 2);
           qrCtx.rotate(-45 * Math.PI / 180);
@@ -266,9 +276,7 @@
           qrCtx.shadowOffsetX = 3;
           qrCtx.shadowOffsetY = 3;
 
-          // Adjust font size for watermark
-          qrCtx.font = "bold 20px Montserrat"; // Fixed size instead of calculated
-
+          qrCtx.font = "bold 20px Montserrat";
           qrCtx.fillStyle = "rgba(255, 255, 255, 0.8)";
           qrCtx.textAlign = "center";
           qrCtx.textBaseline = "middle";
@@ -281,7 +289,7 @@
           document.getElementById("qrcode-container").style.display = "flex";
           document.getElementById("qr-buttons").style.display = "flex";
 
-          qrCanvas.dataset.qrData = canvas.toDataURL("image/png");
+          qrCanvas.dataset.qrData = qrCanvas.toDataURL("image/png");
         });
       }, 1500);
     }
