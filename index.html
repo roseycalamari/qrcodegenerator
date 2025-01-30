@@ -73,7 +73,7 @@
       max-width: 230px;
       height: 230px;
       margin: 20px auto;
-      background: transparent; /* Set the background to transparent */
+      background: transparent; /* Make the container fully transparent */
       border-radius: 16px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       display: none; /* Keep it hidden initially */
@@ -170,9 +170,9 @@
         width: 80%; /* Ensure container scales on mobile */
         height: 230px;
         margin: 10px auto; /* Center the container */
-        background: transparent; /* Make the container fully transparent on mobile */
+        background: transparent; /* Fully transparent container on mobile */
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        display: none; /* Keep it hidden until generated */
+        display: none; /* Keep it hidden until QR is generated */
       }
     }
   </style>
@@ -243,6 +243,7 @@
           const qrCtx = qrCanvas.getContext("2d");
           qrCanvas.width = 230;
           qrCanvas.height = 230;
+          qrCtx.clearRect(0, 0, qrCanvas.width, qrCanvas.height); // Ensure the canvas is clear before drawing
           qrCtx.drawImage(canvas, 0, 0, 230, 230);  // Draw the generated QR code to the canvas
 
           // Apply diagonal watermark with shadow fitting the entire QR code
