@@ -26,7 +26,7 @@
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.2); /* Slight opacity for background */
+      background: rgba(255, 255, 255, 0.2); /* Same opacity for desktop and mobile */
       backdrop-filter: blur(10px);
       border-radius: 16px;
       box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
@@ -70,10 +70,10 @@
     #qrcode-container {
       position: relative;
       width: 100%;
-      max-width: 230px; /* Keep it responsive */
-      height: 230px; /* Fixed height */
+      max-width: 230px;
+      height: 230px;
       margin: 20px auto;
-      background: rgba(255, 255, 255, 0.1); /* Very low opacity for container */
+      background: rgba(255, 255, 255, 0.2); /* Consistent opacity */
       border-radius: 16px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       display: none; /* Initially hidden */
@@ -171,7 +171,7 @@
         max-width: 230px; /* Prevent it from becoming too wide */
         height: 230px; /* Fixed height to match QR code */
         margin: 10px auto; /* Center the container */
-        background: rgba(255, 255, 255, 0.1); /* Almost transparent */
+        background: rgba(255, 255, 255, 0.2); /* Consistent opacity */
         border-radius: 16px;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         display: flex;
