@@ -73,10 +73,10 @@
       max-width: 230px;
       height: 230px;
       margin: 20px auto;
-      background: rgba(255, 255, 255, 0.2); /* Consistent opacity */
+      background: transparent; /* Set the background to transparent */
       border-radius: 16px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      display: none; /* Initially hidden */
+      display: none; /* Keep it hidden initially */
       justify-content: center;
       align-items: center;
       backdrop-filter: blur(10px);
@@ -167,17 +167,12 @@
       }
 
       #qrcode-container {
-        width: 80%; /* Make the container scale on mobile */
-        max-width: 230px; /* Prevent it from becoming too wide */
-        height: 230px; /* Fixed height to match QR code */
+        width: 80%; /* Ensure container scales on mobile */
+        height: 230px;
         margin: 10px auto; /* Center the container */
-        background: rgba(255, 255, 255, 0.2); /* Consistent opacity */
-        border-radius: 16px;
+        background: transparent; /* Set background to transparent */
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        backdrop-filter: blur(10px);
+        display: none; /* Keep hidden until generated */
       }
     }
   </style>
