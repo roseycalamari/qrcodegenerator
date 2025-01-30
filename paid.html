@@ -56,7 +56,7 @@
       height: 230px;
       margin: 20px auto;
       background: rgba(255, 255, 255, 0.2);
-      border-radius: 16px; /* QR Code Container Radius */
+      border-radius: 16px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       display: flex;
       justify-content: center;
@@ -160,7 +160,7 @@
       .container {
         padding: 15px;
         width: 100%;
-        margin: 20px;  /* Add margin to the container */
+        margin: 20px;
       }
 
       .logo {
@@ -173,10 +173,10 @@
       }
 
       #qrcode-container {
-        width: 180px; /* QR code container is bigger than the QR code */
+        width: 180px; 
         height: 180px;
         margin: 20px auto;
-        border-radius: 16px; /* Rounded corners for the container */
+        border-radius: 16px; 
       }
 
       button {
@@ -192,7 +192,7 @@
 
     @media (max-width: 480px) {
       body {
-        padding: 10px;  /* Add more padding to the body for smaller screens */
+        padding: 10px;
       }
 
       .logo {
@@ -204,10 +204,10 @@
       }
 
       #qrcode-container {
-        width: 150px; /* QR code container smaller than the QR code */
+        width: 150px;
         height: 150px;
         margin: 10px auto;
-        border-radius: 16px; /* Rounded corners for the container */
+        border-radius: 16px; 
       }
 
       button {
@@ -250,13 +250,16 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
-    // Simulate a successful payment by setting localStorage during testing
-    localStorage.setItem("qrText", "http://example.com");
+    // Get the QR code data from localStorage
+    const qrText = localStorage.getItem("qrText");
 
-    const qrText = localStorage.getItem("qrText") || 'http://example.com';
+    // If the QR text is not present in localStorage, redirect to the index page
+    if (!qrText) {
+      window.location.href = "index.html"; 
+    }
 
     QRCode.toCanvas(document.createElement("canvas"), qrText, {
-      width: 150,  // Making the QR code smaller to fit inside the container
+      width: 150,  
       margin: 2,
       color: {
         dark: "#fdf2e3",
@@ -264,8 +267,8 @@
       }
     }).then((canvas) => {
       const qrcodeContainer = document.getElementById("qrcode-container");
-      qrcodeContainer.innerHTML = '';
-      qrcodeContainer.appendChild(canvas);
+      qrcodeContainer.innerHTML = '';  // Clear previous content
+      qrcodeContainer.appendChild(canvas);  // Add the generated QR code
     }).catch((error) => {
       console.error("QR Code Generation Error:", error);
     });

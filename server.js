@@ -12,6 +12,8 @@ app.use(session({
   cookie: { secure: false } // For testing purposes, disable secure cookies if not using HTTPS
 }));
 
+app.use(express.json());  // To handle JSON requests
+
 // Serve static files (like images, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -20,25 +22,24 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Simulate the payment success
-app.get('/payment-success', (req, res) => {
-  // Set session to true after payment
-  req.session.paid = true;
-  res.redirect('/paid.html');
+// Route to store QR code data in the session
+app.post('/store-qr', (req, res) => {
+  const { qrDataURL } = req.body;
+  req.session.qrDataURL = qrDataURL;  // Store QR code in session
+  res.status(200).send({ message: 'QR code saved in session' });
+});
+
+// Route to retrieve the QR code data from the session
+app.get('/get-qr', (req, res) => {
+  res.json({ qrDataURL: req.session.qrDataURL || null });
 });
 
 // Serve the paid.html page after payment
 app.get('/paid.html', (req, res) => {
-  // Check if user has paid
-  if (!req.session.paid) {
-    return res.redirect('/'); // If not paid, redirect to the home page
+  if (!req.session.qrDataURL) {
+    return res.redirect('/'); // If no QR code data exists, redirect to the home page
   }
   res.sendFile(path.join(__dirname, 'paid.html'));
-});
-
-// Serve the test payment link (Stripe redirect simulation)
-app.get('/test-payment', (req, res) => {
-  res.redirect('https://buy.stripe.com/test_9AQ5o60a43oz0XCbII');
 });
 
 // Start the server
