@@ -26,7 +26,7 @@
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.2); /* Same opacity for desktop and mobile */
+      background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px);
       border-radius: 16px;
       box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
@@ -73,10 +73,10 @@
       max-width: 230px;
       height: 230px;
       margin: 20px auto;
-      background: transparent; /* Make the container fully transparent */
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 16px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      display: none; /* Keep it hidden initially */
+      display: none;
       justify-content: center;
       align-items: center;
       backdrop-filter: blur(10px);
@@ -154,7 +154,6 @@
       font-weight: bold;
     }
 
-    /* Mobile styles */
     @media (max-width: 768px) {
       .button-group {
         flex-direction: column;
@@ -167,12 +166,12 @@
       }
 
       #qrcode-container {
-        width: 80%; /* Ensure container scales on mobile */
+        width: 80%;
         height: 230px;
-        margin: 10px auto; /* Center the container */
-        background: transparent; /* Fully transparent container on mobile */
+        margin: 10px auto;
+        background: rgba(255, 255, 255, 0.9);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        display: none; /* Keep it hidden until QR is generated */
+        display: none;
       }
     }
   </style>
@@ -227,63 +226,71 @@
 
       setTimeout(() => {
         const canvas = document.createElement("canvas");
-        canvas.width = 230; // QR code canvas width
-        canvas.height = 230; // QR code canvas height
+        canvas.width = 230;
+        canvas.height = 230;
         const ctx = canvas.getContext("2d");
 
-        // Generate QR Code
-        QRCode.toCanvas(canvas, inputText, { width: 230, margin: 2, color: { dark: "#ffffff", light: "#00000000" } }, function (error) {
+        // Fill the background with white first
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        QRCode.toCanvas(canvas, inputText, {
+          width: 230,
+          margin: 2,
+          color: {
+            dark: "#000000",
+            light: "#FFFFFF"
+          }
+        }, function (error) {
           if (error) {
             console.error(error);
             return;
           }
 
-          // Draw QR code to the main canvas
           const qrCanvas = document.getElementById("qrcode");
           const qrCtx = qrCanvas.getContext("2d");
           qrCanvas.width = 230;
           qrCanvas.height = 230;
-          qrCtx.clearRect(0, 0, qrCanvas.width, qrCanvas.height); // Clear the canvas to fix any issues
-          qrCtx.drawImage(canvas, 0, 0, 230, 230);  // Draw the generated QR code to the canvas
+          
+          // Fill with white background
+          qrCtx.fillStyle = '#FFFFFF';
+          qrCtx.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
+          
+          qrCtx.drawImage(canvas, 0, 0, 230, 230);
 
-          // Apply diagonal watermark with shadow fitting the entire QR code
-          const qrCodeSize = 230; // QR code canvas size
-          const diagonalLength = Math.sqrt(qrCodeSize * qrCodeSize + qrCodeSize * qrCodeSize); // Calculate diagonal length of the QR code
+          const qrCodeSize = 230;
+          const diagonalLength = Math.sqrt(qrCodeSize * qrCodeSize + qrCodeSize * qrCodeSize);
 
-          qrCtx.save();  // Save the current context state
-          qrCtx.translate(qrCodeSize / 2, qrCodeSize / 2);  // Move the origin to the center of the QR code
-          qrCtx.rotate(-45 * Math.PI / 180);  // Rotate the text by -45 degrees (counter-clockwise)
+          qrCtx.save();
+          qrCtx.translate(qrCodeSize / 2, qrCodeSize / 2);
+          qrCtx.rotate(-45 * Math.PI / 180);
 
-          // Set shadow properties
-          qrCtx.shadowColor = "rgba(0, 0, 0, 0.6)";
-          qrCtx.shadowBlur = 10;
-          qrCtx.shadowOffsetX = 5;
-          qrCtx.shadowOffsetY = 5;
+          qrCtx.shadowColor = "rgba(0, 0, 0, 0.4)";
+          qrCtx.shadowBlur = 8;
+          qrCtx.shadowOffsetX = 3;
+          qrCtx.shadowOffsetY = 3;
 
-          // Calculate the font size to ensure the watermark fits within the QR code diagonal
-          const maxFontSize = diagonalLength / 3; // Adjust the factor for appropriate size (larger for more fitting)
+          const maxFontSize = diagonalLength / 3;
           qrCtx.font = `bold ${maxFontSize}px Montserrat`;
 
-          // Measure the width of the text and adjust the font size if it's too large
           const textWidth = qrCtx.measureText("qrcodechameleon.com").width;
           if (textWidth > diagonalLength) {
             const scaleFactor = diagonalLength / textWidth;
             qrCtx.font = `bold ${Math.floor(maxFontSize * scaleFactor)}px Montserrat`;
           }
 
-          qrCtx.fillStyle = "rgba(255, 255, 255, 0.8)";
+          qrCtx.fillStyle = "rgba(128, 128, 128, 0.8)";
           qrCtx.textAlign = "center";
-          qrCtx.textBaseline = "middle"; // Center the text vertically
-          qrCtx.fillText("qrcodechameleon.com", 0, 0);  // Draw the text at the new origin
+          qrCtx.textBaseline = "middle";
+          qrCtx.fillText("qrcodechameleon.com", 0, 0);
 
-          qrCtx.restore();  // Restore the original context state
+          qrCtx.restore();
 
           document.getElementById("loading-message").style.display = "none";
           document.getElementById("loading-spinner").style.display = "none";
           document.getElementById("qrcode-container").style.display = "flex";
           document.getElementById("qr-buttons").style.display = "flex";
 
-          // Store for download
           qrCanvas.dataset.qrData = canvas.toDataURL("image/png");
         });
       }, 1500);
@@ -321,6 +328,6 @@
     document.getElementById("new-qr-btn").addEventListener("click", function() {
       location.reload();
     });
-  </script>  
+  </script>
 </body>
 </html>
