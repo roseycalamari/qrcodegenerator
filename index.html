@@ -73,7 +73,7 @@
       max-width: 230px;
       height: 230px;
       margin: 20px auto;
-      background: rgba(255, 255, 255, 0.9);
+      background: transparent;
       border-radius: 16px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       display: none;
@@ -169,7 +169,7 @@
         width: 80%;
         height: 230px;
         margin: 10px auto;
-        background: rgba(255, 255, 255, 0.9);
+        background: transparent;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         display: none;
       }
@@ -230,16 +230,13 @@
         canvas.height = 230;
         const ctx = canvas.getContext("2d");
 
-        // Fill the background with white first
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+        // Create QR code with white modules on transparent background
         QRCode.toCanvas(canvas, inputText, {
           width: 230,
           margin: 2,
           color: {
-            dark: "#000000",
-            light: "#FFFFFF"
+            dark: "#FFFFFF",
+            light: "#00000000"
           }
         }, function (error) {
           if (error) {
@@ -252,9 +249,8 @@
           qrCanvas.width = 230;
           qrCanvas.height = 230;
           
-          // Fill with white background
-          qrCtx.fillStyle = '#FFFFFF';
-          qrCtx.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
+          // Clear the canvas with transparency
+          qrCtx.clearRect(0, 0, qrCanvas.width, qrCanvas.height);
           
           qrCtx.drawImage(canvas, 0, 0, 230, 230);
 
@@ -270,16 +266,10 @@
           qrCtx.shadowOffsetX = 3;
           qrCtx.shadowOffsetY = 3;
 
-          const maxFontSize = diagonalLength / 3;
-          qrCtx.font = `bold ${maxFontSize}px Montserrat`;
+          // Adjust font size for watermark
+          qrCtx.font = "bold 20px Montserrat"; // Fixed size instead of calculated
 
-          const textWidth = qrCtx.measureText("qrcodechameleon.com").width;
-          if (textWidth > diagonalLength) {
-            const scaleFactor = diagonalLength / textWidth;
-            qrCtx.font = `bold ${Math.floor(maxFontSize * scaleFactor)}px Montserrat`;
-          }
-
-          qrCtx.fillStyle = "rgba(128, 128, 128, 0.8)";
+          qrCtx.fillStyle = "rgba(255, 255, 255, 0.8)";
           qrCtx.textAlign = "center";
           qrCtx.textBaseline = "middle";
           qrCtx.fillText("qrcodechameleon.com", 0, 0);
