@@ -22,7 +22,7 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     .container {
@@ -30,9 +30,9 @@
       backdrop-filter: blur(10px);
       border-radius: 16px;
       box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
-      padding: 25px;
+      padding: 20px;
       width: 90%;
-      max-width: 720px;
+      max-width: 700px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -136,6 +136,7 @@
       gap: 10px;
       margin-top: 20px;
       display: none;
+      flex-wrap: wrap;
     }
 
     .support {
@@ -151,6 +152,47 @@
       color: #fdf2e3;
       text-decoration: none;
       font-weight: bold;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .logo {
+        width: 120px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      #text-input {
+        font-size: 14px;
+        padding: 8px;
+      }
+
+      #qrcode-container {
+        width: 200px;
+        height: 200px;
+      }
+
+      .button-group {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      button {
+        width: 100%;
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
     }
   </style>
 </head>
@@ -222,12 +264,6 @@
           qrCanvas.height = 230;
           qrCtx.drawImage(canvas, 0, 0, 230, 230);
   
-          // Apply watermark
-          qrCtx.font = "bold 24px Montserrat";
-          qrCtx.fillStyle = "rgba(255, 255, 255, 0.8)";
-          qrCtx.textAlign = "center";
-          qrCtx.fillText("Chameleon QR", 115, 220);
-  
           document.getElementById("loading-message").style.display = "none";
           document.getElementById("loading-spinner").style.display = "none";
           document.getElementById("qrcode-container").style.display = "flex";
@@ -257,14 +293,8 @@
       img.onload = function () {
         ctx.drawImage(img, 0, 0, 1000, 1000);
   
-        // Add watermark on download
-        ctx.font = "bold 80px Montserrat";
-        ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-        ctx.textAlign = "center";
-        ctx.fillText("Chameleon QR", 500, 950);
-  
         const link = document.createElement("a");
-        link.download = "QR_Code.png";
+        link.download = "qrcode_with_watermark.png";
         link.href = qrCanvas.toDataURL("image/png");
         link.click();
       };
