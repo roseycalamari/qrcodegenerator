@@ -243,7 +243,7 @@
           const qrCtx = qrCanvas.getContext("2d");
           qrCanvas.width = 230;
           qrCanvas.height = 230;
-          qrCtx.clearRect(0, 0, qrCanvas.width, qrCanvas.height); // Ensure the canvas is clear before drawing
+          qrCtx.clearRect(0, 0, qrCanvas.width, qrCanvas.height); // Clear the canvas to fix any issues
           qrCtx.drawImage(canvas, 0, 0, 230, 230);  // Draw the generated QR code to the canvas
 
           // Apply diagonal watermark with shadow fitting the entire QR code
