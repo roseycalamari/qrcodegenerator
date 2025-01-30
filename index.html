@@ -26,7 +26,7 @@
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.2); /* Slight opacity for background */
       backdrop-filter: blur(10px);
       border-radius: 16px;
       box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
@@ -70,13 +70,13 @@
     #qrcode-container {
       position: relative;
       width: 100%;
-      max-width: 230px; /* Make it responsive */
+      max-width: 230px; /* Keep it responsive */
       height: 230px; /* Fixed height */
       margin: 20px auto;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1); /* Very low opacity for container */
       border-radius: 16px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      display: none;
+      display: none; /* Initially hidden */
       justify-content: center;
       align-items: center;
       backdrop-filter: blur(10px);
@@ -154,33 +154,32 @@
       font-weight: bold;
     }
 
-/* Mobile styles */
-@media (max-width: 768px) {
-  .button-group {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .button-group button {
-    width: 100%;
-    margin: 5px 0;
-  }
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .button-group {
+        flex-direction: column;
+        align-items: center;
+      }
 
-  #qrcode-container {
-    width: 80%; /* Ensure it scales well on mobile */
-    max-width: 230px; /* Maximum width of QR code container */
-    height: 230px; /* Fixed height to match QR code */
-    margin: 10px auto; /* Center the container */
-    background: rgba(255, 255, 255, 0.9); /* Slight opacity for visibility */
-    border-radius: 16px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(10px);
-  }
-}
+      .button-group button {
+        width: 100%;
+        margin: 5px 0;
+      }
 
+      #qrcode-container {
+        width: 80%; /* Make the container scale on mobile */
+        max-width: 230px; /* Prevent it from becoming too wide */
+        height: 230px; /* Fixed height to match QR code */
+        margin: 10px auto; /* Center the container */
+        background: rgba(255, 255, 255, 0.1); /* Almost transparent */
+        border-radius: 16px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(10px);
+      }
+    }
   </style>
 </head>
 <body>
@@ -218,111 +217,111 @@
       "Your privacy is our priority. We store nothing.",
       "Building your QR code while keeping your data private."
     ];
-  
+
     function generateQRCode() {
-  const inputText = document.getElementById("text-input").value.trim();
-  if (!inputText) {
-    alert("Please enter a URL to generate a QR code.");
-    return;
-  }
-
-  document.getElementById("generate-btn").style.display = "none";
-  document.getElementById("loading-message").innerText = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)];
-  document.getElementById("loading-message").style.display = "block";
-  document.getElementById("loading-spinner").style.display = "block";
-
-  setTimeout(() => {
-    const canvas = document.createElement("canvas");
-    canvas.width = 230; // QR code canvas width
-    canvas.height = 230; // QR code canvas height
-    const ctx = canvas.getContext("2d");
-
-    // Generate QR Code
-    QRCode.toCanvas(canvas, inputText, { width: 230, margin: 2, color: { dark: "#ffffff", light: "#00000000" } }, function (error) {
-      if (error) {
-        console.error(error);
+      const inputText = document.getElementById("text-input").value.trim();
+      if (!inputText) {
+        alert("Please enter a URL to generate a QR code.");
         return;
       }
 
-      // Draw the QR code to the main canvas
-      const qrCanvas = document.getElementById("qrcode");
-      const qrCtx = qrCanvas.getContext("2d");
-      qrCanvas.width = 230;
-      qrCanvas.height = 230;
-      qrCtx.drawImage(canvas, 0, 0, 230, 230);  // Draw the generated QR code to the canvas
+      document.getElementById("generate-btn").style.display = "none";
+      document.getElementById("loading-message").innerText = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)];
+      document.getElementById("loading-message").style.display = "block";
+      document.getElementById("loading-spinner").style.display = "block";
 
-      // Apply diagonal watermark with shadow fitting the entire QR code
-      const qrCodeSize = 230; // QR code canvas size
-      const diagonalLength = Math.sqrt(qrCodeSize * qrCodeSize + qrCodeSize * qrCodeSize); // Calculate diagonal length of the QR code
+      setTimeout(() => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 230; // QR code canvas width
+        canvas.height = 230; // QR code canvas height
+        const ctx = canvas.getContext("2d");
 
-      qrCtx.save();  // Save the current context state
-      qrCtx.translate(qrCodeSize / 2, qrCodeSize / 2);  // Move the origin to the center of the QR code
-      qrCtx.rotate(-45 * Math.PI / 180);  // Rotate the text by -45 degrees (counter-clockwise)
+        // Generate QR Code
+        QRCode.toCanvas(canvas, inputText, { width: 230, margin: 2, color: { dark: "#ffffff", light: "#00000000" } }, function (error) {
+          if (error) {
+            console.error(error);
+            return;
+          }
 
-      // Set shadow properties
-      qrCtx.shadowColor = "rgba(0, 0, 0, 0.6)";
-      qrCtx.shadowBlur = 10;
-      qrCtx.shadowOffsetX = 5;
-      qrCtx.shadowOffsetY = 5;
+          // Draw QR code to the main canvas
+          const qrCanvas = document.getElementById("qrcode");
+          const qrCtx = qrCanvas.getContext("2d");
+          qrCanvas.width = 230;
+          qrCanvas.height = 230;
+          qrCtx.drawImage(canvas, 0, 0, 230, 230);  // Draw the generated QR code to the canvas
 
-      // Calculate the font size to ensure the watermark fits within the QR code diagonal
-      const maxFontSize = diagonalLength / 3; // Adjust the factor for appropriate size (larger for more fitting)
-      qrCtx.font = `bold ${maxFontSize}px Montserrat`;
+          // Apply diagonal watermark with shadow fitting the entire QR code
+          const qrCodeSize = 230; // QR code canvas size
+          const diagonalLength = Math.sqrt(qrCodeSize * qrCodeSize + qrCodeSize * qrCodeSize); // Calculate diagonal length of the QR code
 
-      // Measure the width of the text and adjust the font size if it's too large
-      const textWidth = qrCtx.measureText("qrcodechameleon.com").width;
-      if (textWidth > diagonalLength) {
-        const scaleFactor = diagonalLength / textWidth;
-        qrCtx.font = `bold ${Math.floor(maxFontSize * scaleFactor)}px Montserrat`;
-      }
+          qrCtx.save();  // Save the current context state
+          qrCtx.translate(qrCodeSize / 2, qrCodeSize / 2);  // Move the origin to the center of the QR code
+          qrCtx.rotate(-45 * Math.PI / 180);  // Rotate the text by -45 degrees (counter-clockwise)
 
-      qrCtx.fillStyle = "rgba(255, 255, 255, 0.8)";
-      qrCtx.textAlign = "center";
-      qrCtx.textBaseline = "middle"; // Center the text vertically
-      qrCtx.fillText("qrcodechameleon.com", 0, 0);  // Draw the text at the new origin
+          // Set shadow properties
+          qrCtx.shadowColor = "rgba(0, 0, 0, 0.6)";
+          qrCtx.shadowBlur = 10;
+          qrCtx.shadowOffsetX = 5;
+          qrCtx.shadowOffsetY = 5;
 
-      qrCtx.restore();  // Restore the original context state
+          // Calculate the font size to ensure the watermark fits within the QR code diagonal
+          const maxFontSize = diagonalLength / 3; // Adjust the factor for appropriate size (larger for more fitting)
+          qrCtx.font = `bold ${maxFontSize}px Montserrat`;
 
-      document.getElementById("loading-message").style.display = "none";
-      document.getElementById("loading-spinner").style.display = "none";
-      document.getElementById("qrcode-container").style.display = "flex";
-      document.getElementById("qr-buttons").style.display = "flex";
+          // Measure the width of the text and adjust the font size if it's too large
+          const textWidth = qrCtx.measureText("qrcodechameleon.com").width;
+          if (textWidth > diagonalLength) {
+            const scaleFactor = diagonalLength / textWidth;
+            qrCtx.font = `bold ${Math.floor(maxFontSize * scaleFactor)}px Montserrat`;
+          }
 
-      // Store for download
-      qrCanvas.dataset.qrData = canvas.toDataURL("image/png");
-    });
-  }, 1500);
-}
-  
+          qrCtx.fillStyle = "rgba(255, 255, 255, 0.8)";
+          qrCtx.textAlign = "center";
+          qrCtx.textBaseline = "middle"; // Center the text vertically
+          qrCtx.fillText("qrcodechameleon.com", 0, 0);  // Draw the text at the new origin
+
+          qrCtx.restore();  // Restore the original context state
+
+          document.getElementById("loading-message").style.display = "none";
+          document.getElementById("loading-spinner").style.display = "none";
+          document.getElementById("qrcode-container").style.display = "flex";
+          document.getElementById("qr-buttons").style.display = "flex";
+
+          // Store for download
+          qrCanvas.dataset.qrData = canvas.toDataURL("image/png");
+        });
+      }, 1500);
+    }
+
     document.getElementById("generate-btn").addEventListener("click", generateQRCode);
     document.getElementById("text-input").addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         generateQRCode();
       }
     });
-  
+
     document.getElementById("download-btn").addEventListener("click", function() {
       const qrCanvas = document.createElement("canvas");
       qrCanvas.width = 1000;
       qrCanvas.height = 1000;
       const ctx = qrCanvas.getContext("2d");
-  
+
       const img = new Image();
       img.src = document.getElementById("qrcode").dataset.qrData;
       img.onload = function () {
         ctx.drawImage(img, 0, 0, 1000, 1000);
-  
+
         const link = document.createElement("a");
         link.download = "qrcode_with_watermark.png";
         link.href = qrCanvas.toDataURL("image/png");
         link.click();
       };
     });
-  
+
     document.getElementById("remove-watermark-btn").addEventListener("click", function() {
       window.location.href = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
     });
-  
+
     document.getElementById("new-qr-btn").addEventListener("click", function() {
       location.reload();
     });
