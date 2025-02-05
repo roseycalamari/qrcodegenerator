@@ -319,9 +319,12 @@
       };
     });
 
-    document.getElementById("remove-watermark-btn").addEventListener("click", function() {
-      window.location.href = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
-    });
+// In index.html, modify the remove-watermark-btn click handler:
+document.getElementById("remove-watermark-btn").addEventListener("click", function() {
+    const inputText = document.getElementById("text-input").value.trim();
+    localStorage.setItem("qrText", inputText);
+    window.location.href = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
+});
 
     document.getElementById("new-qr-btn").addEventListener("click", function() {
       location.reload();
