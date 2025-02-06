@@ -1,19 +1,17 @@
 {
-  "name": "chameleon-qr-code-generator",
+  "name": "qr-code-generator",
   "version": "1.0.0",
-  "description": "A simple QR code generator with a watermark feature",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "express-session": "^1.18.1"
+    "express-session": "^1.17.2",
+    "express-rate-limit": "^5.3.0",
+    "stripe": "^8.176.0",
+    "path": "^0.12.7"
   },
-  "devDependencies": {},
-  "engines": {
-    "node": "14.x"
-  },
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  }
 }

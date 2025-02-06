@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Chameleon QR Code Generator</title>
+  <title>Chameleon QR Code - Watermark Removed</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
   <link rel="icon" href="icon.ico.png" type="image/x-icon">
   <style>
@@ -21,8 +21,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
     }
 
     .container {
@@ -31,8 +32,8 @@
       border-radius: 16px;
       box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
       padding: 25px;
-      width: 90%;
-      max-width: 720px;
+      width: 100%;
+      max-width: 480px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -40,22 +41,18 @@
       align-items: center;
     }
 
-    .logo {
-      width: 150px;
-      margin-bottom: 15px;
-    }
-
     h1 {
       font-size: 22px;
       margin-bottom: 20px;
       color: #fdf2e3;
       text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     #qrcode-container {
       position: relative;
-      width: 230px;
-      height: 230px;
+      width: 250px;
+      height: 250px;
       margin: 20px auto;
       background: transparent;
       border-radius: 16px;
@@ -65,79 +62,61 @@
       align-items: center;
     }
 
+    .color-picker-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+      width: 100%;
+    }
+
+    .color-picker {
+      appearance: none;
+      width: 50px;
+      height: 50px;
+      border: 2px solid #fdf2e3;
+      border-radius: 8px;
+      background-color: #fdf2e3;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .color-picker::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .color-picker::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
     button {
       background: #fdf2e3;
       color: #55996f;
       border: none;
       border-radius: 8px;
-      padding: 10px;
+      padding: 12px;
       font-size: 14px;
       font-weight: bold;
       cursor: pointer;
-      margin: 8px 5px;
       min-width: 120px;
-      transition: background 0.3s, transform 0.2s;
+      transition: all 0.3s ease;
+      flex-grow: 1;
     }
 
     button:hover {
       background: #e4d9c7;
-      transform: scale(1.05);
-    }
-
-    .button-group {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .support {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 10px;
-      text-align: center;
-      border-radius: 12px;
-      margin-top: 20px;
-      font-size: 14px;
-    }
-
-    .support a {
-      color: #fdf2e3;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .color-picker-container {
-      margin: 15px 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .color-picker-container label {
-      font-size: 14px;
-      color: #fdf2e3;
-    }
-
-    .color-picker {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      width: 50px;
-      height: 50px;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-    }
-
-    .color-picker::-webkit-color-swatch {
-      border-radius: 8px;
-      border: 2px solid #fdf2e3;
-    }
-
-    .color-picker::-moz-color-swatch {
-      border-radius: 8px;
-      border: 2px solid #fdf2e3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     .modal {
@@ -164,50 +143,54 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
 
-    .modal-content button {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
+    .support {
+      margin-top: 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 15px;
+      border-radius: 12px;
+      max-width: 480px;
+      width: 100%;
     }
 
-    .modal-content button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    .support a {
+      color: #fdf2e3;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
     }
 
-    .modal-content button:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 480px) {
       .container {
         padding: 15px;
-      }
-
-      #qrcode-container {
-        width: 230px;
-        height: 230px;
+        margin: 0;
+        border-radius: 0;
+        width: 100vw;
+        height: 100vh;
       }
 
       button {
-        width: 100%;
-        margin: 5px 0;
-      }
-
-      .button-group {
-        flex-direction: column;
-        align-items: center;
+        flex-basis: 100%;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="logos.png" alt="Chameleon Logo" class="logo">
-    <h1>Thank you for your payment!</h1>
-    <p>Your QR code is ready without the watermark!</p>
+    <h1>Watermark Removed QR Code</h1>
 
     <div id="qrcode-container"></div>
+
+    <div class="color-picker-container">
+      <label for="qr-color">Change QR Code Color:</label>
+      <input 
+        type="color" 
+        id="qr-color" 
+        class="color-picker" 
+        value="#fdf2e3"
+        title="Change QR Code Color"
+      >
+    </div>
 
     <div class="button-group">
       <button id="download-btn">Download QR Code</button>
@@ -216,104 +199,119 @@
   </div>
 
   <div class="support">
-    Need help? Contact us at <a href="mailto:contact.qrcodechameleon@gmail.com">contact.qrcodechameleon@gmail.com</a>
+    📩 Need help? Contact us at <a href="mailto:contact.qrcodechameleon@gmail.com">contact.qrcodechameleon@gmail.com</a>
   </div>
 
   <div id="warningModal" class="modal">
     <div class="modal-content">
-      <h2>Uh-oh! Before you go…</h2>
-      <p>Are you sure you want to leave? You might lose your current QR code data. If you want to keep it, make sure to download it first! 😊</p>
-      <button id="confirmBtn">Proceed</button>
-      <button id="cancelBtn">Cancel</button>
+      <h2>Confirm Navigation</h2>
+      <p>Are you sure you want to leave? You might lose your current QR code. Make sure to download it first!</p>
+      <div class="button-group">
+        <button id="confirmBtn">Proceed</button>
+        <button id="cancelBtn">Cancel</button>
+      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
-    const qrText = localStorage.getItem("qrText");
-    const qrColor = localStorage.getItem("qrColor") || "#fdf2e3";
-
-    if (!qrText) {
-      window.location.href = "index.html";
-    }
-
-    // Add color picker
-    const colorPicker = document.createElement("div");
-    colorPicker.className = "color-picker-container";
-    colorPicker.innerHTML = `
-      <label for="qr-color">QR Code Color:</label>
-      <input type="color" id="qr-color" class="color-picker" value="${qrColor}">
-    `;
-    document.querySelector(".container").insertBefore(colorPicker, document.getElementById("qrcode-container"));
-
-    function generateQR(color) {
-      QRCode.toCanvas(document.createElement("canvas"), qrText, {
-        width: 230,
-        margin: 2,
-        color: {
-          dark: color,
-          light: "#00000000"
+    async function initializePaidPage() {
+      try {
+        // Fetch QR data from session
+        const response = await fetch('/get-qr');
+        if (!response.ok) {
+          throw new Error('Failed to fetch QR data');
         }
-      }).then((canvas) => {
-        const qrcodeContainer = document.getElementById("qrcode-container");
-        qrcodeContainer.innerHTML = '';
-        qrcodeContainer.appendChild(canvas);
-      }).catch((error) => {
-        console.error("QR Code Generation Error:", error);
-      });
-    }
 
-    // Generate initial QR code
-    generateQR(qrColor);
+        const { qrDataURL, qrText } = await response.json();
+        
+        // QR code generation function
+        function generateQR(color) {
+          const qrcodeContainer = document.getElementById("qrcode-container");
+          qrcodeContainer.innerHTML = ''; // Clear previous QR code
 
-    // Add color picker event listener
-    document.getElementById("qr-color").addEventListener("input", function(e) {
-      generateQR(e.target.value);
-    });
+          QRCode.toCanvas(document.createElement("canvas"), qrText, {
+            width: 250,
+            margin: 2,
+            color: {
+              dark: color,
+              light: "#00000000"
+            }
+          }).then((canvas) => {
+            qrcodeContainer.appendChild(canvas);
+            // Store canvas data for download
+            qrcodeContainer.dataset.qrData = canvas.toDataURL("image/png");
+            qrcodeContainer.dataset.qrText = qrText;
+          }).catch((error) => {
+            console.error("QR Code Generation Error:", error);
+            alert("Failed to generate QR code. Please try again.");
+          });
+        }
 
-    // Modal functionality
-    const modal = document.getElementById("warningModal");
-    modal.style.display = "none";
+        // Initial QR code generation
+        const initialColor = "#fdf2e3";
+        generateQR(initialColor);
 
-    document.getElementById("generate-new-btn").addEventListener("click", () => {
-      modal.style.display = "flex";
-    });
+        // Color picker event listener
+        document.getElementById("qr-color").addEventListener("input", function(e) {
+          generateQR(e.target.value);
+        });
 
-    document.getElementById("confirmBtn").addEventListener("click", () => {
-      localStorage.removeItem("qrText");
-      window.location.href = "index.html";
-    });
+        // Download button handler
+        document.getElementById("download-btn").addEventListener("click", () => {
+          const qrText = document.getElementById("qrcode-container").dataset.qrText;
+          const currentColor = document.getElementById("qr-color").value;
 
-    document.getElementById("cancelBtn").addEventListener("click", () => {
-      modal.style.display = "none";
-    });
+          // Create high-resolution canvas
+          const highResCanvas = document.createElement("canvas");
+          highResCanvas.width = 1000;
+          highResCanvas.height = 1000;
 
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
+          QRCode.toCanvas(highResCanvas, qrText, {
+            width: 1000,
+            margin: 8,
+            color: {
+              dark: currentColor,
+              light: "#00000000"
+            }
+          }).then(() => {
+            const link = document.createElement("a");
+            link.href = highResCanvas.toDataURL("image/png");
+            link.download = "qr-code.png";
+            link.click();
+
+            // Cleanup session after download
+            fetch('/cleanup-session', { method: 'POST' });
+          }).catch((error) => {
+            console.error("Download Error:", error);
+            alert("Failed to download QR code. Please try again.");
+          });
+        });
+
+        // Generate new QR code button
+        document.getElementById("generate-new-btn").addEventListener("click", () => {
+          document.getElementById("warningModal").style.display = "flex";
+        });
+
+        // Modal handlers
+        document.getElementById("confirmBtn").addEventListener("click", async () => {
+          await fetch('/cleanup-session', { method: 'POST' });
+          window.location.href = "/";
+        });
+
+        document.getElementById("cancelBtn").addEventListener("click", () => {
+          document.getElementById("warningModal").style.display = "none";
+        });
+
+      } catch (error) {
+        console.error('Initialization error:', error);
+        alert('Error initializing page. Redirecting to home...');
+        window.location.href = "/";
       }
-    };
+    }
 
-    // High-quality download functionality
-    document.getElementById("download-btn").addEventListener("click", () => {
-      const highResCanvas = document.createElement("canvas");
-      highResCanvas.width = 1000;
-      highResCanvas.height = 1000;
-
-      QRCode.toCanvas(highResCanvas, qrText, {
-        width: 1000,
-        margin: 8,
-        color: {
-          dark: document.getElementById("qr-color").value,
-          light: "#00000000"
-        }
-      }).then(() => {
-        const link = document.createElement("a");
-        link.href = highResCanvas.toDataURL("image/png");
-        link.download = qrText.replace(/[^a-z0-9]/gi, '-').toLowerCase() + ".png";
-        link.click();
-      });
-    });
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', initializePaidPage);
   </script>
 </body>
 </html>

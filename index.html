@@ -21,8 +21,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
     }
 
     .container {
@@ -31,8 +32,8 @@
       border-radius: 16px;
       box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
       padding: 25px;
-      width: 90%;
-      max-width: 720px;
+      width: 100%;
+      max-width: 480px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -43,6 +44,7 @@
     .logo {
       width: 150px;
       margin-bottom: 15px;
+      object-fit: contain;
     }
 
     h1 {
@@ -50,6 +52,7 @@
       margin-bottom: 20px;
       color: #fdf2e3;
       text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     #text-input {
@@ -78,11 +81,6 @@
       display: none;
       justify-content: center;
       align-items: center;
-    }
-
-    #qrcode {
-      width: 230px;
-      height: 230px;
     }
 
     .loading-message {
@@ -130,16 +128,11 @@
       transform: scale(1.05);
     }
 
-    .hidden {
-      display: none;
-    }
-
     .button-group {
-      display: flex;
+      display: none;
       justify-content: center;
       gap: 10px;
       margin-top: 20px;
-      display: none;
     }
 
     .support {
@@ -172,11 +165,6 @@
         width: 230px;
         height: 230px;
         margin: 10px auto;
-      }
-
-      #qrcode {
-        width: 230px;
-        height: 230px;
       }
     }
   </style>
@@ -243,9 +231,9 @@
           width: 230,
           margin: 2,
           color: {
-  dark: "#fdf2e3",
-  light: "#00000000"
-}
+            dark: "#fdf2e3",
+            light: "#00000000"
+          }
         }, function (error) {
           if (error) {
             console.error(error);
@@ -291,6 +279,7 @@
       }, 1500);
     }
 
+    // Event Listeners
     document.getElementById("generate-btn").addEventListener("click", generateQRCode);
     document.getElementById("text-input").addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
@@ -316,14 +305,47 @@
       };
     });
 
-    document.getElementById("remove-watermark-btn").addEventListener("click", function() {
+    document.getElementById("remove-watermark-btn").addEventListener("click", async function() {
       const inputText = document.getElementById("text-input").value.trim();
-      localStorage.setItem("qrText", inputText);
-      window.location.href = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
-    });
+      const qrCanvas = document.getElementById("qrcode");
+      
+      if (!inputText || !qrCanvas.dataset.qrData) {
+        alert("Please generate a QR code first");
+        return;
+      }
 
-    document.getElementById("new-qr-btn").addEventListener("click", function() {
-      location.reload();
+      try {
+        // Store QR data in session
+        const storeResponse = await fetch('/store-qr', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            qrDataURL: qrCanvas.dataset.qrData,
+            qrText: inputText
+          })
+        });
+
+        if (!storeResponse.ok) {
+          throw new Error('Failed to store QR data');
+        }
+
+        // Initiate test payment
+        const response = await fetch('/create-test-checkout', {
+          method: 'POST'
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to create checkout session');
+        }
+
+        const { url } = await response.json();
+        window.location.href = url;
+      } catch (error) {
+        console.error('Payment initiation error:', error);
+        alert('Failed to initiate payment. Please try again.');
+      }
     });
   </script>
 </body>
