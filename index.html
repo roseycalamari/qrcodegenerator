@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Previous head content remains the same until the style section -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -169,7 +168,6 @@
         margin: 5px 0;
       }
 
-      /* Keep QR code container consistent on mobile */
       #qrcode-container {
         width: 230px;
         height: 230px;
@@ -188,6 +186,7 @@
     <img src="logos.png" alt="Chameleon Logo" class="logo">
     <h1>Chameleon QR Code</h1>
     <input type="text" id="text-input" placeholder="Enter URL">
+
     <button id="generate-btn">Generate QR Code</button>
 
     <div class="loading-message" id="loading-message"></div>
@@ -244,9 +243,9 @@
           width: 230,
           margin: 2,
           color: {
-            dark: "#000000",
-            light: "#00000000"
-          }
+  dark: "#fdf2e3",
+  light: "#00000000"
+}
         }, function (error) {
           if (error) {
             console.error(error);
@@ -260,12 +259,9 @@
           
           // Clear the canvas
           qrCtx.clearRect(0, 0, qrCanvas.width, qrCanvas.height);
-          
-          // Invert the colors
-          qrCtx.filter = 'invert(1)';
           qrCtx.drawImage(canvas, 0, 0, 230, 230);
-          qrCtx.filter = 'none';
 
+          // Add watermark
           const qrCodeSize = 230;
           qrCtx.save();
           qrCtx.translate(qrCodeSize / 2, qrCodeSize / 2);
@@ -289,6 +285,7 @@
           document.getElementById("qrcode-container").style.display = "flex";
           document.getElementById("qr-buttons").style.display = "flex";
 
+          // Store both the QR data and color
           qrCanvas.dataset.qrData = qrCanvas.toDataURL("image/png");
         });
       }, 1500);
@@ -319,12 +316,11 @@
       };
     });
 
-// In index.html, modify the remove-watermark-btn click handler:
-document.getElementById("remove-watermark-btn").addEventListener("click", function() {
-    const inputText = document.getElementById("text-input").value.trim();
-    localStorage.setItem("qrText", inputText);
-    window.location.href = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
-});
+    document.getElementById("remove-watermark-btn").addEventListener("click", function() {
+      const inputText = document.getElementById("text-input").value.trim();
+      localStorage.setItem("qrText", inputText);
+      window.location.href = "https://buy.stripe.com/test_9AQ5o60a43oz0XCbII";
+    });
 
     document.getElementById("new-qr-btn").addEventListener("click", function() {
       location.reload();
