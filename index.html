@@ -166,6 +166,22 @@ button {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        @media (max-width: 480px) {
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .button-group button {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .container {
+        padding: 20px;
+    }
+}
     </style>
 </head>
 <body>
