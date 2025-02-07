@@ -316,10 +316,15 @@ button {
         });
 
         document.getElementById("remove-watermark-btn").addEventListener("click", function() {
-            // For demo purposes, directly redirect to paid.html
-            // In production, this should go through Stripe payment first
-            window.location.href = "paid.html";
-        });
+    // Store QR data before redirect
+    localStorage.setItem('qrCodeData', JSON.stringify({
+        url: document.getElementById("text-input").value.trim(),
+        timestamp: Date.now()
+    }));
+    
+    // Redirect to Stripe Checkout (replace with your test payment link)
+    window.location.href = 'https://buy.stripe.com/test_00gdSS8FL3nZ8rS5kk';
+});
 
         document.getElementById("new-qr-btn").addEventListener("click", function() {
     document.getElementById("text-input").value = '';
