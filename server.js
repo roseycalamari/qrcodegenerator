@@ -37,13 +37,16 @@ app.get('/payment-success', (req, res) => {
     res.redirect('/paid.html');
 });
 
-// Explicitly set port to 3001
-const server = app.listen(3002, () => {
-    console.log('Server running at http://localhost:3002');  // Updated log message too
-    console.log('Press Ctrl+C to stop the server');
+// Environment variables for deployment
+const PORT = process.env.PORT || 3002;
+const DOMAIN = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${PORT}`;
+
+// Start server
+const server = app.listen(PORT, () => {
+    console.log(`Server running at ${DOMAIN}`);
 }).on('error', (error) => {
     if (error.code === 'EADDRINUSE') {
-        console.error('Port 3002 is in use. Please try another port.');  // Updated error message
+        console.error(`Port ${PORT} is in use. Please try another port.`);
     } else {
         console.error('Server error:', error);
     }
