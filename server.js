@@ -1,44 +1,50 @@
-// server.js
 const express = require('express');
-const app = express();
 const session = require('express-session');
+const path = require('path');
+const app = express();
 
-app.use(express.static('public'));
-app.use(express.json());
+// Session middleware
 app.use(session({
-    secret: 'temporary-secret-key',
+    secret: 'your-secret-key',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { 
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000 
+    }
 }));
 
-// Store QR data temporarily
-app.post('/store-qr', (req, res) => {
-    const { qrDataURL, qrText } = req.body;
-    req.session.qrData = { qrDataURL, qrText };
-    res.json({ success: true });
+// Serve static files
+app.use(express.static(__dirname));
+
+// Home route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Retrieve QR data
-app.get('/get-qr', (req, res) => {
-    if (req.session.qrData) {
-        res.json(req.session.qrData);
+// Protect paid.html
+app.get('/paid.html', (req, res) => {
+    if (req.session.hasPaid) {
+        res.sendFile(path.join(__dirname, 'paid.html'));
     } else {
-        res.status(403).json({ error: 'No QR data found' });
+        res.redirect('/');
     }
 });
 
-// Cleanup session
-app.post('/cleanup-session', (req, res) => {
-    req.session.destroy();
-    res.json({ success: true });
+// Payment success route
+app.get('/payment-success', (req, res) => {
+    req.session.hasPaid = true;
+    res.redirect('/paid.html');
 });
 
-// Create test checkout session
-app.post('/create-test-checkout', async (req, res) => {
-    // For now, just redirect to paid page
-    res.json({ url: '/paid.html' });
-});
-
-app.listen(3000, () => {
-    console.log('Server running on port 3000');
+// Explicitly set port to 3001
+const server = app.listen(3002, () => {
+    console.log('Server running at http://localhost:3002');  // Updated log message too
+    console.log('Press Ctrl+C to stop the server');
+}).on('error', (error) => {
+    if (error.code === 'EADDRINUSE') {
+        console.error('Port 3002 is in use. Please try another port.');  // Updated error message
+    } else {
+        console.error('Server error:', error);
+    }
 });
