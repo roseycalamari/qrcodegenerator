@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
 // Session middleware
@@ -9,13 +11,14 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { 
-        secure: false,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000 
     }
 }));
 
 // Serve static files
 app.use(express.static(__dirname));
+app.use(express.json());
 
 // Home route
 app.get('/', (req, res) => {
@@ -23,18 +26,44 @@ app.get('/', (req, res) => {
 });
 
 // Protect paid.html
-app.get('/paid.html', (req, res) => {
-    if (req.session.hasPaid) {
-        res.sendFile(path.join(__dirname, 'paid.html'));
-    } else {
+app.get('/paid.html', async (req, res) => {
+    if (!req.session.paymentIntentId) {
+        return res.redirect('/');
+    }
+
+    try {
+        const paymentIntent = await stripe.paymentIntents.retrieve(req.session.paymentIntentId);
+        if (paymentIntent.status === 'succeeded') {
+            res.sendFile(path.join(__dirname, 'paid.html'));
+        } else {
+            res.redirect('/');
+        }
+    } catch (error) {
+        console.error('Payment verification error:', error);
         res.redirect('/');
     }
 });
 
-// Payment success route
-app.get('/payment-success', (req, res) => {
-    req.session.hasPaid = true;
-    res.redirect('/paid.html');
+// Payment success route with verification
+app.get('/payment-success', async (req, res) => {
+    const { payment_intent } = req.query;
+    
+    if (!payment_intent) {
+        return res.redirect('/');
+    }
+
+    try {
+        const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent);
+        if (paymentIntent.status === 'succeeded') {
+            req.session.paymentIntentId = payment_intent;
+            res.redirect('/paid.html');
+        } else {
+            res.redirect('/');
+        }
+    } catch (error) {
+        console.error('Payment verification error:', error);
+        res.redirect('/');
+    }
 });
 
 // Environment variables for deployment
